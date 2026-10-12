@@ -62,11 +62,11 @@
       transition: background 0.3s, color 0.3s;
     }
 
-    /* Üst Navigasyon - Mobil Taşma Korumalı */
+    /* Üst Navigasyon */
     nav {
       background: var(--card-bg);
       border-bottom: 2px solid var(--border);
-      padding: 10px 14px;
+      padding: 10px 16px;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -80,18 +80,18 @@
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      gap: 8px;
+      gap: 10px;
     }
 
     .logo-area {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       min-width: 0;
     }
 
     .logo-text {
-      font-size: 1.4rem;
+      font-size: 1.45rem;
       font-weight: 800;
       color: var(--text-color);
       text-decoration: none;
@@ -101,35 +101,22 @@
     }
     .logo-text span { color: var(--main); }
 
-    .theme-bar {
-      display: flex;
-      gap: 5px;
+    .theme-toggle-btn {
       background: var(--badge-bg);
-      padding: 4px 8px;
-      border-radius: 20px;
-      align-items: center;
       border: 1px solid var(--border-color);
-      flex-shrink: 0;
-    }
-
-    .dot {
-      width: 14px;
-      height: 14px;
+      color: var(--text-color);
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       cursor: pointer;
-      border: 1.5px solid #fff;
-      transition: transform 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: transform 0.2s, background 0.2s;
     }
-    .dot:hover { transform: scale(1.2); }
-
-    #dark_toggle_btn {
-      background: transparent;
-      border: none;
-      color: var(--text-color);
-      cursor: pointer;
-      font-size: 15px;
-      padding: 0 2px;
-      line-height: 1;
+    .theme-toggle-btn:hover {
+      transform: scale(1.08);
     }
 
     .header-right {
@@ -332,8 +319,7 @@
     /* Mobil Ekran Uyum Kuralı */
     @media (max-width: 768px) {
       nav { padding: 8px 10px; }
-      .logo-text { font-size: 1.15rem; }
-      .theme-bar .dot:nth-child(n+4) { display: none; }
+      .logo-text { font-size: 1.2rem; }
       
       #tarih_alan { font-size: 0.68rem; }
       #fiyat_zaman_doviz { font-size: 0.85rem; }
@@ -370,13 +356,7 @@
     <div class="nav-container">
       <div class="logo-area">
         <a class="logo-text" onclick="location.reload()">Sarrafiye<span>.net</span></a>
-        <div class="theme-bar">
-          <button id="dark_toggle_btn" onclick="toggleDarkMode()" title="Tema Değiştir">☀️</button>
-          <div class="dot" style="background:#f59e0b" onclick="setTheme('#f59e0b','#d97706')"></div>
-          <div class="dot" style="background:#10b981" onclick="setTheme('#10b981','#059669')"></div>
-          <div class="dot" style="background:#ef4444" onclick="setTheme('#ef4444','#dc2626')"></div>
-          <div class="dot" style="background:#8b5cf6" onclick="setTheme('#8b5cf6','#7c3aed')"></div>
-        </div>
+        <button id="theme_toggle_btn" class="theme-toggle-btn" onclick="toggleDarkMode()" title="Gece/Gündüz Modu">☀️</button>
       </div>
       <div class="header-right">
         <div class="time-box">
@@ -460,15 +440,8 @@
     function toggleDarkMode() {
       const isDark = document.body.classList.toggle('dark-mode');
       document.body.classList.toggle('light-mode', !isDark);
-      document.getElementById('dark_toggle_btn').innerText = isDark ? '☀️' : '🌙';
+      document.getElementById('theme_toggle_btn').innerText = isDark ? '☀️' : '🌙';
       localStorage.setItem('gece_modu', isDark ? 'acik' : 'kapali');
-    }
-
-    function setTheme(mainColor, borderColor) {
-      document.documentElement.style.setProperty('--main', mainColor);
-      document.documentElement.style.setProperty('--border', borderColor);
-      localStorage.setItem('secilen_ana_renk', mainColor);
-      localStorage.setItem('secilen_kenar_renk', borderColor);
     }
 
     const DAYS = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
@@ -627,17 +600,11 @@
       if (savedTheme === 'kapali') {
         document.body.classList.add('light-mode');
         document.body.classList.remove('dark-mode');
-        document.getElementById('dark_toggle_btn').innerText = '🌙';
+        document.getElementById('theme_toggle_btn').innerText = '🌙';
       } else {
         document.body.classList.add('dark-mode');
         document.body.classList.remove('light-mode');
-        document.getElementById('dark_toggle_btn').innerText = '☀️';
-      }
-
-      const mainColor = localStorage.getItem('secilen_ana_renk');
-      const borderColor = localStorage.getItem('secilen_kenar_renk');
-      if (mainColor && borderColor) {
-        setTheme(mainColor, borderColor);
+        document.getElementById('theme_toggle_btn').innerText = '☀️';
       }
 
       connectSocket();
