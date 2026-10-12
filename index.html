@@ -8,7 +8,7 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
   <link rel="canonical" href="https://www.sarrafiye.net/"/>
   <meta name="theme-color" content="#070b14"/>
-  <meta name="description" content="Anlık gram altın, çeyrek altın, ziynet, döviz kurları ve serbest piyasa canlı altın fiyatları takip terminali."/>
+  <meta name="description" content="Anlık gram altın, çeyrek altın, ziynet, döviz kurları ve illere göre canlı altın fiyatları takip terminali."/>
   
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -118,8 +118,28 @@
           </button>
         </div>
 
-        <div class="flex items-center gap-4">
-          <div class="flex flex-col items-end leading-tight">
+        <!-- SAĞ ÜST: İLLERE GÖRE ALTIN FIYATLARI DROPDOWN MENÜ -->
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <select onchange="if(this.value) window.location.href=this.value;" class="bg-dark-bg text-xs sm:text-sm font-semibold text-brand-400 px-3.5 py-2 rounded-xl border border-dark-border focus:outline-none focus:border-brand-500 cursor-pointer shadow-sm">
+              <option value="" disabled selected>📍 İllere Göre Altın Fiyatları</option>
+              <option value="https://adana.iladi.sarrafiye.net">Adana Altın Fiyatları</option>
+              <option value="https://amasya.iladi.sarrafiye.net">Amasya Sarraflar</option>
+              <option value="https://bingol.iladi.sarrafiye.net">Bingöl Altın Fiyatları</option>
+              <option value="https://bursa.iladi.sarrafiye.net">Bursa Altın Fiyatları</option>
+              <option value="https://diyarbakir.iladi.sarrafiye.net">Diyarbakır Altın Fiyatları</option>
+              <option value="https://elazig.iladi.sarrafiye.net">Elazığ Altın Fiyatları</option>
+              <option value="https://erzurum.iladi.sarrafiye.net">Erzurum Altın Fiyatları</option>
+              <option value="https://kapalicarsi.iladi.sarrafiye.net">Kapalıçarşı Altın Fiyatları</option>
+              <option value="https://malatya.iladi.sarrafiye.net">Malatya Altın Fiyatları</option>
+              <option value="https://mardin.iladi.sarrafiye.net">Mardin Altın Fiyatları</option>
+              <option value="https://mersin.iladi.sarrafiye.net">Mersin Altın Fiyatları</option>
+              <option value="https://sanliurfa.iladi.sarrafiye.net">Şanlıurfa Altın Fiyatları</option>
+              <option value="https://van.iladi.sarrafiye.net">Van Altın Fiyatları</option>
+            </select>
+          </div>
+
+          <div class="hidden sm:flex flex-col items-end leading-tight border-l border-dark-border pl-3">
             <span id="tarih_alan" class="text-[10px] sm:text-xs text-slate-400 font-medium">--.--.----</span>
             <div class="flex items-center gap-1.5 mt-0.5">
               <span id="connection_dot" class="h-2 w-2 rounded-full bg-emerald-500 inline-block"></span>
@@ -373,12 +393,8 @@
         if (dataObj) {
           globalDataCache = dataObj;
           renderMasterTable(globalDataCache);
-          
-          // Socket'ten ilk veri paketleri geldiğinde veya yeni satır açıldığında listeleri eşitle
           updateCalcDropdowns();
           updateZekatDropdown();
-
-          // Canlı fiyatlarla sepet tutarlarını yeniden hesapla
           runPortfolioCalc();
         }
 
@@ -533,7 +549,6 @@
       }
     }
 
-    // Herhangi bir select elemanını TÜM ÜRÜNLER ile dolduran tam fonksiyon
     function fillSelectWithOptions(selectEl) {
       const keys = Object.keys(globalDataCache);
       if (keys.length === 0) return;
@@ -551,16 +566,10 @@
       }
     }
 
-    // Var olan tüm sepet satırlarındaki select'leri tam liste ile senkronize eden fonksiyon
     function updateCalcDropdowns() {
       const selects = document.querySelectorAll('.calc-select');
-      const keys = Object.keys(globalDataCache);
-      if (keys.length === 0) return;
-
       selects.forEach(select => {
-        if (select.children.length !== keys.length) {
-          fillSelectWithOptions(select);
-        }
+        fillSelectWithOptions(select);
       });
     }
 
@@ -661,7 +670,6 @@
         document.getElementById('themeIcon').innerText = '🌙';
       }
 
-      // Varsayılan sepet satırını ekle
       addCalcRow();
 
       connectSocket();
