@@ -1,462 +1,301 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="content-language" content="tr">
-  <title>Sarrafiye.net - Canlı Altın ve Piyasa Fiyatları</title>
-  <link href="favicon.ico" rel="icon" type="image/x-icon"/>
-  <link href="https://www.sarrafiye.net/" rel="canonical"/>
-  <meta content="#0b0f19" name="theme-color"/>
-  <meta content="Anlık gram altın, çeyrek altın, ziynet ve serbest piyasa canlı kuyumcu altın fiyatları için Sarrafiye.net'i takip edin." name="description"/>
+  <title>Sarrafiye.net - Canlı Finans ve Piyasa Terminali</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+  <link rel="canonical" href="https://www.sarrafiye.net/"/>
+  <meta name="theme-color" content="#090d16"/>
+  <meta name="description" content="Anlık gram altın, çeyrek altın, ziynet, döviz kurları ve serbest piyasa canlı altın fiyatları takip terminali."/>
   
-  <!-- Bootstrap & Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Modern Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#fffbe1',
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            },
+            dark: {
+              bg: '#090d16',
+              card: '#121826',
+              border: '#1f293d',
+              hover: '#1a2235'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    :root {
-      --main: #f59e0b;
-      --border: #d97706;
-      --bg-color: #0b0f19;
-      --card-bg: #131c2e;
-      --table-bg: #131c2e;
-      --text-color: #f8fafc;
-      --text-muted: #94a3b8;
-      --row-hover: #1e293b;
-      --border-color: rgba(255, 255, 255, 0.08);
-      --badge-bg: rgba(245, 158, 11, 0.15);
-      --blue-val: #3b82f6;
+    /* Özel Animasyonlar ve Tablo Stil Dokunuşları */
+    body {
+      background-color: #090d16;
+      color: #f3f4f6;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    body.light-mode {
-      --main: #d97706;
-      --border: #f59e0b;
-      --bg-color: #f8fafc;
-      --card-bg: #ffffff;
-      --table-bg: #ffffff;
-      --text-color: #0f172a;
-      --text-muted: #64748b;
-      --row-hover: #f1f5f9;
-      --border-color: #e2e8f0;
-      --badge-bg: rgba(217, 119, 6, 0.1);
-      --blue-val: #1d4ed8;
+    .light-theme {
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
     }
 
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    .light-theme .card-bg {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
     }
 
-    html, body {
-      width: 100%;
-      min-height: 100vh;
-      background: var(--bg-color);
-      color: var(--text-color);
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      transition: background 0.3s, color 0.3s;
+    .light-theme .hover-bg:hover {
+      background-color: #f1f5f9 !important;
     }
 
-    /* Üst Navigasyon */
-    nav {
-      background: var(--card-bg);
-      border-bottom: 2px solid var(--border);
-      padding: 10px 16px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    }
-
-    .nav-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      gap: 10px;
-    }
-
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .logo-text {
-      font-size: 1.45rem;
-      font-weight: 800;
-      color: var(--text-color);
-      text-decoration: none;
-      cursor: pointer;
-      letter-spacing: -0.3px;
-      white-space: nowrap;
-    }
-    .logo-text span { color: var(--main); }
-
-    .theme-toggle-btn {
-      background: var(--badge-bg);
-      border: 1px solid var(--border-color);
-      color: var(--text-color);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      transition: transform 0.2s, background 0.2s;
-    }
-    .theme-toggle-btn:hover {
-      transform: scale(1.08);
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
-      text-align: right;
-    }
-
-    .time-box {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      line-height: 1.25;
-    }
-
-    #tarih_alan {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-
-    .live-badge-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    #fiyat_zaman_doviz {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--main);
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-    }
-
-    /* Ana Düzen */
-    .main-container {
-      max-width: 1400px;
-      width: 100%;
-      margin: 18px auto;
-      padding: 0 14px;
-      flex: 1;
-      display: flex;
-      gap: 20px;
-    }
-
-    .content-column {
-      flex: 2;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .sidebar-column {
-      flex: 1;
-      min-width: 280px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    /* Tablo Bölümleri */
-    .table-section-card {
-      background: var(--table-bg);
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-    }
-
-    .section-header {
-      background: rgba(245, 158, 11, 0.08);
-      padding: 11px 16px;
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--main);
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .market-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 0;
-    }
-
-    .market-table th {
-      background: var(--border);
-      color: #ffffff;
-      padding: 10px 14px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-
-    .market-table td {
-      padding: 11px 14px;
-      color: var(--text-color);
-      font-size: 0.92rem;
-      font-weight: 600;
-      border-bottom: 1px solid var(--border-color);
-      vertical-align: middle;
-    }
-
-    .market-table tbody tr {
-      transition: background-color 0.15s ease;
-    }
-
-    .market-table tbody tr:hover {
-      background-color: var(--row-hover);
-    }
-
-    .market-table th:nth-child(2),
-    .market-table th:nth-child(3),
-    .market-table td:nth-child(2),
-    .market-table td:nth-child(3) {
-      text-align: right;
-      width: 130px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .val-alis { color: var(--blue-val) !important; font-weight: 700; }
-    .val-satis { color: var(--main) !important; font-weight: 700; }
-
-    /* Flash Animasyonları */
-    @keyframes flash-green {
-      0% { background-color: rgba(34, 197, 94, 0.35); }
+    /* Fiyat Flash Animasyonları */
+    @keyframes flashGreen {
+      0% { background-color: rgba(34, 197, 94, 0.25); color: #4ade80; }
       100% { background-color: transparent; }
     }
-    @keyframes flash-red {
-      0% { background-color: rgba(239, 68, 68, 0.35); }
+    @keyframes flashRed {
+      0% { background-color: rgba(239, 68, 68, 0.25); color: #f87171; }
       100% { background-color: transparent; }
     }
-    .price-up { animation: flash-green 1s ease; }
-    .price-down { animation: flash-red 1s ease; }
 
-    /* Sidebar Kartları */
-    .sidebar-card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 20px;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    }
+    .flash-up { animation: flashGreen 1s ease-out; }
+    .flash-down { animation: flashRed 1s ease-out; }
 
-    .sidebar-card h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: var(--main);
-      border-bottom: 2px solid var(--border-color);
-      padding-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .sidebar-card p {
-      font-size: 0.86rem;
-      color: var(--text-muted);
-      line-height: 1.55;
-      margin-bottom: 0;
-    }
-
-    /* Yüklenme */
-    .status-box {
-      text-align: center;
-      padding: 70px 20px;
-      font-size: 1.05rem;
-      color: var(--text-muted);
-    }
-
-    /* Kayan Yazı */
-    .ticker-bar {
-      background: var(--card-bg);
-      border-top: 1px solid var(--border-color);
-      border-bottom: 1px solid var(--border-color);
-      color: var(--text-color);
-      padding: 10px 0;
-      font-weight: 600;
-      font-size: 0.86rem;
-    }
-
-    footer {
-      background: var(--card-bg);
-      color: var(--text-muted);
-      text-align: center;
-      padding: 16px;
-      font-size: 0.82rem;
-      border-top: 1px solid var(--border-color);
-    }
-
-    /* Mobil Ekran Uyum Kuralı */
-    @media (max-width: 768px) {
-      nav { padding: 8px 10px; }
-      .logo-text { font-size: 1.2rem; }
-      
-      #tarih_alan { font-size: 0.68rem; }
-      #fiyat_zaman_doviz { font-size: 0.85rem; }
-
-      .main-container {
-        flex-direction: column;
-        margin: 10px auto;
-        padding: 0 8px;
-      }
-      .content-column, .sidebar-column {
-        flex: none;
-        width: 100%;
-      }
-      .market-table th, .market-table td {
-        padding: 8px 10px;
-        font-size: 0.85rem;
-      }
-      .market-table th:nth-child(2),
-      .market-table th:nth-child(3),
-      .market-table td:nth-child(2),
-      .market-table td:nth-child(3) {
-        width: 105px;
-      }
-    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #090d16; }
+    ::-webkit-scrollbar-thumb { background: #1f293d; border-radius: 4px; }
   </style>
 </head>
-<body class="dark-mode">
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-brand-500 selection:text-white">
 
+  <!-- Socket & Helper Libs -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
 
-  <!-- Üst Navigasyon -->
-  <nav>
-    <div class="nav-container">
-      <div class="logo-area">
-        <a class="logo-text" onclick="location.reload()">Sarrafiye<span>.net</span></a>
-        <button id="theme_toggle_btn" class="theme-toggle-btn" onclick="toggleDarkMode()" title="Gece/Gündüz Modu">☀️</button>
+  <div>
+    <!-- UST BANNER / TOP TICKER (Borsa Kayan Bandı) -->
+    <div class="bg-dark-card border-b border-dark-border text-xs py-2 px-4 overflow-hidden">
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        <div class="flex items-center gap-2 text-brand-400 font-bold shrink-0">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          CANLI PİYASA
+        </div>
+        <marquee scrollamount="5" class="text-slate-400 font-mono text-[11px] whitespace-nowrap">
+          <span id="ticker-content">Sarrafiye.net Canlı Finans Terminaline Hoş Geldiniz — Altın, Döviz ve Kıymetli Maden Kurları Anlık Olarak Aktarılmaktadır.</span>
+        </marquee>
       </div>
-      <div class="header-right">
-        <div class="time-box">
-          <div id="tarih_alan">--.--.----</div>
-          <div class="live-badge-wrapper justify-content-end">
-            <span id="connection_status_icon" title="Canlı Bağlantı" style="color: #22c55e; font-size: 9px;"><i class="bi bi-circle-fill"></i></span>
-            <div id="fiyat_zaman_doviz">00:00:00</div>
+    </div>
+
+    <!-- MAIN HEADER -->
+    <header class="sticky top-0 z-50 bg-dark-card/90 backdrop-blur-md border-b border-dark-border card-bg">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+        
+        <!-- Logo & Tema -->
+        <div class="flex items-center gap-3">
+          <a onclick="location.reload()" class="cursor-pointer flex items-center gap-1.5 text-xl sm:text-2xl font-extrabold tracking-tight">
+            <span class="text-white logo-title">Sarrafiye</span><span class="text-brand-500">.net</span>
+          </a>
+          <button id="themeToggleBtn" onclick="toggleTheme()" class="p-1.5 rounded-lg bg-dark-border/50 text-slate-300 hover:text-white transition-all text-xs flex items-center gap-1">
+            <span id="themeIcon">☀️</span>
+          </button>
+        </div>
+
+        <!-- Tarih & Canlı Durum -->
+        <div class="flex items-center gap-3 text-right">
+          <div class="flex flex-col items-end leading-tight">
+            <span id="tarih_alan" class="text-[10px] sm:text-xs text-slate-400 font-medium">--.--.----</span>
+            <div class="flex items-center gap-1.5">
+              <span id="connection_dot" class="h-2 w-2 rounded-full bg-emerald-500 inline-block" title="Canlı Bağlantı"></span>
+              <span id="fiyat_zaman_doviz" class="font-mono text-xs sm:text-sm font-bold text-brand-400">00:00:00</span>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </nav>
 
-  <!-- Ana İçerik Konteynırı -->
-  <main class="main-container">
-    <div id="status" class="status-box">Canlı piyasa verileri yükleniyor...</div>
-    
-    <!-- Sol Sütun: Akıllı Gruplandırılmış Tablolar (2/3) -->
-    <div class="content-column" id="content-column" style="display: none;">
+      </div>
+    </header>
+
+    <!-- CONTAINER -->
+    <main class="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 w-full">
       
-      <!-- Kategori 1: Altın & Ziynet -->
-      <div class="table-section-card">
-        <div class="section-header"><i class="bi bi-gem"></i> Altın & Ziynet Ürünleri</div>
-        <table class="market-table">
-          <thead><tr><th>Ürün Adı</th><th>Alış (TL)</th><th>Satış (TL)</th></tr></thead>
-          <tbody id="groupAltinBody"></tbody>
-        </table>
+      <!-- ARAMA BAR / FILTRE -->
+      <div class="mb-4 flex items-center justify-between gap-3 bg-dark-card p-2.5 rounded-xl border border-dark-border card-bg">
+        <div class="relative w-full sm:w-80">
+          <i class="bi bi-search absolute left-3 top-2.5 text-slate-400 text-sm"></i>
+          <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Ürün veya Kur Ara (ör: Gram, Ceyrek, USD)..." 
+                 class="w-full bg-dark-bg text-xs sm:text-sm pl-9 pr-3 py-1.5 rounded-lg border border-dark-border text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500">
+        </div>
+        <div class="hidden sm:flex items-center gap-2 text-xs text-slate-400">
+          <span class="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded-md font-semibold">Alış</span>
+          <span class="px-2 py-1 bg-amber-500/10 text-amber-400 rounded-md font-semibold">Satış</span>
+        </div>
       </div>
 
-      <!-- Kategori 2: Döviz Kurları -->
-      <div class="table-section-card">
-        <div class="section-header"><i class="bi bi-currency-exchange"></i> Döviz Kurları</div>
-        <table class="market-table">
-          <thead><tr><th>Döviz Birimi</th><th>Alış (TL)</th><th>Satış (TL)</th></tr></thead>
-          <tbody id="groupDovizBody"></tbody>
-        </table>
+      <!-- YÜKLENİYOR BOX -->
+      <div id="status" class="py-20 text-center text-slate-400">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-2 border-brand-500 border-t-transparent mb-3"></div>
+        <p class="text-sm font-medium">Canlı Finans Akışı Başlatılıyor...</p>
       </div>
 
-      <!-- Kategori 3: Kıymetli Madenler & Ons -->
-      <div class="table-section-card">
-        <div class="section-header"><i class="bi bi-bar-chart-line"></i> Kıymetli Madenler & Piyasalar</div>
-        <table class="market-table">
-          <thead><tr><th>Enstrüman</th><th>Alış</th><th>Satış</th></tr></thead>
-          <tbody id="groupPiyasaBody"></tbody>
-        </table>
+      <!-- GRID LAYOUT (2/3 + 1/3) -->
+      <div id="mainContent" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-5">
+        
+        <!-- SOL/ANA KOLON: 2 SÜTUN (KATEGORİZE TABLOLAR) -->
+        <div class="lg:col-span-2 space-y-5">
+          
+          <!-- KATEGORİ 1: ALTIN VE ZİYNET -->
+          <div class="bg-dark-card rounded-xl border border-dark-border overflow-hidden card-bg shadow-lg">
+            <div class="bg-dark-border/40 px-4 py-2.5 border-b border-dark-border flex items-center justify-between">
+              <div class="flex items-center gap-2 text-brand-400 font-bold text-sm">
+                <i class="bi bi-gem"></i> Altın & Ziynet Fiyatları
+              </div>
+              <span class="text-[10px] uppercase font-mono text-slate-400">Canlı Veri</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-dark-bg/50 text-[11px] uppercase tracking-wider text-slate-400 font-bold border-b border-dark-border">
+                    <th class="py-2.5 px-4">Ürün Adı</th>
+                    <th class="py-2.5 px-4 text-right">Alış (TL)</th>
+                    <th class="py-2.5 px-4 text-right">Satış (TL)</th>
+                  </tr>
+                </thead>
+                <tbody id="groupAltinBody" class="divide-y divide-dark-border/50 text-xs sm:text-sm"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- KATEGORİ 2: DÖVİZ KURLARI -->
+          <div class="bg-dark-card rounded-xl border border-dark-border overflow-hidden card-bg shadow-lg">
+            <div class="bg-dark-border/40 px-4 py-2.5 border-b border-dark-border flex items-center justify-between">
+              <div class="flex items-center gap-2 text-blue-400 font-bold text-sm">
+                <i class="bi bi-currency-exchange"></i> Döviz Kurları
+              </div>
+              <span class="text-[10px] uppercase font-mono text-slate-400">Serbest Piyasa</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-dark-bg/50 text-[11px] uppercase tracking-wider text-slate-400 font-bold border-b border-dark-border">
+                    <th class="py-2.5 px-4">Döviz Birimi</th>
+                    <th class="py-2.5 px-4 text-right">Alış (TL)</th>
+                    <th class="py-2.5 px-4 text-right">Satış (TL)</th>
+                  </tr>
+                </thead>
+                <tbody id="groupDovizBody" class="divide-y divide-dark-border/50 text-xs sm:text-sm"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- KATEGORİ 3: KIYMETLİ MADENLER & ONS -->
+          <div class="bg-dark-card rounded-xl border border-dark-border overflow-hidden card-bg shadow-lg">
+            <div class="bg-dark-border/40 px-4 py-2.5 border-b border-dark-border flex items-center justify-between">
+              <div class="flex items-center gap-2 text-purple-400 font-bold text-sm">
+                <i class="bi bi-globe"></i> Uluslararası Piyasalar & Madenler
+              </div>
+              <span class="text-[10px] uppercase font-mono text-slate-400">Ons / Borsa</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-dark-bg/50 text-[11px] uppercase tracking-wider text-slate-400 font-bold border-b border-dark-border">
+                    <th class="py-2.5 px-4">Enstrüman</th>
+                    <th class="py-2.5 px-4 text-right">Alış</th>
+                    <th class="py-2.5 px-4 text-right">Satış</th>
+                  </tr>
+                </thead>
+                <tbody id="groupPiyasaBody" class="divide-y divide-dark-border/50 text-xs sm:text-sm"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SAĞ KOLON: SIDEBAR (1/3) -->
+        <div class="space-y-5">
+          
+          <!-- PİYASA ÖZETİ KARTI -->
+          <div class="bg-dark-card rounded-xl border border-dark-border p-4 card-bg shadow-lg">
+            <h3 class="text-sm font-bold text-brand-400 mb-2 flex items-center gap-2">
+              <i class="bi bi-graph-up-arrow"></i> Sarrafiye.net Terminal
+            </h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Kapalıçarşı, serbest piyasa ve uluslararası borsalardan anlık derlenen canlı veri akışı. Fiyatlar 5 saniyelik periyotlarla senkronize edilmektedir.
+            </p>
+          </div>
+
+          <!-- SPONSOR / REKLAM ALANI -->
+          <div class="bg-dark-card rounded-xl border border-dashed border-dark-border p-6 text-center card-bg min-h-[250px] flex flex-col items-center justify-center">
+            <i class="bi bi-badge-ad text-3xl text-slate-600 mb-2"></i>
+            <span class="text-xs text-slate-500 font-medium">Reklam / Sponsor Bağlantı Alanı</span>
+          </div>
+
+        </div>
+
       </div>
 
-    </div>
-
-    <!-- Sağ Sütun: Sidebar (1/3) -->
-    <div class="sidebar-column" id="sidebar-column" style="display: none;">
-      <div class="sidebar-card">
-        <h3><i class="bi bi-info-circle"></i> Piyasa Özeti</h3>
-        <p>Sarrafiye.net üzerinden serbest piyasa, Kapalıçarşı ve uluslararası piyasalardaki canlı altın, döviz ve sarrafiye verilerini anlık ve kesintisiz takip edebilirsiniz.</p>
-      </div>
-      <div class="sidebar-card" style="text-align: center; min-height: 250px; display: flex; align-items: center; justify-content: center; border: 2px dashed var(--border-color);">
-        <span style="color: var(--text-muted); font-size: 0.85rem;"><i class="bi bi-badge-ad"></i> Reklam / Sponsor Alanı</span>
-      </div>
-    </div>
-  </main>
-
-  <!-- Duyuru Alanı -->
-  <div class="ticker-bar">
-    <div class="container">
-      <marquee scrollamount="6">Sarrafiye.net Canlı Piyasa Verileri Platformuna Hoş Geldiniz - Güncel Altın ve Döviz Kurları Anlık Olarak Aktarılmaktadır.</marquee>
-    </div>
+    </main>
   </div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      &copy; 2026 Sarrafiye.net - Tüm Hakları Saklıdır.
+  <!-- FOOTER -->
+  <footer class="bg-dark-card border-t border-dark-border py-4 px-4 text-center text-xs text-slate-500 mt-8 card-bg">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div>&copy; 2026 Sarrafiye.net — Tüm Hakları Saklıdır.</div>
+      <div class="flex items-center gap-4 text-[11px] text-slate-400">
+        <span>Canlı Veri Servisi</span>
+        <span>•</span>
+        <span>WebSocket V2</span>
+      </div>
     </div>
   </footer>
 
-  <!-- JavaScript Kod Alanı -->
+  <!-- JAVASCRIPT ENGINE -->
   <script>
     const nf2 = new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const fmt = n => isNaN(n) ? "0,00" : nf2.format(n);
 
-    function toggleDarkMode() {
-      const isDark = document.body.classList.toggle('dark-mode');
-      document.body.classList.toggle('light-mode', !isDark);
-      document.getElementById('theme_toggle_btn').innerText = isDark ? '☀️' : '🌙';
-      localStorage.setItem('gece_modu', isDark ? 'acik' : 'kapali');
+    // Tema Değiştirme
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      document.body.classList.toggle('light-theme', !isDark);
+      document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
+      localStorage.setItem('sarrafiye_theme', isDark ? 'dark' : 'light');
     }
 
+    // Tarih Güncelleme
     const DAYS = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
     const MONTHS = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-
     function updateClock() {
       const now = new Date();
       document.getElementById('tarih_alan').innerText = `${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}, ${DAYS[now.getDay()]}`;
     }
 
-    let socket = null;
-    let lastRenderTime = 0;
-    const throttleInterval = 5000;
-    const previousPrices = {};
-
+    // Ürün İsimlerini İyileştirme
     function cleanDisplayName(code) {
       return code
         .replace(/_/g, ' ')
@@ -469,22 +308,31 @@
         .replace('PALADYUM', 'Paladyum');
     }
 
+    // Ürün İkonu Belirleme
+    function getProductBadge(code) {
+      if (code.includes('ALTIN') || code.includes('CEYREK') || code.includes('YARIM') || code.includes('ATA') || code.includes('AYAR')) return '<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">Au</span>';
+      if (code.includes('USD')) return '<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">$</span>';
+      if (code.includes('EUR')) return '<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">€</span>';
+      if (code.includes('GUMUS') || code.includes('XAG')) return '<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-400/10 text-slate-300 border border-slate-400/20">Ag</span>';
+      return '<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">FX</span>';
+    }
+
+    let socket = null;
+    let lastRenderTime = 0;
+    const throttleInterval = 5000; // 5 Saniyede Bir Yenileme
+    const previousPrices = {};
+
     function connectSocket() {
       socket = io.connect('wss://socket.sarrafiye.net', { transports: ["websocket"] });
 
       socket.on('connect', () => {
-        document.getElementById('connection_status_icon').style.color = '#22c55e';
-        document.getElementById('status').style.display = 'none';
-        document.getElementById('content-column').style.display = 'flex';
-        document.getElementById('sidebar-column').style.display = 'flex';
+        document.getElementById('connection_dot').className = 'h-2 w-2 rounded-full bg-emerald-500 inline-block';
+        document.getElementById('status').classList.add('hidden');
+        document.getElementById('mainContent').classList.remove('hidden');
       });
 
       socket.on('disconnect', () => {
-        document.getElementById('connection_status_icon').style.color = '#ef4444';
-      });
-
-      socket.on('connect_error', () => {
-        document.getElementById('connection_status_icon').style.color = '#ef4444';
+        document.getElementById('connection_dot').className = 'h-2 w-2 rounded-full bg-rose-500 inline-block';
       });
 
       socket.on('price_changed', handleSocketData);
@@ -498,22 +346,16 @@
 
       try {
         let dataObj = null;
-        if (response && response.data) {
-          dataObj = response.data;
-        } else if (Array.isArray(response) && response[1] && response[1].data) {
-          dataObj = response[1].data;
-        } else if (typeof response === 'object') {
-          dataObj = response;
-        }
+        if (response && response.data) dataObj = response.data;
+        else if (Array.isArray(response) && response[1] && response[1].data) dataObj = response[1].data;
+        else if (typeof response === 'object') dataObj = response;
 
-        if (dataObj) {
-          renderCategorizedTables(dataObj);
-        }
+        if (dataObj) renderCategorizedTables(dataObj);
 
         const timeSource = response?.meta?.time ? new Date(response.meta.time) : new Date();
         document.getElementById('fiyat_zaman_doviz').innerText = timeSource.toTimeString().split(' ')[0];
       } catch (e) {
-        console.error('Veri işleme hatası:', e);
+        console.error('Veri İşleme Hatası:', e);
       }
     }
 
@@ -521,10 +363,6 @@
       const altinBody = document.getElementById('groupAltinBody');
       const dovizBody = document.getElementById('groupDovizBody');
       const piyasaBody = document.getElementById('groupPiyasaBody');
-
-      document.getElementById('status').style.display = 'none';
-      document.getElementById('content-column').style.display = 'flex';
-      document.getElementById('sidebar-column').style.display = 'flex';
 
       Object.keys(dataObj).forEach(code => {
         const item = dataObj[code];
@@ -552,10 +390,14 @@
         if (!tr) {
           tr = document.createElement('tr');
           tr.id = rowId;
+          tr.className = 'hover-bg hover:bg-dark-hover transition-colors font-mono';
           tr.innerHTML = `
-            <td><strong>${cleanDisplayName(code)}</strong></td>
-            <td class="val-alis" id="${alisCellId}">${formattedAlis}</td>
-            <td class="val-satis" id="${satisCellId}">${formattedSatis}</td>
+            <td class="py-2.5 px-4 font-sans font-semibold flex items-center gap-2">
+              ${getProductBadge(code)}
+              <span>${cleanDisplayName(code)}</span>
+            </td>
+            <td class="py-2.5 px-4 text-right font-bold text-emerald-400" id="${alisCellId}">${formattedAlis}</td>
+            <td class="py-2.5 px-4 text-right font-bold text-amber-400" id="${satisCellId}">${formattedSatis}</td>
           `;
           targetBody.appendChild(tr);
         } else {
@@ -564,25 +406,25 @@
 
           if (!isNaN(alis) && previousPrices[alisCellId] !== undefined) {
             if (alis > previousPrices[alisCellId]) {
-              alisEl.classList.remove('price-up', 'price-down');
+              alisEl.classList.remove('flash-up', 'flash-down');
               void alisEl.offsetWidth;
-              alisEl.classList.add('price-up');
+              alisEl.classList.add('flash-up');
             } else if (alis < previousPrices[alisCellId]) {
-              alisEl.classList.remove('price-up', 'price-down');
+              alisEl.classList.remove('flash-up', 'flash-down');
               void alisEl.offsetWidth;
-              alisEl.classList.add('price-down');
+              alisEl.classList.add('flash-down');
             }
           }
 
           if (!isNaN(satis) && previousPrices[satisCellId] !== undefined) {
             if (satis > previousPrices[satisCellId]) {
-              satisEl.classList.remove('price-up', 'price-down');
+              satisEl.classList.remove('flash-up', 'flash-down');
               void satisEl.offsetWidth;
-              satisEl.classList.add('price-up');
+              satisEl.classList.add('flash-up');
             } else if (satis < previousPrices[satisCellId]) {
-              satisEl.classList.remove('price-up', 'price-down');
+              satisEl.classList.remove('flash-up', 'flash-down');
               void satisEl.offsetWidth;
-              satisEl.classList.add('price-down');
+              satisEl.classList.add('flash-down');
             }
           }
 
@@ -595,16 +437,22 @@
       });
     }
 
+    // ARAMA / FILTRELEME
+    function filterProducts() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-      const savedTheme = localStorage.getItem('gece_modu');
-      if (savedTheme === 'kapali') {
-        document.body.classList.add('light-mode');
-        document.body.classList.remove('dark-mode');
-        document.getElementById('theme_toggle_btn').innerText = '🌙';
-      } else {
-        document.body.classList.add('dark-mode');
-        document.body.classList.remove('light-mode');
-        document.getElementById('theme_toggle_btn').innerText = '☀️';
+      const savedTheme = localStorage.getItem('sarrafiye_theme');
+      if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+        document.body.classList.add('light-theme');
+        document.getElementById('themeIcon').innerText = '🌙';
       }
 
       connectSocket();
