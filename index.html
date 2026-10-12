@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sarrafiye.net - Canlı Piyasa</title>
+    <title>Sarrafiye.net - Canlı Piyasa Verileri</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Socket.IO İstemci Kütüphanesi -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     
     <style>
         :root {
@@ -33,13 +35,15 @@
         .hero h1 { font-size: 1.8rem; color: var(--gold-primary); }
 
         .status-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .live-badge { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.9rem; color: var(--green); }
-        .live-dot { width: 10px; height: 10px; background: var(--green); border-radius: 50%; }
+        .live-badge { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.9rem; color: var(--red); }
+        .live-dot { width: 10px; height: 10px; background: var(--red); border-radius: 50%; transition: background 0.3s; }
+        .live-badge.connected .live-dot { background: var(--green); box-shadow: 0 0 8px var(--green); }
+        .live-badge.connected { color: var(--green); }
 
-        .price-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 15px; margin-bottom: 40px; }
+        .price-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; margin-bottom: 40px; }
         .price-card { background: var(--card-bg); border-radius: 8px; padding: 15px; border: 1px solid var(--border-color); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .price-card .title { font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px; border-bottom: 1px solid #f3f4f6; padding-bottom: 5px; text-transform: uppercase; }
-        .price-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px; }
+        .price-card .title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px; border-bottom: 1px solid #f3f4f6; padding-bottom: 5px; text-transform: uppercase; }
+        .price-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px; }
         .price-row .label { color: var(--text-muted); }
         .price-row .val { font-weight: 700; }
 
@@ -70,7 +74,7 @@
         </div>
 
         <div id="price-grid" class="price-grid">
-            <div style="grid-column: 1/-1; text-align:center; padding: 40px; color: #6b7280;">Soketten veriler bekleniyor...</div>
+            <div style="grid-column: 1/-1; text-align:center; padding: 40px; color: #6b7280;">Socket verileri bekleniyor...</div>
         </div>
     </main>
 
@@ -81,64 +85,91 @@
     </footer>
 
     <script>
-        const socketUrl = 'wss://socket.sarrafiye.net/';
         const grid = document.getElementById('price-grid');
-        let socket;
+        const badge = document.getElementById('status-badge');
+        const statusText = document.getElementById('status-text');
 
-        function connectSocket() {
-            socket = new WebSocket(socketUrl);
+        // Worker ile aynı kök dizin üzerinden Socket.IO bağlantısı kurma
+        const socket = io(window.location.origin, {
+            transports: ['websocket', 'polling']
+        });
 
-            socket.onopen = function() {
-                document.getElementById('status-text').innerText = 'Canlı Bağlantı Aktif';
-                document.getElementById('status-badge').style.color = 'var(--green)';
-            };
+        socket.on('connect', () => {
+            badge.classList.add('connected');
+            statusText.textContent = 'Canlı Bağlantı Aktif';
+        });
 
-            socket.onmessage = function(event) {
-                try {
-                    let data = JSON.parse(event.data);
-                    if (typeof data === 'string') data = JSON.parse(data);
-                    renderData(data);
-                } catch (e) {
-                    console.error('Veri ayrıştırma hatası:', e);
+        socket.on('disconnect', () => {
+            badge.classList.remove('connected');
+            statusText.textContent = 'Bağlantı Koptu';
+        });
+
+        socket.on('connect_error', () => {
+            badge.classList.remove('connected');
+            statusText.textContent = 'Bağlantı Hatası!';
+        });
+
+        // Worker'ın işleyip ilettiği 'price_changed' olayı
+        socket.on('price_changed', (response) => {
+            try {
+                // Worker kodunuzdaki yapıya göre gelen veri: [ 'price_changed', { data: { ALTIN: {...}, USDTRY: {...} } } ] 
+                // Veya doğrudan obje gelebilir, her iki durumu da yakalayalım:
+                let dataObj = null;
+
+                if (response && response.data) {
+                    dataObj = response.data;
+                } else if (Array.isArray(response) && response[1] && response[1].data) {
+                    dataObj = response[1].data;
+                } else if (typeof response === 'object') {
+                    dataObj = response;
                 }
-            };
 
-            socket.onclose = function() {
-                document.getElementById('status-text').innerText = 'Yeniden Bağlanıyor...';
-                document.getElementById('status-badge').style.color = 'var(--red)';
-                setTimeout(connectSocket, 3000);
-            };
+                if (dataObj) {
+                    renderPrices(dataObj);
+                }
+            } catch (e) {
+                console.error('Veri işleme hatası:', e);
+            }
+        });
 
-            socket.onerror = function(err) {
-                socket.close();
-            };
-        }
+        function renderPrices(dataObj) {
+            // İlk çalıştırmada 'bekleniyor' yazısını temizle
+            if (grid.querySelector('div') && grid.querySelector('div').style.gridColumn) {
+                grid.innerHTML = '';
+            }
 
-        function renderData(data) {
-            // Eğer liste veya obje gelirse otomatik kartları sıfırdan üret veya güncelle
-            const items = Array.isArray(data) ? data : Object.entries(data).map(([key, val]) => ({ code: key, ...val }));
-            
-            if (items.length === 0) return;
+            Object.keys(dataObj).forEach(code => {
+                const item = dataObj[code];
+                if (!item) return;
 
-            grid.innerHTML = ''; // Gelen yeni veri setine göre listeyi dinamik bas
+                let cardId = `card-${code}`;
+                let card = document.getElementById(cardId);
 
-            items.forEach(item => {
-                const title = item.name || item.code || item.baslik || 'Ürün';
-                const alis = item.alis || item.buy || item.a || '---';
-                const satis = item.satis || item.sell || item.s || '---';
+                // Kart daha önce oluşturulmadıysa DOM'a ekle
+                if (!card) {
+                    card = document.createElement('div');
+                    card.className = 'price-card';
+                    card.id = cardId;
+                    card.innerHTML = `
+                        <div class="title">${code}</div>
+                        <div class="price-row"><span class="label">Alış:</span><span class="val" id="val-alis-${code}">---</span></div>
+                        <div class="price-row"><span class="label">Satış:</span><span class="val" id="val-satis-${code}">---</span></div>
+                    `;
+                    grid.appendChild(card);
+                }
 
-                const card = document.createElement('div');
-                card.className = 'price-card';
-                card.innerHTML = `
-                    <div class="title">${title}</div>
-                    <div class="price-row"><span class="label">Alış:</span><span class="val">${alis}</span></div>
-                    <div class="price-row"><span class="label">Satış:</span><span class="val">${satis}</span></div>
-                `;
-                grid.appendChild(card);
+                // Değerleri güncelle
+                const alisEl = document.getElementById(`val-alis-${code}`);
+                const satisEl = document.getElementById(`val-satis-${code}`);
+
+                if (alisEl && item.alis !== undefined) {
+                    alisEl.innerText = item.alis;
+                }
+                if (satisEl && item.satis !== undefined) {
+                    satisEl.innerText = item.satis;
+                }
             });
         }
-
-        document.addEventListener('DOMContentLoaded', connectSocket);
     </script>
 </body>
 </html>
