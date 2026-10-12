@@ -7,7 +7,7 @@
   <title>Sarrafiye.net - Canlı Altın ve Piyasa Fiyatları</title>
   <link href="favicon.ico" rel="icon" type="image/x-icon"/>
   <link href="https://www.sarrafiye.net/" rel="canonical"/>
-  <meta content="#d97706" name="theme-color"/>
+  <meta content="#0b0f19" name="theme-color"/>
   <meta content="Anlık gram altın, çeyrek altın, ziynet ve serbest piyasa canlı kuyumcu altın fiyatları için Sarrafiye.net'i takip edin." name="description"/>
   
   <!-- Bootstrap & Icons -->
@@ -17,27 +17,31 @@
   
   <style>
     :root {
-      --main: #d97706;
-      --border: #f59e0b;
+      --main: #f59e0b;
+      --border: #d97706;
       --bg-color: #0b0f19;
       --card-bg: #131c2e;
       --table-bg: #131c2e;
-      --text-color: #f1f5f9;
+      --text-color: #f8fafc;
       --text-muted: #94a3b8;
       --row-hover: #1e293b;
       --border-color: rgba(255, 255, 255, 0.08);
-      --badge-bg: rgba(217, 119, 6, 0.15);
+      --badge-bg: rgba(245, 158, 11, 0.15);
+      --blue-val: #3b82f6;
     }
 
     body.light-mode {
+      --main: #d97706;
+      --border: #f59e0b;
       --bg-color: #f8fafc;
       --card-bg: #ffffff;
       --table-bg: #ffffff;
-      --text-color: #1e293b;
+      --text-color: #0f172a;
       --text-muted: #64748b;
       --row-hover: #f1f5f9;
       --border-color: #e2e8f0;
       --badge-bg: rgba(217, 119, 6, 0.1);
+      --blue-val: #1d4ed8;
     }
 
     *, *::before, *::after {
@@ -62,11 +66,11 @@
     nav {
       background: var(--card-bg);
       border-bottom: 2px solid var(--border);
-      padding: 10px 12px;
+      padding: 10px 14px;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
 
     .nav-container {
@@ -82,12 +86,12 @@
     .logo-area {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       min-width: 0;
     }
 
     .logo-text {
-      font-size: 1.35rem;
+      font-size: 1.4rem;
       font-weight: 800;
       color: var(--text-color);
       text-decoration: none;
@@ -99,9 +103,9 @@
 
     .theme-bar {
       display: flex;
-      gap: 4px;
+      gap: 5px;
       background: var(--badge-bg);
-      padding: 3px 6px;
+      padding: 4px 8px;
       border-radius: 20px;
       align-items: center;
       border: 1px solid var(--border-color);
@@ -109,21 +113,21 @@
     }
 
     .dot {
-      width: 13px;
-      height: 13px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       cursor: pointer;
       border: 1.5px solid #fff;
       transition: transform 0.2s;
     }
-    .dot:hover { transform: scale(1.15); }
+    .dot:hover { transform: scale(1.2); }
 
     #dark_toggle_btn {
       background: transparent;
       border: none;
       color: var(--text-color);
       cursor: pointer;
-      font-size: 14px;
+      font-size: 15px;
       padding: 0 2px;
       line-height: 1;
     }
@@ -157,7 +161,7 @@
     }
 
     #fiyat_zaman_doviz {
-      font-size: 0.92rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: var(--main);
       font-variant-numeric: tabular-nums;
@@ -168,8 +172,8 @@
     .main-container {
       max-width: 1400px;
       width: 100%;
-      margin: 16px auto;
-      padding: 0 12px;
+      margin: 18px auto;
+      padding: 0 14px;
       flex: 1;
       display: flex;
       gap: 20px;
@@ -180,7 +184,7 @@
       min-width: 0;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 18px;
     }
 
     .sidebar-column {
@@ -188,28 +192,28 @@
       min-width: 280px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 18px;
     }
 
     /* Tablo Bölümleri */
     .table-section-card {
       background: var(--table-bg);
       border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
       overflow: hidden;
       border: 1px solid var(--border-color);
     }
 
     .section-header {
-      background: rgba(217, 119, 6, 0.08);
-      padding: 10px 14px;
-      font-size: 0.9rem;
+      background: rgba(245, 158, 11, 0.08);
+      padding: 11px 16px;
+      font-size: 0.92rem;
       font-weight: 700;
       color: var(--main);
       border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
     .market-table {
@@ -219,19 +223,19 @@
     }
 
     .market-table th {
-      background: var(--main);
-      color: #fff;
-      padding: 9px 12px;
-      font-size: 0.8rem;
+      background: var(--border);
+      color: #ffffff;
+      padding: 10px 14px;
+      font-size: 0.82rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.4px;
     }
 
     .market-table td {
-      padding: 10px 12px;
+      padding: 11px 14px;
       color: var(--text-color);
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       font-weight: 600;
       border-bottom: 1px solid var(--border-color);
       vertical-align: middle;
@@ -250,21 +254,20 @@
     .market-table td:nth-child(2),
     .market-table td:nth-child(3) {
       text-align: right;
-      width: 125px;
+      width: 130px;
       font-variant-numeric: tabular-nums;
     }
 
-    .val-alis { color: #2563eb !important; font-weight: 700; }
-    body.light-mode .val-alis { color: #1d4ed8 !important; }
+    .val-alis { color: var(--blue-val) !important; font-weight: 700; }
     .val-satis { color: var(--main) !important; font-weight: 700; }
 
     /* Flash Animasyonları */
     @keyframes flash-green {
-      0% { background-color: rgba(22, 163, 74, 0.35); }
+      0% { background-color: rgba(34, 197, 94, 0.35); }
       100% { background-color: transparent; }
     }
     @keyframes flash-red {
-      0% { background-color: rgba(220, 38, 38, 0.35); }
+      0% { background-color: rgba(239, 68, 68, 0.35); }
       100% { background-color: transparent; }
     }
     .price-up { animation: flash-green 1s ease; }
@@ -274,9 +277,9 @@
     .sidebar-card {
       background: var(--card-bg);
       border-radius: 12px;
-      padding: 18px;
+      padding: 20px;
       border: 1px solid var(--border-color);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
     }
 
     .sidebar-card h3 {
@@ -292,17 +295,17 @@
     }
 
     .sidebar-card p {
-      font-size: 0.85rem;
+      font-size: 0.86rem;
       color: var(--text-muted);
-      line-height: 1.5;
+      line-height: 1.55;
       margin-bottom: 0;
     }
 
     /* Yüklenme */
     .status-box {
       text-align: center;
-      padding: 60px 20px;
-      font-size: 1rem;
+      padding: 70px 20px;
+      font-size: 1.05rem;
       color: var(--text-muted);
     }
 
@@ -314,15 +317,15 @@
       color: var(--text-color);
       padding: 10px 0;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.86rem;
     }
 
     footer {
       background: var(--card-bg);
       color: var(--text-muted);
       text-align: center;
-      padding: 15px;
-      font-size: 0.8rem;
+      padding: 16px;
+      font-size: 0.82rem;
       border-top: 1px solid var(--border-color);
     }
 
@@ -330,7 +333,7 @@
     @media (max-width: 768px) {
       nav { padding: 8px 10px; }
       .logo-text { font-size: 1.15rem; }
-      .theme-bar .dot:nth-child(n+4) { display: none; } /* Mobilde fazla renk noktalarını gizle */
+      .theme-bar .dot:nth-child(n+4) { display: none; }
       
       #tarih_alan { font-size: 0.68rem; }
       #fiyat_zaman_doviz { font-size: 0.85rem; }
@@ -357,7 +360,7 @@
     }
   </style>
 </head>
-<body class="light-mode">
+<body class="dark-mode">
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
@@ -368,18 +371,18 @@
       <div class="logo-area">
         <a class="logo-text" onclick="location.reload()">Sarrafiye<span>.net</span></a>
         <div class="theme-bar">
-          <button id="dark_toggle_btn" onclick="toggleDarkMode()" title="Tema Değiştir">🌙</button>
-          <div class="dot" style="background:#d97706" onclick="setTheme('#d97706','#f59e0b')"></div>
-          <div class="dot" style="background:#008a07" onclick="setTheme('#008a07','#ffa500')"></div>
-          <div class="dot" style="background:#b22222" onclick="setTheme('#b22222','#ffd700')"></div>
-          <div class="dot" style="background:#4b0082" onclick="setTheme('#4b0082','#da70d6')"></div>
+          <button id="dark_toggle_btn" onclick="toggleDarkMode()" title="Tema Değiştir">☀️</button>
+          <div class="dot" style="background:#f59e0b" onclick="setTheme('#f59e0b','#d97706')"></div>
+          <div class="dot" style="background:#10b981" onclick="setTheme('#10b981','#059669')"></div>
+          <div class="dot" style="background:#ef4444" onclick="setTheme('#ef4444','#dc2626')"></div>
+          <div class="dot" style="background:#8b5cf6" onclick="setTheme('#8b5cf6','#7c3aed')"></div>
         </div>
       </div>
       <div class="header-right">
         <div class="time-box">
           <div id="tarih_alan">--.--.----</div>
           <div class="live-badge-wrapper justify-content-end">
-            <span id="connection_status_icon" title="Canlı Bağlantı" style="color: #16a34a; font-size: 9px;"><i class="bi bi-circle-fill"></i></span>
+            <span id="connection_status_icon" title="Canlı Bağlantı" style="color: #22c55e; font-size: 9px;"><i class="bi bi-circle-fill"></i></span>
             <div id="fiyat_zaman_doviz">00:00:00</div>
           </div>
         </div>
@@ -455,10 +458,10 @@
     const fmt = n => isNaN(n) ? "0,00" : nf2.format(n);
 
     function toggleDarkMode() {
-      const isLight = document.body.classList.toggle('light-mode');
-      document.body.classList.toggle('dark-mode', !isLight);
-      document.getElementById('dark_toggle_btn').innerText = isLight ? '🌙' : '☀️';
-      localStorage.setItem('gece_modu', isLight ? 'acik' : 'kapali');
+      const isDark = document.body.classList.toggle('dark-mode');
+      document.body.classList.toggle('light-mode', !isDark);
+      document.getElementById('dark_toggle_btn').innerText = isDark ? '☀️' : '🌙';
+      localStorage.setItem('gece_modu', isDark ? 'acik' : 'kapali');
     }
 
     function setTheme(mainColor, borderColor) {
@@ -469,7 +472,7 @@
     }
 
     const DAYS = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
-    const MONTHS = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylul", "Ekim", "Kasım", "Aralık"];
+    const MONTHS = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
 
     function updateClock() {
       const now = new Date();
@@ -497,18 +500,18 @@
       socket = io.connect('wss://socket.sarrafiye.net', { transports: ["websocket"] });
 
       socket.on('connect', () => {
-        document.getElementById('connection_status_icon').style.color = '#16a34a';
+        document.getElementById('connection_status_icon').style.color = '#22c55e';
         document.getElementById('status').style.display = 'none';
         document.getElementById('content-column').style.display = 'flex';
         document.getElementById('sidebar-column').style.display = 'flex';
       });
 
       socket.on('disconnect', () => {
-        document.getElementById('connection_status_icon').style.color = '#dc2626';
+        document.getElementById('connection_status_icon').style.color = '#ef4444';
       });
 
       socket.on('connect_error', () => {
-        document.getElementById('connection_status_icon').style.color = '#dc2626';
+        document.getElementById('connection_status_icon').style.color = '#ef4444';
       });
 
       socket.on('price_changed', handleSocketData);
@@ -621,13 +624,14 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       const savedTheme = localStorage.getItem('gece_modu');
-      if (savedTheme === 'acik') {
+      if (savedTheme === 'kapali') {
         document.body.classList.add('light-mode');
         document.body.classList.remove('dark-mode');
         document.getElementById('dark_toggle_btn').innerText = '🌙';
       } else {
-        document.body.classList.add('light-mode');
-        document.body.classList.remove('dark-mode');
+        document.body.classList.add('dark-mode');
+        document.body.classList.remove('light-mode');
+        document.getElementById('dark_toggle_btn').innerText = '☀️';
       }
 
       const mainColor = localStorage.getItem('secilen_ana_renk');
