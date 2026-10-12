@@ -4,46 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="content-language" content="tr">
-  <title id="pageMetaTitle">Bingöl Altın Fiyatları</title>
-  <link href="https://bingol.sarrafiye.net/favicon.ico" rel="icon" type="image/x-icon"/>
-  <link href="https://bingol.sarrafiye.net/" rel="canonical"/>
-  <meta content="#fd3a13" name="theme-color"/>
-  <meta content="Bingöl kuyumcu esnaflarından derlenen Bingöl Canlı Altın Fiyatları için web sitemizi ziyaret edebilirsiniz." id="metaDescription" name="description"/>
+  <title id="pageMetaTitle">Sarrafiye.net - Canlı Altın ve Piyasa Fiyatları</title>
+  <link href="favicon.ico" rel="icon" type="image/x-icon"/>
+  <link href="https://www.sarrafiye.net/" rel="canonical"/>
+  <meta content="#d97706" name="theme-color"/>
+  <meta content="Anlık gram altın, çeyrek altın, ziynet ve serbest piyasa canlı kuyumcu altın fiyatları için Sarrafiye.net'i takip edin." id="metaDescription" name="description"/>
   <meta property="og:locale" content="tr_TR"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:title" id="ogTitle" content="Bingöl Canlı Altın Fiyatları"/>
-  <meta property="og:description" id="ogDescription" content="Bingöl kuyumcu esnafından derlenen Bingöl Canlı Altın Fiyatları için web sitemizi ziyaret edebilirsiniz."/>
-  <meta property="og:url" id="ogUrl" content="https://bingol.sarrafiye.net/"/>
-  <meta property="og:site_name" content="Bingöl Altın Fiyatları"/>
+  <meta property="og:title" id="ogTitle" content="Sarrafiye.net - Canlı Altın Fiyatları"/>
+  <meta property="og:description" id="ogDescription" content="Serbest piyasa ve kuyumcu esnafından anlık derlenen canlı altın fiyatları."/>
+  <meta property="og:url" id="ogUrl" content="https://www.sarrafiye.net/"/>
+  <meta property="og:site_name" content="Sarrafiye.net"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" id="twitterTitle" content="Bingöl Canlı Altın Fiyatları"/>
-  <meta name="twitter:domain" content="bingol.sarrafiye.net"/>
-  <meta name="twitter:description" id="twitterDescription" content="Bingöl kuyumcu esnafından derlenen Bingöl Canlı Altın Fiyatları için web sitemizi ziyaret edebilirsiniz."/>
+  <meta name="twitter:title" id="twitterTitle" content="Sarrafiye.net - Canlı Altın Fiyatları"/>
+  <meta name="twitter:domain" content="sarrafiye.net"/>
+  <meta name="twitter:description" id="twitterDescription" content="Serbest piyasa ve kuyumcu esnafından anlık derlenen canlı altın fiyatları."/>
   
   <!-- Schema.org JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "FinancialService",
-    "name": "Bingöl Altın Fiyatları",
-    "url": "https://bingol.sarrafiye.net/",
-    "logo": "https://bingol.sarrafiye.net/favicon.ico",
+    "name": "Sarrafiye.net",
+    "url": "https://www.sarrafiye.net/",
+    "logo": "https://www.sarrafiye.net/favicon.ico",
     "inLanguage": "tr-TR",
-    "description": "Bingöl Kuyumcular Derneği ve Bingöl kuyumcu esnaflarından derlenen canlı Bingöl Altın Fiyatları.",
+    "description": "Serbest piyasa ve kuyumcu esnaflarından derlenen canlı altın fiyatları ve piyasa verileri.",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Bingöl",
-      "addressRegion": "Bingöl",
       "addressCountry": "TR"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "38.8854",
-      "longitude": "40.4981"
-    },
-    "areaServed": {
-      "@type": "AdministrativeArea",
-      "name": "Bingöl"
     }
   }
   </script>
@@ -56,8 +45,8 @@
     .cookie-choices-info { display: none !important; }
     
     :root {
-      --main: #008a07;
-      --border: #ffa500;
+      --main: #d97706;
+      --border: #f59e0b;
       --bg-gradient: radial-gradient(circle, #1a1a1a 0%, #000 100%);
     }
 
@@ -91,7 +80,7 @@
       height: 7vh;
       display: flex;
       align-items: center;
-      padding: 0 5px;
+      padding: 0 10px;
       z-index: 10;
       flex-shrink: 0;
       border-bottom: 2px solid var(--border);
@@ -103,10 +92,15 @@
       gap: 12px;
     }
 
-    .logo-img {
-      height: 35px;
+    .logo-text {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      text-decoration: none;
       cursor: pointer;
+      letter-spacing: 0.5px;
     }
+    .logo-text span { color: var(--border); }
 
     .theme-bar {
       display: flex;
@@ -137,23 +131,19 @@
       color: var(--border);
     }
 
-    /* Saat Yanıp Sönme Animasyonları */
     @keyframes clock-flash-red { 
       0% { color: #dc2626; font-weight: 900; }
       50% { color: var(--border); font-weight: 700; }
-      75% { color: #dc2626; font-weight: 900; }
       100% { color: var(--border); font-weight: 700; }
     }
     @keyframes clock-flash-green { 
       0% { color: #16a34a; font-weight: 900; }
       50% { color: var(--border); font-weight: 700; }
-      75% { color: #16a34a; font-weight: 900; }
       100% { color: var(--border); font-weight: 700; }
     }
     .clock-update-red { animation: clock-flash-red 0.6s ease; }
     .clock-update-green { animation: clock-flash-green 0.6s ease; }
 
-    /* Masaüstü Düzen */
     .main-content {
       flex: 1;
       display: flex;
@@ -176,10 +166,8 @@
 
     .kutu1, .kutu3 { flex: 34.5; }
     .kutu2 { flex: 31; }
-
     .kutu2 .table-container-box { flex: 0 0 auto; }
 
-    /* Ortak Reklam Konteyner Stili */
     .ad-container-shared {
       position: relative;
       border-radius: 8px;
@@ -283,14 +271,6 @@
       background-color: #f1f5f9;
     }
 
-    .ayar-table tbody tr.active-row, .has-table tbody tr.active-row {
-      background-color: #fef3c7 !important;
-    }
-
-    .ayar-table tbody tr.kur-row, .has-table tbody tr.kur-row {
-      background-color: #fffbeb;
-    }
-
     .kayanyazi {
       height: 40px;
       background: var(--main);
@@ -314,7 +294,7 @@
 
     .error-msg { color: #f87171; }
 
-    #dark_toggle_btn, .live-btn {
+    #dark_toggle_btn {
       background: transparent;
       border: none;
       color: #fff;
@@ -340,154 +320,35 @@
       background-color: #2a2a2a !important;
     }
 
-    body.dark-mode .ayar-table tbody tr.active-row, body.dark-mode .has-table tbody tr.active-row {
-      background-color: #451a03 !important;
-    }
-
-    body.dark-mode .ayar-table tbody tr.kur-row, body.dark-mode .has-table tbody tr.kur-row {
-      background-color: #292524 !important;
-    }
-
-    /* Fiyat Animasyonları */
     @keyframes text-flash-green { 
       0% { color: #16a34a; font-weight: 800; }
-      50% { color: inherit; }
-      75% { color: #16a34a; font-weight: 800; }
       100% { color: inherit; }
     }
     @keyframes text-flash-red { 
       0% { color: #dc2626; font-weight: 800; }
-      50% { color: inherit; }
-      75% { color: #dc2626; font-weight: 900; }
       100% { color: inherit; }
     }
     body.dark-mode .price-up { animation: text-flash-green 0.6s step-end; }
     body.dark-mode .price-down { animation: text-flash-red 0.6s step-end; }
 
-    /* Mobil Düzen (<= 768px) */
+    /* Mobil Düzen */
     @media only screen and (max-width: 768px) {
-      html, body {
-        height: auto;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-      }
-
+      html, body { height: auto; overflow-y: auto; display: flex; flex-direction: column; }
       nav { order: 1; }
-
-      .main-content {
-        flex-direction: column;
-        height: auto;
-        gap: 8px;
-        padding: 0;
-        overflow: visible;
-        order: 2;
-      }
-
-      #results {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 8px !important;
-      }
-
+      .main-content { flex-direction: column; height: auto; gap: 8px; padding: 0; overflow: visible; order: 2; }
+      #results { display: flex !important; flex-direction: column !important; gap: 8px !important; }
       .column { display: contents !important; }
-
       .kutu2 > .table-container-box { order: 1; flex: auto !important; }
-      
-      .ad-container-shared { 
-        order: 2; 
-        width: 100% !important;
-        height: auto !important; 
-        padding: 0 !important;
-        flex: none !important; 
-        margin: 0 auto; 
-      }
-
+      .ad-container-shared { order: 2; width: 100% !important; height: auto !important; padding: 0 !important; flex: none !important; margin: 0 auto; }
       #box_grup1 { order: 3; }
       #box_grup2 { order: 4; }
-      #mobileAdSlot2 { order: 5; display: block; width: 100%; }
-
-      #box_grup3 { display: flex !important; order: 6; }
-      #box_grup4 { order: 7; }
-      #mobileAdSlot3 { order: 8; display: block; width: 100%; }
-
       #specialProductsContainerBox { display: none !important; }
-
       .kayanyazi { order: 10; margin: 0; }
-      .asistan-konteynir { order: 9; margin: 0; }
-      .mobile-footer { order: 11; }
-
-      .table-container-box, 
-      #specialProductsContainerBox, 
-      #box_grup4, 
-      #box_grup1, 
-      #box_grup2,
-      #box_grup3 {
-        height: auto !important;
-        min-height: auto !important;
-        flex: none !important;
-        padding: 2px !important;
-      }
-
-      .ayar-table th, .has-table th {
-        font-size: 17px !important;
-        padding: 2px 6px !important;
-        height: 24px !important;
-        line-height: 1.1 !important;
-      }
-
-      .ayar-table td, .has-table td {
-        font-size: 18px !important;
-        padding: 2px 6px !important;
-        height: 24px !important;
-        line-height: 1.1 !important;
-      }
-
-      .mobile-footer {
-        display: block;
-        padding: 15px 12px 120px 12px;
-        margin-top: 10px;
-        text-align: center;
-        background: rgba(0, 0, 0, 0.25);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        color: #b0b3b8;
-        font-size: 12px;
-        line-height: 1.5;
-      }
-
-      body:not(.dark-mode) .mobile-footer {
-        background: #f8f9fa;
-        border-top: 1px solid #dadce0;
-        color: #5f6368;
-      }
-
-      .mobile-footer-seo {
-        margin-bottom: 8px;
-      }
-
-      .mobile-footer-seo strong {
-        color: var(--border);
-      }
-
-      .mobile-footer-copy {
-        font-size: 11px;
-        font-weight: 600;
-        opacity: 0.8;
-      }
+      .mobile-footer { order: 11; display: block; padding: 15px 12px; text-align: center; background: rgba(0, 0, 0, 0.25); border-top: 1px solid rgba(255, 255, 255, 0.1); color: #b0b3b8; font-size: 12px; }
     }
   </style>
 </head>
 <body class="dark-mode">
-
-  <!-- Reklam Yükleyicileri -->
-  <ins data-publisher="adm-pub-7998141991" data-ad-network="68fb6b17eda7398bcea85b3c" data-ad-type-id="536142374" class="adm-ads-area"></ins>
-  <script type="text/javascript" src="https://static.cdn.admatic.com.tr/showad/showad.min.js"></script>
-
-  <script>
-    const adScript = document.createElement('script');
-    adScript.src = window.innerWidth < 768 ? "https://ad.adhouse.pro/283.js" : "https://ad.adhouse.pro/284.js";
-    document.body.appendChild(adScript);
-  </script>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
@@ -496,17 +357,14 @@
   <nav>
     <div style="width:100%; display:flex; justify-content:space-between; align-items:center;">
       <div class="logo-area">
-        <img src="bingol-altin-fiyatlari.png" class="logo-img" onclick="location.reload()" alt="Bingöl Altın Fiyatları Logo">
+        <a class="logo-text" onclick="location.reload()">Sarrafiye<span>.net</span></a>
         <div class="theme-bar">
-          <a id="dinamik-arsiv-link" class="live-btn" href="#">
-            <i class="bi bi-graph-up-arrow me-1" style="color: var(--border);"></i>  
-          </a>
           <button id="dark_toggle_btn" onclick="toggleDarkMode()">☀️</button>
+          <div class="dot" style="background:#d97706" onclick="setT('#d97706','#f59e0b')"></div>
           <div class="dot" style="background:#008a07" onclick="setT('#008a07','#ffa500')"></div>
           <div class="dot" style="background:#1a1a1a" onclick="setT('#1a1a1a','#d4af37')"></div>
           <div class="dot" style="background:#b22222" onclick="setT('#b22222','#ffd700')"></div>
           <div class="dot" style="background:#4b0082" onclick="setT('#4b0082','#da70d6')"></div>
-          <div class="dot" style="background:#444" onclick="setT('#444','#888')"></div>
         </div>
       </div>
       <div style="text-align:right">
@@ -521,10 +379,10 @@
 
   <!-- Ana İçerik Konteynırı -->
   <div class="main-content">
-    <div id="status" class="status-msg">Canlı piyasa verileri bekleniyor...</div>
-    <div id="results" style="display: flex; width: 100%; height: 100%; gap: 1px;">
+    <div id="status" class="status-msg">Canlı piyasa verileri yükleniyor...</div>
+    <div id="results" style="display: none; width: 100%; height: 100%; gap: 1px;">
    
-      <!-- KUTU 1 -->
+      <!-- KUTU 1: Altın & Ürünler -->
       <div class="column kutu1" id="kutu1_container">
         <div class="table-container-box" id="box_grup1">
           <table class="ayar-table">
@@ -534,9 +392,9 @@
         </div>
       </div>
 
-      <!-- KUTU 2 -->
+      <!-- KUTU 2: Piyasa Kurları -->
       <div class="column kutu2" id="kutu2_container">
-        <div class="table-container-box">
+        <div class="table-container-box" id="box_grup2">
           <table class="has-table">
             <thead><tr><th>PİYASA KURLARI</th><th>ALIŞ</th><th>SATIŞ</th></tr></thead>
             <tbody id="marketTableBody"></tbody>
@@ -549,7 +407,7 @@
         </div>
       </div>
 
-      <!-- KUTU 3 -->
+      <!-- KUTU 3: Döviz / Ons -->
       <div class="column kutu3" id="kutu3_container">
         <div class="table-container-box" id="specialProductsContainerBox">
           <table class="has-table">
@@ -563,7 +421,12 @@
   </div>
 
   <!-- Duyuru Alanı -->
-  <div class="kayanyazi"><marquee scrollamount="8" id="duyur">Sarrafiye.net Canlı Piyasa Sistemine Hoş Geldiniz.</marquee></div>
+  <div class="kayanyazi"><marquee scrollamount="8" id="duyur">Sarrafiye.net Canlı Piyasa Verileri Platformuna Hoş Geldiniz.</marquee></div>
+
+  <!-- Alt Bilgi -->
+  <footer class="mobile-footer">
+    <div>© 2026 Sarrafiye.net - Tüm Hakları Saklıdır.</div>
+  </footer>
 
   <!-- JavaScript Kod Alanı -->
   <script>
@@ -595,7 +458,7 @@
     const prevPrices = new Map();
 
     function connectSocket() {
-      // Doğrudan wss://socket.sarrafiye.net bağlantısı
+      // Doğrudan kendi socket sunucunuza wss:// bağlantısı
       socket = io.connect('wss://socket.sarrafiye.net', { transports: ["websocket"] });
 
       socket.on('connect', () => {
@@ -614,7 +477,6 @@
         document.getElementById('connection_status_icon').style.color = '#dc2626';
       });
 
-      // Socket'ten gelen ham verileri dinle
       socket.on('price_changed', handleSocketData);
       socket.on('price_changes', handleSocketData);
     }
@@ -651,7 +513,6 @@
       const marketBody = document.getElementById('marketTableBody');
       const specialBody = document.getElementById('specialProductsTableBody');
 
-      // İlk veri geldiğinde yükleniyor yazısını gizle
       document.getElementById('status').style.display = 'none';
       document.getElementById('results').style.display = 'flex';
 
@@ -662,7 +523,6 @@
         let alis = item.alis !== undefined ? item.alis : '---';
         let satis = item.satis !== undefined ? item.satis : '---';
 
-        // Sayısal değerleri formatla
         const formattedAlis = !isNaN(alis) ? fmt(parseFloat(alis)) : alis;
         const formattedSatis = !isNaN(satis) ? fmt(parseFloat(satis)) : satis;
 
@@ -678,7 +538,7 @@
             <td style="color:#d97706; font-weight:bold; text-align:center;"><span id="satis-${code}">${formattedSatis}</span></td>
           `;
 
-          // Kod türüne göre uygun tabloya yerleştir
+          // Gelen anahtara göre ilgili kutuya yerleştir
           if (code.includes('TRY') || code === 'USD' || code === 'EUR') {
             marketBody.appendChild(tr);
           } else if (code === 'ONS' || code === 'GUMUS') {
