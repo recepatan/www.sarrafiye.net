@@ -341,7 +341,6 @@
     const throttleInterval = 5000;
     const previousPrices = {};
     let globalDataCache = {};
-    let isCalcDropdownsInitialized = false;
 
     function connectSocket() {
       socket = io.connect('wss://socket.sarrafiye.net', { transports: ["websocket"] });
@@ -375,13 +374,11 @@
           globalDataCache = dataObj;
           renderMasterTable(globalDataCache);
           
-          if (!isCalcDropdownsInitialized && Object.keys(globalDataCache).length > 0) {
-            updateCalcDropdowns();
-            updateZekatDropdown();
-            isCalcDropdownsInitialized = true;
-          }
+          // Socket'ten ilk veri paketleri geldiğinde veya yeni satır açıldığında listeleri eşitle
+          updateCalcDropdowns();
+          updateZekatDropdown();
 
-          // Socket'ten yeni fiyatlar geldikçe sepet ve zekat hesaplamasını güncelle
+          // Canlı fiyatlarla sepet tutarlarını yeniden hesapla
           runPortfolioCalc();
         }
 
@@ -485,7 +482,7 @@
     }
 
     /* -------------------------------------------------------------
-       HESAPLAMA SİSTEMİ (CANLI FİYAT AKTARIMLI)
+       KUSURSUZ SEPET & TAM LİSTE PORTFÖY HESAPLAMA MOTORU
     ------------------------------------------------------------- */
     let calcRowCount = 0;
     let activeCalcMode = 'satis';
@@ -522,8 +519,9 @@
         </button>
       `;
       container.appendChild(div);
-      
-      fillSingleDropdown(div.querySelector('.calc-select'));
+
+      const selectEl = div.querySelector('.calc-select');
+      fillSelectWithOptions(selectEl);
       runPortfolioCalc();
     }
 
@@ -535,22 +533,33 @@
       }
     }
 
-    function fillSingleDropdown(selectElement) {
+    // Herhangi bir select elemanını TÜM ÜRÜNLER ile dolduran tam fonksiyon
+    function fillSelectWithOptions(selectEl) {
       const keys = Object.keys(globalDataCache);
       if (keys.length === 0) return;
 
+      const currentVal = selectEl.value;
       let optionsHtml = '';
       keys.forEach(k => {
         optionsHtml += `<option value="${k}">${cleanDisplayName(k)}</option>`;
       });
-      selectElement.innerHTML = optionsHtml;
+
+      selectEl.innerHTML = optionsHtml;
+      
+      if (currentVal && globalDataCache[currentVal]) {
+        selectEl.value = currentVal;
+      }
     }
 
+    // Var olan tüm sepet satırlarındaki select'leri tam liste ile senkronize eden fonksiyon
     function updateCalcDropdowns() {
       const selects = document.querySelectorAll('.calc-select');
+      const keys = Object.keys(globalDataCache);
+      if (keys.length === 0) return;
+
       selects.forEach(select => {
-        if (select.children.length === 0) {
-          fillSingleDropdown(select);
+        if (select.children.length !== keys.length) {
+          fillSelectWithOptions(select);
         }
       });
     }
@@ -567,11 +576,17 @@
 
       qtyInputs.forEach((input, index) => {
         const qty = parseFloat(input.value) || 0;
-        const code = selects[index]?.value;
-        
+        const select = selects[index];
+        const code = select ? select.value : null;
+
         if (code && globalDataCache[code]) {
-          const alisPrice = parseFloat(globalDataCache[code].alis) || 0;
-          const satisPrice = parseFloat(globalDataCache[code].satis) || 0;
+          const item = globalDataCache[code];
+          
+          let alisPrice = parseFloat(item.alis);
+          let satisPrice = parseFloat(item.satis);
+
+          if (isNaN(alisPrice)) alisPrice = 0;
+          if (isNaN(satisPrice)) satisPrice = 0;
 
           globalCalcTotalAlis += qty * alisPrice;
           globalCalcTotalSatis += qty * satisPrice;
@@ -646,6 +661,7 @@
         document.getElementById('themeIcon').innerText = '🌙';
       }
 
+      // Varsayılan sepet satırını ekle
       addCalcRow();
 
       connectSocket();
