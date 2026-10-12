@@ -118,7 +118,7 @@
           </button>
         </div>
 
-        <!-- SAĞ ÜST: İLLERE GÖRE ALTIN FİYATLARI DROPDOWN MENÜ -->
+        <!-- İLLERE GÖRE ALTIN FİYATLARI DROPDOWN -->
         <div class="flex items-center gap-3">
           <div class="relative">
             <select onchange="if(this.value) window.location.href=this.value;" class="bg-dark-bg text-xs sm:text-sm font-semibold text-brand-400 px-3.5 py-2 rounded-xl border border-dark-border focus:outline-none focus:border-brand-500 cursor-pointer shadow-sm">
@@ -361,7 +361,7 @@
     const throttleInterval = 5000;
     const previousPrices = {};
     let globalDataCache = {};
-    let calcDropdownsLoaded = false;
+    let calcDropdownsInitialized = false;
 
     function connectSocket() {
       socket = io.connect('wss://socket.sarrafiye.net', { transports: ["websocket"] });
@@ -395,11 +395,11 @@
           globalDataCache = dataObj;
           renderMasterTable(globalDataCache);
 
-          // Sadece ilk WebSocket paketinde seçeneği yükle, bir daha select'i baştan çizme!
-          if (!calcDropdownsLoaded && Object.keys(globalDataCache).length > 0) {
+          // Envanter (Tüm Liste) select seçeneklerini tablodan türeterek bir kez sabitliyoruz
+          if (!calcDropdownsInitialized && Object.keys(globalDataCache).length > 0) {
             updateCalcDropdownsOnce();
             updateZekatDropdown();
-            calcDropdownsLoaded = true;
+            calcDropdownsInitialized = true;
           }
 
           runPortfolioCalc();
@@ -434,6 +434,7 @@
         if (!tr) {
           tr = document.createElement('tr');
           tr.id = rowId;
+          tr.dataset.code = code; // Ürün kodunu sakla
           tr.dataset.category = category;
           tr.dataset.name = cleanDisplayName(code).toLowerCase();
           tr.className = 'hover-bg hover:bg-dark-hover transition-colors font-mono';
@@ -505,7 +506,7 @@
     }
 
     /* -------------------------------------------------------------
-       SABİTLENMİŞ VE KORUNAN SEPET MANTIĞI
+       KUSURSUZ VE SABİT TAM LİSTE SEPET MANTIĞI
     ------------------------------------------------------------- */
     let calcRowCount = 0;
     let activeCalcMode = 'satis';
@@ -544,7 +545,7 @@
       container.appendChild(div);
 
       const selectEl = div.querySelector('.calc-select');
-      fillSelectWithOptions(selectEl);
+      populateSelectWithOptions(selectEl);
       runPortfolioCalc();
     }
 
@@ -556,25 +557,37 @@
       }
     }
 
-    // Yalnızca boş elemanlara ürünleri yükler
-    function fillSelectWithOptions(selectEl) {
-      const keys = Object.keys(globalDataCache);
-      if (keys.length === 0) return;
+    // Ana Tablodaki Tüm Ürünleri Select Menüsüne Eksiksiz Doldurur
+    function populateSelectWithOptions(selectEl) {
+      const rows = document.querySelectorAll('#masterTableBody tr');
+      if (rows.length === 0) {
+        // Eğer tablo henüz dolmadıysa globalDataCache'den fallback al
+        const keys = Object.keys(globalDataCache);
+        let html = '';
+        keys.forEach(k => {
+          html += `<option value="${k}">${cleanDisplayName(k)}</option>`;
+        });
+        selectEl.innerHTML = html;
+        return;
+      }
 
       let optionsHtml = '';
-      keys.forEach(k => {
-        optionsHtml += `<option value="${k}">${cleanDisplayName(k)}</option>`;
+      rows.forEach(tr => {
+        const code = tr.dataset.code;
+        if (code) {
+          const name = cleanDisplayName(code);
+          optionsHtml += `<option value="${code}">${name}</option>`;
+        }
       });
 
       selectEl.innerHTML = optionsHtml;
     }
 
-    // Sadece ilk yüklemede çağrılan tek seferlik doldurucu
     function updateCalcDropdownsOnce() {
       const selects = document.querySelectorAll('.calc-select');
       selects.forEach(select => {
         if (select.children.length === 0) {
-          fillSelectWithOptions(select);
+          populateSelectWithOptions(select);
         }
       });
     }
@@ -635,11 +648,12 @@
       const select = document.getElementById('zekatGoldSelect');
       if (!select || select.children.length > 0) return;
 
-      const keys = Object.keys(globalDataCache);
+      const rows = document.querySelectorAll('#masterTableBody tr');
       let html = '';
-      keys.forEach(k => {
-        if (k.includes('ALTIN') || k.includes('AYAR') || k.includes('KULCE')) {
-          html += `<option value="${k}">${cleanDisplayName(k)}</option>`;
+      rows.forEach(tr => {
+        const code = tr.dataset.code;
+        if (code && (code.includes('ALTIN') || code.includes('AYAR') || code.includes('KULCE'))) {
+          html += `<option value="${code}">${cleanDisplayName(code)}</option>`;
         }
       });
       if (!html) html = '<option value="ALTIN">Gram Altın</option>';
