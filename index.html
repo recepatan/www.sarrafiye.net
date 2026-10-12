@@ -341,6 +341,7 @@
     const throttleInterval = 5000;
     const previousPrices = {};
     let globalDataCache = {};
+    let isCalcDropdownsInitialized = false; // Listelerin sadece bir kez doldurulmasını sağlar
 
     function connectSocket() {
       socket = io.connect('wss://socket.sarrafiye.net', { transports: ["websocket"] });
@@ -373,8 +374,14 @@
         if (dataObj) {
           globalDataCache = dataObj;
           renderMasterTable(globalDataCache);
-          updateCalcDropdowns();
-          updateZekatDropdown();
+          
+          // Listeler ilk kez doluyor, sonra sabit kalıyor
+          if (!isCalcDropdownsInitialized && Object.keys(globalDataCache).length > 0) {
+            updateCalcDropdowns();
+            updateZekatDropdown();
+            isCalcDropdownsInitialized = true;
+          }
+
           runPortfolioCalc();
         }
 
@@ -478,7 +485,7 @@
     }
 
     /* -------------------------------------------------------------
-       GELİŞMİŞ SEPET & TAM LİSTE KORUMALI HESAPLAMA SİSTEMİ
+       STATİK VE SABİT LİSTELİ HESAPLAMA SİSTEMİ
     ------------------------------------------------------------- */
     let calcRowCount = 0;
     let activeCalcMode = 'satis';
@@ -515,7 +522,9 @@
         </button>
       `;
       container.appendChild(div);
-      updateCalcDropdowns();
+      
+      // Yeni satır eklendiğinde mevcut tam listeyi yeni select elemanına bas
+      fillSingleDropdown(div.querySelector('.calc-select'));
       runPortfolioCalc();
     }
 
@@ -527,28 +536,22 @@
       }
     }
 
-    // Tüm Ürünlerin Eksiksiz Basıldığı ve Seçimin Korunduğu Fonksiyon
-    function updateCalcDropdowns() {
+    function fillSingleDropdown(selectElement) {
       const keys = Object.keys(globalDataCache);
       if (keys.length === 0) return;
 
-      // HTML stringini bir kez oluştur
       let optionsHtml = '';
       keys.forEach(k => {
         optionsHtml += `<option value="${k}">${cleanDisplayName(k)}</option>`;
       });
+      selectElement.innerHTML = optionsHtml;
+    }
 
+    function updateCalcDropdowns() {
       const selects = document.querySelectorAll('.calc-select');
       selects.forEach(select => {
-        const selectedValue = select.value;
-        // Her select elemanını güncel tam liste ile yenile
-        select.innerHTML = optionsHtml;
-        
-        // Kullanıcının daha önce seçtiği ürün varsa onu koru
-        if (selectedValue && globalDataCache[selectedValue]) {
-          select.value = selectedValue;
-        } else if (select.children.length > 0) {
-          select.selectedIndex = 0;
+        if (select.children.length === 0) {
+          fillSingleDropdown(select);
         }
       });
     }
