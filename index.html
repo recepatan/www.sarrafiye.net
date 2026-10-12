@@ -181,53 +181,68 @@
         <!-- FİNANSAL ARAÇLAR GRID (HESAPLAMA VE ZEKAT) -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
-          <!-- 1. BİRDEN FAZLA ÜRÜN SEPET HESAPLAMA ARACI -->
+          <!-- 1. BİRDEN FAZLA ÜRÜN SEPET HESAPLAMA ARACI (ALIŞ / SATIŞ AYRI) -->
           <div class="bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4 border-b border-dark-border pb-3">
                 <h3 class="text-base font-bold text-brand-400 flex items-center gap-2">
                   <i class="bi bi-calculator"></i> Portföy / Sepet Hesaplama
                 </h3>
-                <span class="text-[11px] text-slate-400 bg-dark-border/50 px-2.5 py-1 rounded-lg">Canlı Kur</span>
+                
+                <!-- Alış / Satış Türü Seçimi -->
+                <div class="flex items-center bg-dark-bg p-1 rounded-xl border border-dark-border text-xs">
+                  <button onclick="setCalcMode('satis')" id="btnModeSatis" class="px-2.5 py-1 rounded-lg font-bold transition-all bg-brand-500 text-white">Satış (Satın Alma)</button>
+                  <button onclick="setCalcMode('alis')" id="btnModeAlis" class="px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white">Alış (Bozdurma)</button>
+                </div>
               </div>
 
               <!-- Dinamik Ürün Satırları -->
-              <div id="calcRowsContainer" class="space-y-3 mb-4">
-                <!-- Satır örneği JavaScript ile doldurulur -->
-              </div>
+              <div id="calcRowsContainer" class="space-y-3 mb-4"></div>
 
               <button onclick="addCalcRow()" class="w-full py-2 border border-dashed border-brand-500/50 text-brand-400 hover:bg-brand-500/10 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2">
                 <i class="bi bi-plus-circle"></i> + Yeni Ürün Ekle
               </button>
             </div>
 
-            <!-- Toplam Tutar Alanı -->
-            <div class="mt-5 p-4 rounded-xl bg-dark-bg/60 border border-dark-border flex items-center justify-between">
-              <div>
-                <span class="text-xs text-slate-400 block font-medium">Toplam Portföy Değeri</span>
-                <span class="text-xs text-emerald-400 font-semibold" id="calcTypeLabel">Satış (Satın Alma) Fiyatı BAZ Alındı</span>
+            <!-- Toplam Alış ve Satış Tutar Alanı -->
+            <div class="mt-5 p-4 rounded-xl bg-dark-bg/60 border border-dark-border space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-slate-400 font-medium">Toplam Bozdurma Tutarı (Alış)</span>
+                <span id="calcTotalAlisPrice" class="text-base font-mono font-bold text-emerald-400">0,00 TL</span>
               </div>
-              <div class="text-right">
-                <span id="calcTotalPrice" class="text-xl sm:text-2xl font-mono font-extrabold text-brand-400">0,00 TL</span>
+              <div class="flex items-center justify-between border-t border-dark-border/50 pt-2">
+                <span class="text-xs text-slate-400 font-medium">Toplam Satın Alma Tutarı (Satış)</span>
+                <span id="calcTotalSatisPrice" class="text-lg font-mono font-extrabold text-brand-400">0,00 TL</span>
               </div>
             </div>
           </div>
 
-          <!-- 2. ZEKAT HESAPLAMA ARACI (1/40 ORANI) -->
+          <!-- 2. ZEKAT HESAPLAMA ARACI (OTOMATİK PORTFÖY ENTEGRELİ & 1/40 ORANI) -->
           <div class="bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4 border-b border-dark-border pb-3">
                 <h3 class="text-base font-bold text-emerald-400 flex items-center gap-2">
                   <i class="bi bi-cash-stack"></i> Zekat Hesaplama Aracı
                 </h3>
-                <span class="text-[11px] text-slate-400 bg-dark-border/50 px-2.5 py-1 rounded-lg">40/1 Oranı (%2.5)</span>
+                <span class="text-[11px] text-slate-400 bg-dark-border/50 px-2.5 py-1 rounded-lg">1/40 Oranı (%2.5)</span>
               </div>
 
               <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                Nisap miktarını aşan varlığınız için verilmesi gereken zekat miktarı **40 gramda 1 gram (1/40)** esasına göre canlı kurlarla hesaplanır.
+                Nisap miktarını aşan varlığınızın verilmesi gereken zekat miktarı **40'ta 1 (%2.5)** esasına göre hesaplanır.
               </p>
 
-              <div class="space-y-3">
+              <!-- Mod Seçimi: Sepet Tutarına Göre mi Gram'a Göre mi? -->
+              <div class="grid grid-cols-2 gap-2 mb-4">
+                <button onclick="setZekatSource('sepet')" id="btnZekatSepet" class="py-2 px-3 rounded-xl text-xs font-bold bg-emerald-500 text-white border border-emerald-500 transition-all">
+                  Sepet Toplamına Göre
+                </button>
+                <button onclick="setZekatSource('gram')" id="btnZekatGram" class="py-2 px-3 rounded-xl text-xs font-bold bg-dark-bg text-slate-400 border border-dark-border hover:text-white transition-all">
+                  Manuel Gram Girişi
+                </button>
+              </div>
+
+              <!-- Manuel Gram Giriş Alanları (Sadece Gram modunda açılır) -->
+              <div id="zekatGramArea" class="hidden space-y-3 mb-3">
                 <div>
                   <label class="text-xs font-semibold text-slate-300 mb-1 block">Toplam Altın Varlığınız (Gram)</label>
                   <input type="number" id="zekatGramInput" oninput="calculateZekat()" placeholder="Örn: 100" min="0" step="any"
@@ -237,21 +252,21 @@
                 <div>
                   <label class="text-xs font-semibold text-slate-300 mb-1 block">Hesaplamaya Esas Altın Türü</label>
                   <select id="zekatGoldSelect" onchange="calculateZekat()" class="w-full bg-dark-bg text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-emerald-500">
-                    <!-- Dinamik doldurulur -->
                   </select>
                 </div>
               </div>
+
             </div>
 
             <!-- Zekat Sonuç Alanı -->
             <div class="mt-5 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 grid grid-cols-2 gap-2 text-center">
               <div class="border-r border-emerald-500/20 pr-2">
-                <span class="text-[11px] text-slate-400 block font-medium">Ödenecek Zekat (Gram)</span>
-                <span id="zekatResultGram" class="text-base sm:text-lg font-mono font-bold text-emerald-400">0,00 gr</span>
+                <span class="text-[11px] text-slate-400 block font-medium">Hesaplanan Portföy Tutarı</span>
+                <span id="zekatBaseTL" class="text-sm sm:text-base font-mono font-bold text-slate-200">0,00 TL</span>
               </div>
               <div class="pl-2">
-                <span class="text-[11px] text-slate-400 block font-medium">Ödenecek Zekat (TL)</span>
-                <span id="zekatResultTL" class="text-base sm:text-lg font-mono font-bold text-brand-400">0,00 TL</span>
+                <span class="text-[11px] text-slate-400 block font-medium">Ödenecek Zekat (1/40)</span>
+                <span id="zekatResultTL" class="text-base sm:text-lg font-mono font-extrabold text-emerald-400">0,00 TL</span>
               </div>
             </div>
           </div>
@@ -284,7 +299,7 @@
     }
 
     const DAYS = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
-    const MONTHS = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+    const MONTHS = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylul", "Ekim", "Kasım", "Aralık"];
     function updateClock() {
       const now = new Date();
       document.getElementById('tarih_alan').innerText = `${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}, ${DAYS[now.getDay()]}`;
@@ -367,7 +382,6 @@
           updateCalcDropdowns();
           updateZekatDropdown();
           runPortfolioCalc();
-          calculateZekat();
         }
 
         const timeSource = response?.meta?.time ? new Date(response.meta.time) : new Date();
@@ -470,9 +484,24 @@
     }
 
     /* -------------------------------------------------------------
-       HESAPLAMA ARAÇLARI MANTIĞI (DİNAMİK SEPET + ZEKAT 1/40)
+       GELİŞMİŞ SEPET & OTOMATİK ZEKAT HESAPLAMA SİSTEMİ
     ------------------------------------------------------------- */
     let calcRowCount = 0;
+    let activeCalcMode = 'satis'; // 'satis' veya 'alis'
+    let activeZekatSource = 'sepet'; // 'sepet' veya 'gram'
+
+    function setCalcMode(mode) {
+      activeCalcMode = mode;
+      document.getElementById('btnModeSatis').className = mode === 'satis' 
+        ? "px-2.5 py-1 rounded-lg font-bold transition-all bg-brand-500 text-white" 
+        : "px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white";
+      
+      document.getElementById('btnModeAlis').className = mode === 'alis' 
+        ? "px-2.5 py-1 rounded-lg font-bold transition-all bg-emerald-500 text-white" 
+        : "px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white";
+
+      runPortfolioCalc();
+    }
 
     function addCalcRow() {
       calcRowCount++;
@@ -522,21 +551,49 @@
       });
     }
 
+    let globalCalcTotalAlis = 0;
+    let globalCalcTotalSatis = 0;
+
     function runPortfolioCalc() {
       const qtyInputs = document.querySelectorAll('.calc-qty');
       const selects = document.querySelectorAll('.calc-select');
-      let grandTotal = 0;
+      
+      globalCalcTotalAlis = 0;
+      globalCalcTotalSatis = 0;
 
       qtyInputs.forEach((input, index) => {
         const qty = parseFloat(input.value) || 0;
         const code = selects[index]?.value;
         if (code && globalDataCache[code]) {
-          const price = parseFloat(globalDataCache[code].satis) || parseFloat(globalDataCache[code].alis) || 0;
-          grandTotal += qty * price;
+          const alisPrice = parseFloat(globalDataCache[code].alis) || 0;
+          const satisPrice = parseFloat(globalDataCache[code].satis) || 0;
+
+          globalCalcTotalAlis += qty * alisPrice;
+          globalCalcTotalSatis += qty * satisPrice;
         }
       });
 
-      document.getElementById('calcTotalPrice').innerText = fmt(grandTotal) + ' TL';
+      document.getElementById('calcTotalAlisPrice').innerText = fmt(globalCalcTotalAlis) + ' TL';
+      document.getElementById('calcTotalSatisPrice').innerText = fmt(globalCalcTotalSatis) + ' TL';
+
+      calculateZekat();
+    }
+
+    function setZekatSource(source) {
+      activeZekatSource = source;
+      const gramArea = document.getElementById('zekatGramArea');
+
+      if (source === 'sepet') {
+        document.getElementById('btnZekatSepet').className = "py-2 px-3 rounded-xl text-xs font-bold bg-emerald-500 text-white border border-emerald-500 transition-all";
+        document.getElementById('btnZekatGram').className = "py-2 px-3 rounded-xl text-xs font-bold bg-dark-bg text-slate-400 border border-dark-border hover:text-white transition-all";
+        gramArea.classList.add('hidden');
+      } else {
+        document.getElementById('btnZekatGram').className = "py-2 px-3 rounded-xl text-xs font-bold bg-emerald-500 text-white border border-emerald-500 transition-all";
+        document.getElementById('btnZekatSepet').className = "py-2 px-3 rounded-xl text-xs font-bold bg-dark-bg text-slate-400 border border-dark-border hover:text-white transition-all";
+        gramArea.classList.remove('hidden');
+      }
+
+      calculateZekat();
     }
 
     function updateZekatDropdown() {
@@ -554,22 +611,26 @@
       select.innerHTML = html;
     }
 
-    // ZEKAT HESAPLAMA (Tam 40 Gramda 1 Gram = 1/40 Oranı)
+    // ZEKAT HESAPLAMA (1/40 ORANI = %2.5)
     function calculateZekat() {
-      const totalGrams = parseFloat(document.getElementById('zekatGramInput').value) || 0;
-      const selectedCode = document.getElementById('zekatGoldSelect').value || 'ALTIN';
+      let baseTL = 0;
 
-      // 40'ta 1 Hesabı (1 / 40)
-      const zekatGram = totalGrams / 40;
+      if (activeZekatSource === 'sepet') {
+        baseTL = activeCalcMode === 'satis' ? globalCalcTotalSatis : globalCalcTotalAlis;
+      } else {
+        const totalGrams = parseFloat(document.getElementById('zekatGramInput').value) || 0;
+        const selectedCode = document.getElementById('zekatGoldSelect').value || 'ALTIN';
+        let goldPrice = 0;
 
-      let goldPrice = 0;
-      if (globalDataCache[selectedCode]) {
-        goldPrice = parseFloat(globalDataCache[selectedCode].satis) || parseFloat(globalDataCache[selectedCode].alis) || 0;
+        if (globalDataCache[selectedCode]) {
+          goldPrice = parseFloat(globalDataCache[selectedCode].satis) || parseFloat(globalDataCache[selectedCode].alis) || 0;
+        }
+        baseTL = totalGrams * goldPrice;
       }
 
-      const zekatTL = zekatGram * goldPrice;
+      const zekatTL = baseTL / 40; // 40'ta 1 Hesabı
 
-      document.getElementById('zekatResultGram').innerText = fmt(zekatGram) + ' gr';
+      document.getElementById('zekatBaseTL').innerText = fmt(baseTL) + ' TL';
       document.getElementById('zekatResultTL').innerText = fmt(zekatTL) + ' TL';
     }
 
@@ -581,7 +642,7 @@
         document.getElementById('themeIcon').innerText = '🌙';
       }
 
-      // İlk varsayılan sepet satırını ekle
+      // Varsayılan hesap satırlarını başlat
       addCalcRow();
 
       connectSocket();
