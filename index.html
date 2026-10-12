@@ -160,7 +160,7 @@
         <p class="text-sm font-semibold tracking-wide">Piyasa Terminali Verileri Yükleniyor...</p>
       </div>
 
-      <!-- MASTER TABLE (TAM GENİŞLİK) -->
+      <!-- MASTER TABLE -->
       <div id="mainContent" class="hidden space-y-8">
         
         <div class="bg-dark-card rounded-2xl border border-dark-border overflow-hidden card-bg shadow-2xl">
@@ -178,10 +178,10 @@
           </div>
         </div>
 
-        <!-- FİNANSAL ARAÇLAR GRID (HESAPLAMA VE ZEKAT) -->
+        <!-- FİNANSAL ARAÇLAR GRID -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
-          <!-- 1. SEPET HESAPLAMA ARACI (ALIŞ / SATIŞ AYRI) -->
+          <!-- 1. SEPET HESAPLAMA ARACI -->
           <div class="bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4 border-b border-dark-border pb-3">
@@ -189,14 +189,12 @@
                   <i class="bi bi-calculator"></i> Portföy / Sepet Hesaplama
                 </h3>
                 
-                <!-- Alış / Satış Türü Seçimi -->
                 <div class="flex items-center bg-dark-bg p-1 rounded-xl border border-dark-border text-xs">
                   <button onclick="setCalcMode('satis')" id="btnModeSatis" class="px-2.5 py-1 rounded-lg font-bold transition-all bg-brand-500 text-white">Satış (Satın Alma)</button>
                   <button onclick="setCalcMode('alis')" id="btnModeAlis" class="px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white">Alış (Bozdurma)</button>
                 </div>
               </div>
 
-              <!-- Dinamik Ürün Satırları -->
               <div id="calcRowsContainer" class="space-y-3 mb-4"></div>
 
               <button onclick="addCalcRow()" class="w-full py-2 border border-dashed border-brand-500/50 text-brand-400 hover:bg-brand-500/10 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2">
@@ -204,7 +202,6 @@
               </button>
             </div>
 
-            <!-- Toplam Alış ve Satış Tutar Alanı -->
             <div class="mt-5 p-4 rounded-xl bg-dark-bg/60 border border-dark-border space-y-2">
               <div class="flex items-center justify-between">
                 <span class="text-xs text-slate-400 font-medium">Toplam Bozdurma Tutarı (Alış)</span>
@@ -217,7 +214,7 @@
             </div>
           </div>
 
-          <!-- 2. ZEKAT HESAPLAMA ARACI (SEPET ENTEGRELİ & 1/40 ORANI) -->
+          <!-- 2. ZEKAT HESAPLAMA ARACI -->
           <div class="bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4 border-b border-dark-border pb-3">
@@ -231,7 +228,6 @@
                 Nisap miktarını aşan varlığınızın verilmesi gereken zekat miktarı **40'ta 1 (%2.5)** esasına göre hesaplanır.
               </p>
 
-              <!-- Mod Seçimi -->
               <div class="grid grid-cols-2 gap-2 mb-4">
                 <button onclick="setZekatSource('sepet')" id="btnZekatSepet" class="py-2 px-3 rounded-xl text-xs font-bold bg-emerald-500 text-white border border-emerald-500 transition-all">
                   Sepet Toplamına Göre
@@ -241,7 +237,6 @@
                 </button>
               </div>
 
-              <!-- Manuel Gram Giriş Alanları -->
               <div id="zekatGramArea" class="hidden space-y-3 mb-3">
                 <div>
                   <label class="text-xs font-semibold text-slate-300 mb-1 block">Toplam Altın Varlığınız (Gram)</label>
@@ -258,7 +253,6 @@
 
             </div>
 
-            <!-- Zekat Sonuç Alanı -->
             <div class="mt-5 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 grid grid-cols-2 gap-2 text-center">
               <div class="border-r border-emerald-500/20 pr-2">
                 <span class="text-[11px] text-slate-400 block font-medium">Hesaplanan Portföy Tutarı</span>
@@ -484,7 +478,7 @@
     }
 
     /* -------------------------------------------------------------
-       GELİŞMİŞ SEPET & SIFIRLANMAYAN HESAPLAMA SİSTEMİ
+       GELİŞMİŞ SEPET & TAM LİSTE KORUMALI HESAPLAMA SİSTEMİ
     ------------------------------------------------------------- */
     let calcRowCount = 0;
     let activeCalcMode = 'satis';
@@ -533,28 +527,28 @@
       }
     }
 
-    // Seçimlerin ve Ürün Listesinin Korunduğu Dropdown Doldurucu
+    // Tüm Ürünlerin Eksiksiz Basıldığı ve Seçimin Korunduğu Fonksiyon
     function updateCalcDropdowns() {
-      const selects = document.querySelectorAll('.calc-select');
       const keys = Object.keys(globalDataCache);
       if (keys.length === 0) return;
 
+      // HTML stringini bir kez oluştur
+      let optionsHtml = '';
+      keys.forEach(k => {
+        optionsHtml += `<option value="${k}">${cleanDisplayName(k)}</option>`;
+      });
+
+      const selects = document.querySelectorAll('.calc-select');
       selects.forEach(select => {
         const selectedValue = select.value;
-        const optionCount = select.children.length;
-
-        // Eğer liste henüz doldurulmamışsa veya eleman sayısı eksikse doldur
-        if (optionCount !== keys.length) {
-          let html = '';
-          keys.forEach(k => {
-            html += `<option value="${k}">${cleanDisplayName(k)}</option>`;
-          });
-          select.innerHTML = html;
-
-          // Önceden seçili olan değeri koru, yoksa ilk elemanı seç
-          if (selectedValue && globalDataCache[selectedValue]) {
-            select.value = selectedValue;
-          }
+        // Her select elemanını güncel tam liste ile yenile
+        select.innerHTML = optionsHtml;
+        
+        // Kullanıcının daha önce seçtiği ürün varsa onu koru
+        if (selectedValue && globalDataCache[selectedValue]) {
+          select.value = selectedValue;
+        } else if (select.children.length > 0) {
+          select.selectedIndex = 0;
         }
       });
     }
@@ -607,7 +601,7 @@
 
     function updateZekatDropdown() {
       const select = document.getElementById('zekatGoldSelect');
-      if (select.children.length > 0) return;
+      if (!select || select.children.length > 0) return;
 
       const keys = Object.keys(globalDataCache);
       let html = '';
