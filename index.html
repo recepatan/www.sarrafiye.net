@@ -361,6 +361,7 @@
     const throttleInterval = 5000;
     const previousPrices = {};
     let globalDataCache = {};
+    let calcDropdownsLoaded = false;
 
     function connectSocket() {
       socket = io.connect('wss://socket.sarrafiye.net', { transports: ["websocket"] });
@@ -393,8 +394,14 @@
         if (dataObj) {
           globalDataCache = dataObj;
           renderMasterTable(globalDataCache);
-          updateCalcDropdowns();
-          updateZekatDropdown();
+
+          // Sadece ilk WebSocket paketinde seçeneği yükle, bir daha select'i baştan çizme!
+          if (!calcDropdownsLoaded && Object.keys(globalDataCache).length > 0) {
+            updateCalcDropdownsOnce();
+            updateZekatDropdown();
+            calcDropdownsLoaded = true;
+          }
+
           runPortfolioCalc();
         }
 
@@ -498,7 +505,7 @@
     }
 
     /* -------------------------------------------------------------
-       KUSURSUZ SEPET & TAM LİSTE PORTFÖY HESAPLAMA MOTORU
+       SABİTLENMİŞ VE KORUNAN SEPET MANTIĞI
     ------------------------------------------------------------- */
     let calcRowCount = 0;
     let activeCalcMode = 'satis';
@@ -549,27 +556,26 @@
       }
     }
 
+    // Yalnızca boş elemanlara ürünleri yükler
     function fillSelectWithOptions(selectEl) {
       const keys = Object.keys(globalDataCache);
       if (keys.length === 0) return;
 
-      const currentVal = selectEl.value;
       let optionsHtml = '';
       keys.forEach(k => {
         optionsHtml += `<option value="${k}">${cleanDisplayName(k)}</option>`;
       });
 
       selectEl.innerHTML = optionsHtml;
-      
-      if (currentVal && globalDataCache[currentVal]) {
-        selectEl.value = currentVal;
-      }
     }
 
-    function updateCalcDropdowns() {
+    // Sadece ilk yüklemede çağrılan tek seferlik doldurucu
+    function updateCalcDropdownsOnce() {
       const selects = document.querySelectorAll('.calc-select');
       selects.forEach(select => {
-        fillSelectWithOptions(select);
+        if (select.children.length === 0) {
+          fillSelectWithOptions(select);
+        }
       });
     }
 
