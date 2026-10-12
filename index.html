@@ -13,6 +13,7 @@
   <!-- Bootstrap & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
@@ -25,6 +26,7 @@
       --text-muted: #94a3b8;
       --row-hover: #1e293b;
       --border-color: rgba(255, 255, 255, 0.08);
+      --badge-bg: rgba(217, 119, 6, 0.15);
     }
 
     body.light-mode {
@@ -35,6 +37,7 @@
       --text-muted: #64748b;
       --row-hover: #f1f5f9;
       --border-color: #e2e8f0;
+      --badge-bg: rgba(217, 119, 6, 0.1);
     }
 
     *, *::before, *::after {
@@ -48,21 +51,21 @@
       min-height: 100vh;
       background: var(--bg-color);
       color: var(--text-color);
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
       display: flex;
       flex-direction: column;
       transition: background 0.3s, color 0.3s;
     }
 
-    /* Üst Navigasyon - Uyumlu ve Sabit */
+    /* Üst Navigasyon */
     nav {
       background: var(--card-bg);
       border-bottom: 2px solid var(--border);
-      padding: 10px 20px;
+      padding: 12px 24px;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
 
     .nav-container {
@@ -81,7 +84,7 @@
     }
 
     .logo-text {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       font-weight: 800;
       color: var(--text-color);
       text-decoration: none;
@@ -93,10 +96,11 @@
     .theme-bar {
       display: flex;
       gap: 6px;
-      background: rgba(128, 128, 128, 0.15);
-      padding: 4px 8px;
+      background: var(--badge-bg);
+      padding: 4px 10px;
       border-radius: 20px;
       align-items: center;
+      border: 1px solid var(--border-color);
     }
 
     .dot {
@@ -114,67 +118,86 @@
       border: none;
       color: var(--text-color);
       cursor: pointer;
-      font-size: 15px;
+      font-size: 16px;
       padding: 0 4px;
     }
 
     .header-right {
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      line-height: 1.2;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .time-box {
+      text-align: right;
+      line-height: 1.3;
     }
 
     #tarih_alan {
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--text-muted);
-      white-space: nowrap;
     }
 
-    .time-wrapper {
+    .live-badge-wrapper {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
     #fiyat_zaman_doviz {
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       color: var(--main);
-      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
     }
 
-    /* Ana Düzen: Masaüstü 2/3 Tablo, 1/3 Sidebar */
+    /* Ana Düzen */
     .main-container {
       max-width: 1400px;
       width: 100%;
-      margin: 20px auto;
-      padding: 0 15px;
+      margin: 24px auto;
+      padding: 0 20px;
       flex: 1;
       display: flex;
-      gap: 20px;
+      gap: 24px;
     }
 
     .content-column {
       flex: 2;
       min-width: 0;
-    }
-
-    .sidebar-column {
-      flex: 1;
-      min-width: 280px;
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
 
-    .table-card {
+    .sidebar-column {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Tablo Bölümleri */
+    .table-section-card {
       background: var(--table-bg);
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       overflow: hidden;
       border: 1px solid var(--border-color);
+    }
+
+    .section-header {
+      background: rgba(217, 119, 6, 0.08);
+      padding: 12px 18px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--main);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .market-table {
@@ -186,17 +209,17 @@
     .market-table th {
       background: var(--main);
       color: #fff;
-      padding: 12px 16px;
-      font-size: 0.95rem;
+      padding: 10px 18px;
+      font-size: 0.85rem;
       font-weight: 700;
+      text-transform: uppercase;
       letter-spacing: 0.5px;
-      border-bottom: 3px solid var(--border);
     }
 
     .market-table td {
-      padding: 12px 16px;
+      padding: 12px 18px;
       color: var(--text-color);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       border-bottom: 1px solid var(--border-color);
       vertical-align: middle;
@@ -215,13 +238,15 @@
     .market-table td:nth-child(2),
     .market-table td:nth-child(3) {
       text-align: right;
-      width: 130px;
+      width: 140px;
+      font-variant-numeric: tabular-nums;
     }
 
     .val-alis { color: #3b82f6 !important; font-weight: 700; }
+    body.light-mode .val-alis { color: #1d4ed8 !important; }
     .val-satis { color: var(--main) !important; font-weight: 700; }
 
-    /* Fiyat Değişim Yanıp Sönme (Flash) Animasyonları */
+    /* Fiyat Flash Animasyonları */
     @keyframes flash-green {
       0% { background-color: rgba(22, 163, 74, 0.35); }
       100% { background-color: transparent; }
@@ -230,75 +255,77 @@
       0% { background-color: rgba(220, 38, 38, 0.35); }
       100% { background-color: transparent; }
     }
-
     .price-up { animation: flash-green 1s ease; }
     .price-down { animation: flash-red 1s ease; }
 
     /* Sidebar Kartları */
     .sidebar-card {
       background: var(--card-bg);
-      border-radius: 12px;
-      padding: 20px;
+      border-radius: 14px;
+      padding: 22px;
       border: 1px solid var(--border-color);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
     }
 
     .sidebar-card h3 {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       margin-bottom: 12px;
       color: var(--main);
       border-bottom: 2px solid var(--border-color);
       padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .sidebar-card p {
       font-size: 0.9rem;
       color: var(--text-muted);
-      line-height: 1.5;
+      line-height: 1.6;
       margin-bottom: 0;
     }
 
-    /* Yüklenme ve Durum Alanı */
+    /* Yüklenme */
     .status-box {
       text-align: center;
-      padding: 60px;
+      padding: 80px;
       font-size: 1.1rem;
       color: var(--text-muted);
     }
 
-    /* Kayan Yazı / Duyuru */
+    /* Kayan Yazı */
     .ticker-bar {
       background: var(--card-bg);
       border-top: 1px solid var(--border-color);
       border-bottom: 1px solid var(--border-color);
       color: var(--text-color);
-      padding: 10px 0;
+      padding: 12px 0;
       font-weight: 600;
       font-size: 0.9rem;
     }
 
-    /* Footer */
     footer {
       background: var(--card-bg);
       color: var(--text-muted);
       text-align: center;
-      padding: 15px;
+      padding: 18px;
       font-size: 0.85rem;
       border-top: 1px solid var(--border-color);
     }
 
-    /* Mobil Uyumluluk: Sidebar Aşağı Kayar */
+    /* Mobil Uyum */
     @media (max-width: 992px) {
       .main-container {
         flex-direction: column;
-        margin: 10px auto;
+        margin: 12px auto;
         padding: 0 10px;
       }
       .content-column, .sidebar-column {
         flex: none;
         width: 100%;
       }
+      nav { padding: 10px 15px; }
       .market-table th, .market-table td {
         padding: 10px 12px;
         font-size: 0.9rem;
@@ -307,7 +334,7 @@
       .market-table th:nth-child(3),
       .market-table td:nth-child(2),
       .market-table td:nth-child(3) {
-        width: 110px;
+        width: 115px;
       }
     }
   </style>
@@ -317,7 +344,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
 
-  <!-- Navigasyon Barı -->
+  <!-- Üst Navigasyon -->
   <nav>
     <div class="nav-container">
       <div class="logo-area">
@@ -331,46 +358,61 @@
         </div>
       </div>
       <div class="header-right">
-        <div id="tarih_alan">--.--.----</div>
-        <div class="time-wrapper">
-          <span id="connection_status_icon" title="Canlı Bağlantı" style="color: #16a34a; font-size: 12px;"><i class="bi bi-wifi"></i></span>
-          <div id="fiyat_zaman_doviz">00:00:00</div>
+        <div class="time-box">
+          <div id="tarih_alan">--.--.----</div>
+          <div class="live-badge-wrapper justify-content-end">
+            <span id="connection_status_icon" title="Canlı Bağlantı" style="color: #16a34a; font-size: 10px;"><i class="bi bi-circle-fill"></i></span>
+            <div id="fiyat_zaman_doviz">00:00:00</div>
+          </div>
         </div>
       </div>
     </div>
   </nav>
 
-  <!-- Ana İçerik Konteynırı (2/3 Tablo, 1/3 Sidebar) -->
+  <!-- Ana İçerik Konteynırı -->
   <main class="main-container">
     <div id="status" class="status-box">Canlı piyasa verileri yükleniyor...</div>
     
-    <!-- Sol Sütun: Tablo (2/3) -->
+    <!-- Sol Sütun: Akıllı Gruplandırılmış Tablolar (2/3) -->
     <div class="content-column" id="content-column" style="display: none;">
-      <div class="table-card">
+      
+      <!-- Kategori 1: Altın & Ziynet -->
+      <div class="table-section-card">
+        <div class="section-header"><i class="bi bi-gem"></i> Altın & Ziynet Ürünleri</div>
         <table class="market-table">
-          <thead>
-            <tr>
-              <th>PİYASA & ÜRÜN ADI</th>
-              <th>ALIŞ (TL)</th>
-              <th>SATIŞ (TL)</th>
-            </tr>
-          </thead>
-          <tbody id="singleTableBody">
-            <!-- Dinamik satırlar -->
-          </tbody>
+          <thead><tr><th>Ürün Adı</th><th>Alış (TL)</th><th>Satış (TL)</th></tr></thead>
+          <tbody id="groupAltinBody"></tbody>
         </table>
       </div>
+
+      <!-- Kategori 2: Döviz Kurları -->
+      <div class="table-section-card">
+        <div class="section-header"><i class="bi bi-currency-exchange"></i> Döviz Kurları</div>
+        <table class="market-table">
+          <thead><tr><th>Döviz Birimi</th><th>Alış (TL)</th><th>Satış (TL)</th></tr></thead>
+          <tbody id="groupDovizBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Kategori 3: Kıymetli Madenler & Ons -->
+      <div class="table-section-card">
+        <div class="section-header"><i class="bi bi-bar-chart-line"></i> Kıymetli Madenler & Uluslararası Piyasalar</div>
+        <table class="market-table">
+          <thead><tr><th>Enstrüman</th><th>Alış</th><th>Satış</th></tr></thead>
+          <tbody id="groupPiyasaBody"></tbody>
+        </table>
+      </div>
+
     </div>
 
-    <!-- Sağ Sütun: Sidebar / Reklam & Bilgi (1/3 - Mobilde Alta Kayar) -->
+    <!-- Sağ Sütun: Sidebar (1/3) -->
     <div class="sidebar-column" id="sidebar-column" style="display: none;">
       <div class="sidebar-card">
-        <h3>Piyasa Özeti</h3>
-        <p>Sarrafiye.net üzerinden serbest piyasa ve kapalıçarşı altın, döviz ve sarrafiye verilerini anlık ve kesintisiz takip edebilirsiniz.</p>
+        <h3><i class="bi bi-info-circle"></i> Piyasa Özeti</h3>
+        <p>Sarrafiye.net üzerinden serbest piyasa, Kapalıçarşı ve uluslararası piyasalardaki canlı altın, döviz ve sarrafiye verilerini anlık ve kesintisiz takip edebilirsiniz.</p>
       </div>
-      <div class="sidebar-card" style="text-align: center; min-height: 250px; display: flex; align-items: center; justify-content: center;">
-        <!-- Reklam / Widget Alanı -->
-        <span style="color: var(--text-muted); font-size: 0.85rem;">[ Reklam / Alan ]</span>
+      <div class="sidebar-card" style="text-align: center; min-height: 280px; display: flex; align-items: center; justify-content: center; border: 2px dashed var(--border-color);">
+        <span style="color: var(--text-muted); font-size: 0.85rem;"><i class="bi bi-badge-ad"></i> Reklam / Sponsor Alanı</span>
       </div>
     </div>
   </main>
@@ -418,8 +460,20 @@
 
     let socket = null;
     let lastRenderTime = 0;
-    const throttleInterval = 5000; // 5 saniyede bir veri işleme ve güncelleme sınırı
-    const previousPrices = {}; // Fiyat değişimlerini takip için
+    const throttleInterval = 5000; // 5 saniyede bir güncelleme
+    const previousPrices = {};
+
+    function cleanDisplayName(code) {
+      return code
+        .replace(/_/g, ' ')
+        .replace('YENI', '(Yeni)')
+        .replace('ESKI', '(Eski)')
+        .replace('KULCEALTIN', 'Külçe Altın')
+        .replace('GUMUSTRY', 'Gümüş (TL)')
+        .replace('GUMUSUSD', 'Gümüş (USD)')
+        .replace('PLATIN', 'Platin')
+        .replace('PALADYUM', 'Paladyum');
+    }
 
     function connectSocket() {
       socket = io.connect('wss://socket.sarrafiye.net', { transports: ["websocket"] });
@@ -427,7 +481,7 @@
       socket.on('connect', () => {
         document.getElementById('connection_status_icon').style.color = '#16a34a';
         document.getElementById('status').style.display = 'none';
-        document.getElementById('content-column').style.display = 'block';
+        document.getElementById('content-column').style.display = 'flex';
         document.getElementById('sidebar-column').style.display = 'flex';
       });
 
@@ -445,7 +499,6 @@
 
     function handleSocketData(response) {
       const now = Date.now();
-      // 5 saniyede bir güncelleme filtresi (Throttling)
       if (now - lastRenderTime < throttleInterval) return;
       lastRenderTime = now;
 
@@ -460,7 +513,7 @@
         }
 
         if (dataObj) {
-          renderSingleTable(dataObj);
+          renderCategorizedTables(dataObj);
         }
 
         const timeSource = response?.meta?.time ? new Date(response.meta.time) : new Date();
@@ -470,11 +523,13 @@
       }
     }
 
-    function renderSingleTable(dataObj) {
-      const tbody = document.getElementById('singleTableBody');
+    function renderCategorizedTables(dataObj) {
+      const altinBody = document.getElementById('groupAltinBody');
+      const dovizBody = document.getElementById('groupDovizBody');
+      const piyasaBody = document.getElementById('groupPiyasaBody');
 
       document.getElementById('status').style.display = 'none';
-      document.getElementById('content-column').style.display = 'block';
+      document.getElementById('content-column').style.display = 'flex';
       document.getElementById('sidebar-column').style.display = 'flex';
 
       Object.keys(dataObj).forEach(code => {
@@ -492,20 +547,28 @@
         let satisCellId = `satis-${code}`;
         let tr = document.getElementById(rowId);
 
+        // Hangi kategoriye ait olduğunu belirle
+        let targetBody = altinBody;
+        if (code.includes('TRY') || code.includes('USD') || code.includes('EUR') || code.includes('GBP') || code.includes('CHF') || code.includes('CAD') || code.includes('AUD') || code.includes('JOD') || code.includes('KWD') || code.includes('SAR') || code.includes('OMR') || code.includes('QAR') || code.includes('JPY') || code.includes('MAD') || code.includes('ILS') || code.includes('ILS') || code.length === 3 && !['ONS', 'ALTिन'].includes(code)) {
+          targetBody = dovizBody;
+        }
+        if (code.includes('ONS') || code.includes('XAU') || code.includes('XAG') || code.includes('XPT') || code.includes('XPD') || code.includes('GUMUS') || code.includes('PLATIN') || code.includes('PALADYUM')) {
+          targetBody = piyasaBody;
+        }
+
         if (!tr) {
           tr = document.createElement('tr');
           tr.id = rowId;
           tr.innerHTML = `
-            <td><strong>${code}</strong></td>
+            <td><strong>${cleanDisplayName(code)}</strong></td>
             <td class="val-alis" id="${alisCellId}">${formattedAlis}</td>
             <td class="val-satis" id="${satisCellId}">${formattedSatis}</td>
           `;
-          tbody.appendChild(tr);
+          targetBody.appendChild(tr);
         } else {
           const alisEl = document.getElementById(alisCellId);
           const satisEl = document.getElementById(satisCellId);
 
-          // Alış Fiyatı Animasyon Kontrolü (Up/Down)
           if (!isNaN(alis) && previousPrices[alisCellId] !== undefined) {
             if (alis > previousPrices[alisCellId]) {
               alisEl.classList.remove('price-up', 'price-down');
@@ -518,7 +581,6 @@
             }
           }
 
-          // Satış Fiyatı Animasyon Kontrolü (Up/Down)
           if (!isNaN(satis) && previousPrices[satisCellId] !== undefined) {
             if (satis > previousPrices[satisCellId]) {
               satisEl.classList.remove('price-up', 'price-down');
@@ -547,7 +609,7 @@
         document.body.classList.remove('dark-mode');
         document.getElementById('dark_toggle_btn').innerText = '🌙';
       } else {
-        document.body.classList.add('light-mode'); // Varsayılan şık açık tema
+        document.body.classList.add('light-mode');
         document.body.classList.remove('dark-mode');
       }
 
