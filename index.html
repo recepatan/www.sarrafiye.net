@@ -1,181 +1,715 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sarrafiye.net - Canlı Piyasa Verileri</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="content-language" content="tr">
+  <title id="pageMetaTitle">Bingöl Altın Fiyatları</title>
+  <link href="https://bingol.sarrafiye.net/favicon.ico" rel="icon" type="image/x-icon"/>
+  <link href="https://bingol.sarrafiye.net/" rel="canonical"/>
+  <meta content="#fd3a13" name="theme-color"/>
+  <meta content="Bingöl kuyumcu esnaflarından derlenen Bingöl Canlı Altın Fiyatları için web sitemizi ziyaret edebilirsiniz." id="metaDescription" name="description"/>
+  <meta property="og:locale" content="tr_TR"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" id="ogTitle" content="Bingöl Canlı Altın Fiyatları"/>
+  <meta property="og:description" id="ogDescription" content="Bingöl kuyumcu esnafından derlenen Bingöl Canlı Altın Fiyatları için web sitemizi ziyaret edebilirsiniz."/>
+  <meta property="og:url" id="ogUrl" content="https://bingol.sarrafiye.net/"/>
+  <meta property="og:site_name" content="Bingöl Altın Fiyatları"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" id="twitterTitle" content="Bingöl Canlı Altın Fiyatları"/>
+  <meta name="twitter:domain" content="bingol.sarrafiye.net"/>
+  <meta name="twitter:description" id="twitterDescription" content="Bingöl kuyumcu esnafından derlenen Bingöl Canlı Altın Fiyatları için web sitemizi ziyaret edebilirsiniz."/>
+  
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    "name": "Bingöl Altın Fiyatları",
+    "url": "https://bingol.sarrafiye.net/",
+    "logo": "https://bingol.sarrafiye.net/favicon.ico",
+    "inLanguage": "tr-TR",
+    "description": "Bingöl Kuyumcular Derneği ve Bingöl kuyumcu esnaflarından derlenen canlı Bingöl Altın Fiyatları.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bingöl",
+      "addressRegion": "Bingöl",
+      "addressCountry": "TR"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "38.8854",
+      "longitude": "40.4981"
+    },
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "Bingöl"
+    }
+  }
+  </script>
+  
+  <!-- CSS Kaynakları -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <style>
+    .cookie-choices-info { display: none !important; }
     
-    <style>
-        :root {
-            --bg-color: #f4f6f8;
-            --card-bg: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --gold-primary: #d97706;
-            --border-color: #e5e7eb;
-            --green: #10b981;
-            --red: #ef4444;
-        }
+    :root {
+      --main: #008a07;
+      --border: #ffa500;
+      --bg-gradient: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+    }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        
-        header { background: #111827; color: #fff; padding: 15px 0; border-bottom: 3px solid var(--gold-primary); }
-        .header-content { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: 700; color: #fff; text-decoration: none; }
-        .logo span { color: var(--gold-primary); }
-        
-        .hero { background: #1f2937; color: #fff; text-align: center; padding: 30px 20px; margin-bottom: 25px; }
-        .hero h1 { font-size: 1.8rem; color: var(--gold-primary); }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .status-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .live-badge { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.9rem; color: var(--red); }
-        .live-dot { width: 10px; height: 10px; background: var(--red); border-radius: 50%; transition: background 0.3s; }
-        .live-badge.connected .live-dot { background: var(--green); box-shadow: 0 0 8px var(--green); }
-        .live-badge.connected { color: var(--green); }
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      overflow-x: hidden;
+      background: var(--bg-gradient);
+      color: #fff;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .price-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; margin-bottom: 40px; }
-        .price-card { background: var(--card-bg); border-radius: 8px; padding: 15px; border: 1px solid var(--border-color); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .price-card .title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px; border-bottom: 1px file #f3f4f6; border-bottom: 1px solid #f3f4f6; padding-bottom: 5px; text-transform: uppercase; }
-        .price-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px; }
-        .price-row .label { color: var(--text-muted); }
-        .price-row .val { font-weight: 700; }
+    @media (min-width: 769px) {
+      body { overflow: hidden; }
+      #box_grup3 { display: none !important; }
+      .mobile-footer { display: none !important; }
+      .mobile-extra-ad { display: none !important; }
+    }
 
-        footer { background: #111827; color: #9ca3af; padding: 20px 0; text-align: center; margin-top: 40px; font-size: 0.85rem; }
-    </style>
+    nav {
+      background: linear-gradient(180deg, var(--main) 0%, #000 100%);
+      min-height: 55px;
+      height: 7vh;
+      display: flex;
+      align-items: center;
+      padding: 0 5px;
+      z-index: 10;
+      flex-shrink: 0;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-img {
+      height: 35px;
+      cursor: pointer;
+    }
+
+    .theme-bar {
+      display: flex;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 5px 10px;
+      border-radius: 20px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #fff;
+    }
+
+    #tarih_alan {
+      font-size: clamp(13px, 1.3vw, 17px);
+      font-weight: 700;
+      color: #fff;
+    }
+
+    #fiyat_zaman_doviz {
+      font-size: clamp(15px, 1.6vw, 22px);
+      font-weight: 700;
+      color: var(--border);
+    }
+
+    /* Saat Yanıp Sönme Animasyonları */
+    @keyframes clock-flash-red { 
+      0% { color: #dc2626; font-weight: 900; }
+      50% { color: var(--border); font-weight: 700; }
+      75% { color: #dc2626; font-weight: 900; }
+      100% { color: var(--border); font-weight: 700; }
+    }
+    @keyframes clock-flash-green { 
+      0% { color: #16a34a; font-weight: 900; }
+      50% { color: var(--border); font-weight: 700; }
+      75% { color: #16a34a; font-weight: 900; }
+      100% { color: var(--border); font-weight: 700; }
+    }
+    .clock-update-red { animation: clock-flash-red 0.6s ease; }
+    .clock-update-green { animation: clock-flash-green 0.6s ease; }
+
+    /* Masaüstü Düzen */
+    .main-content {
+      flex: 1;
+      display: flex;
+      padding: 0;
+      gap: 1px;
+      max-width: 100%;
+      margin: 0 auto;
+      width: 100%;
+      height: calc(100vh - 95px);
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      height: 100%;
+    }
+
+    .kutu1, .kutu3 { flex: 34.5; }
+    .kutu2 { flex: 31; }
+
+    .kutu2 .table-container-box { flex: 0 0 auto; }
+
+    /* Ortak Reklam Konteyner Stili */
+    .ad-container-shared {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      flex: 1;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      min-height: 0;
+    }
+
+    @media (min-width: 769px) {
+      .ad-container-shared {
+        border: 2px solid var(--border);
+        background-color: #111827;
+      }
+      body:not(.dark-mode) .ad-container-shared {
+        background-color: #f8fafc !important;
+      }
+    }
+
+    .ad-container-shared ins.adm-ads-area,
+    .mobile-extra-ad ins.adm-ads-area {
+      position: relative !important;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 5 !important;
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #specialProductsContainerBox { flex: 4; }
+    #box_grup4 { flex: 7; }
+
+    .table-container-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 4px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .ayar-table, .has-table {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 6px;
+      overflow: hidden;
+      font-weight: 700;
+      table-layout: fixed;
+    }
+
+    .ayar-table th, .has-table th {
+      background: var(--main);
+      color: #fff;
+      text-align: left;
+      padding-left: 10px;
+      height: 32px;
+      vertical-align: middle;
+      font-size: 19px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .ayar-table td, .has-table td {
+      color: #000;
+      padding-left: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: middle;
+      line-height: 1.2;
+      font-size: 20px;
+    }
+
+    .ayar-table th:nth-child(2), .ayar-table th:nth-child(3),
+    .has-table th:nth-child(2), .has-table th:nth-child(3),
+    .ayar-table td:nth-child(2), .ayar-table td:nth-child(3),
+    .has-table td:nth-child(2), .has-table td:nth-child(3) {
+      text-align: center;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .ayar-table tbody tr, .has-table tbody tr {
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .ayar-table tbody tr:hover, .has-table tbody tr:hover {
+      background-color: #f1f5f9;
+    }
+
+    .ayar-table tbody tr.active-row, .has-table tbody tr.active-row {
+      background-color: #fef3c7 !important;
+    }
+
+    .ayar-table tbody tr.kur-row, .has-table tbody tr.kur-row {
+      background-color: #fffbeb;
+    }
+
+    .kayanyazi {
+      height: 40px;
+      background: var(--main);
+      color: #fff;
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 40px;
+      flex-shrink: 0;
+    }
+
+    .status-msg {
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+      font-size: 19px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 8px;
+      margin: auto;
+    }
+
+    .error-msg { color: #f87171; }
+
+    #dark_toggle_btn, .live-btn {
+      background: transparent;
+      border: none;
+      color: #fff;
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      text-decoration: none;
+    }
+
+    body.dark-mode .ayar-table, body.dark-mode .has-table {
+      background: #1e1e1e !important;
+    }
+
+    body.dark-mode .ayar-table td, body.dark-mode .has-table td {
+      color: #ffffff !important;
+    }
+
+    body.dark-mode .ayar-table tbody tr:hover, body.dark-mode .has-table tbody tr:hover {
+      background-color: #2a2a2a !important;
+    }
+
+    body.dark-mode .ayar-table tbody tr.active-row, body.dark-mode .has-table tbody tr.active-row {
+      background-color: #451a03 !important;
+    }
+
+    body.dark-mode .ayar-table tbody tr.kur-row, body.dark-mode .has-table tbody tr.kur-row {
+      background-color: #292524 !important;
+    }
+
+    /* Fiyat Animasyonları */
+    @keyframes text-flash-green { 
+      0% { color: #16a34a; font-weight: 800; }
+      50% { color: inherit; }
+      75% { color: #16a34a; font-weight: 800; }
+      100% { color: inherit; }
+    }
+    @keyframes text-flash-red { 
+      0% { color: #dc2626; font-weight: 800; }
+      50% { color: inherit; }
+      75% { color: #dc2626; font-weight: 900; }
+      100% { color: inherit; }
+    }
+    body.dark-mode .price-up { animation: text-flash-green 0.6s step-end; }
+    body.dark-mode .price-down { animation: text-flash-red 0.6s step-end; }
+
+    /* Mobil Düzen (<= 768px) */
+    @media only screen and (max-width: 768px) {
+      html, body {
+        height: auto;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+      }
+
+      nav { order: 1; }
+
+      .main-content {
+        flex-direction: column;
+        height: auto;
+        gap: 8px;
+        padding: 0;
+        overflow: visible;
+        order: 2;
+      }
+
+      #results {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+      }
+
+      .column { display: contents !important; }
+
+      .kutu2 > .table-container-box { order: 1; flex: auto !important; }
+      
+      .ad-container-shared { 
+        order: 2; 
+        width: 100% !important;
+        height: auto !important; 
+        padding: 0 !important;
+        flex: none !important; 
+        margin: 0 auto; 
+      }
+
+      #box_grup1 { order: 3; }
+      #box_grup2 { order: 4; }
+      #mobileAdSlot2 { order: 5; display: block; width: 100%; }
+
+      #box_grup3 { display: flex !important; order: 6; }
+      #box_grup4 { order: 7; }
+      #mobileAdSlot3 { order: 8; display: block; width: 100%; }
+
+      #specialProductsContainerBox { display: none !important; }
+
+      .kayanyazi { order: 10; margin: 0; }
+      .asistan-konteynir { order: 9; margin: 0; }
+      .mobile-footer { order: 11; }
+
+      .table-container-box, 
+      #specialProductsContainerBox, 
+      #box_grup4, 
+      #box_grup1, 
+      #box_grup2,
+      #box_grup3 {
+        height: auto !important;
+        min-height: auto !important;
+        flex: none !important;
+        padding: 2px !important;
+      }
+
+      .ayar-table th, .has-table th {
+        font-size: 17px !important;
+        padding: 2px 6px !important;
+        height: 24px !important;
+        line-height: 1.1 !important;
+      }
+
+      .ayar-table td, .has-table td {
+        font-size: 18px !important;
+        padding: 2px 6px !important;
+        height: 24px !important;
+        line-height: 1.1 !important;
+      }
+
+      .mobile-footer {
+        display: block;
+        padding: 15px 12px 120px 12px;
+        margin-top: 10px;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.25);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #b0b3b8;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      body:not(.dark-mode) .mobile-footer {
+        background: #f8f9fa;
+        border-top: 1px solid #dadce0;
+        color: #5f6368;
+      }
+
+      .mobile-footer-seo {
+        margin-bottom: 8px;
+      }
+
+      .mobile-footer-seo strong {
+        color: var(--border);
+      }
+
+      .mobile-footer-copy {
+        font-size: 11px;
+        font-weight: 600;
+        opacity: 0.8;
+      }
+    }
+  </style>
 </head>
-<body>
+<body class="dark-mode">
 
-    <header>
-        <div class="container header-content">
-            <a href="/" class="logo">Sarrafiye<span>.net</span></a>
+  <!-- Reklam Yükleyicileri -->
+  <ins data-publisher="adm-pub-7998141991" data-ad-network="68fb6b17eda7398bcea85b3c" data-ad-type-id="536142374" class="adm-ads-area"></ins>
+  <script type="text/javascript" src="https://static.cdn.admatic.com.tr/showad/showad.min.js"></script>
+
+  <script>
+    const adScript = document.createElement('script');
+    adScript.src = window.innerWidth < 768 ? "https://ad.adhouse.pro/283.js" : "https://ad.adhouse.pro/284.js";
+    document.body.appendChild(adScript);
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+
+  <!-- Navigasyon Barı -->
+  <nav>
+    <div style="width:100%; display:flex; justify-content:space-between; align-items:center;">
+      <div class="logo-area">
+        <img src="bingol-altin-fiyatlari.png" class="logo-img" onclick="location.reload()" alt="Bingöl Altın Fiyatları Logo">
+        <div class="theme-bar">
+          <a id="dinamik-arsiv-link" class="live-btn" href="#">
+            <i class="bi bi-graph-up-arrow me-1" style="color: var(--border);"></i>  
+          </a>
+          <button id="dark_toggle_btn" onclick="toggleDarkMode()">☀️</button>
+          <div class="dot" style="background:#008a07" onclick="setT('#008a07','#ffa500')"></div>
+          <div class="dot" style="background:#1a1a1a" onclick="setT('#1a1a1a','#d4af37')"></div>
+          <div class="dot" style="background:#b22222" onclick="setT('#b22222','#ffd700')"></div>
+          <div class="dot" style="background:#4b0082" onclick="setT('#4b0082','#da70d6')"></div>
+          <div class="dot" style="background:#444" onclick="setT('#444','#888')"></div>
         </div>
-    </header>
-
-    <section class="hero">
-        <div class="container">
-            <h1>Sarrafiye.net Canlı Piyasa Verileri</h1>
+      </div>
+      <div style="text-align:right">
+        <div id="tarih_alan">--.--.----</div>
+        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
+          <span id="connection_status_icon" title="Canlı Bağlantı Aktif" style="display: inline-block; color: #16a34a; font-size: 15px;"><i class="bi bi-wifi"></i></span>
+          <div id="fiyat_zaman_doviz">00:00:00</div>
         </div>
-    </section>
+      </div>
+    </div>
+  </nav>
 
-    <main class="container">
-        <div class="status-bar">
-            <h2>Piyasa Ekranı</h2>
-            <div class="live-badge" id="status-badge">
-                <div class="live-dot"></div>
-                <span id="status-text">Bağlanıyor...</span>
-            </div>
+  <!-- Ana İçerik Konteynırı -->
+  <div class="main-content">
+    <div id="status" class="status-msg">Canlı piyasa verileri bekleniyor...</div>
+    <div id="results" style="display: flex; width: 100%; height: 100%; gap: 1px;">
+   
+      <!-- KUTU 1 -->
+      <div class="column kutu1" id="kutu1_container">
+        <div class="table-container-box" id="box_grup1">
+          <table class="ayar-table">
+            <thead><tr><th>ALTIN & ÜRÜNLER</th><th>ALIŞ</th><th>SATIŞ</th></tr></thead>
+            <tbody id="grup1TableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- KUTU 2 -->
+      <div class="column kutu2" id="kutu2_container">
+        <div class="table-container-box">
+          <table class="has-table">
+            <thead><tr><th>PİYASA KURLARI</th><th>ALIŞ</th><th>SATIŞ</th></tr></thead>
+            <tbody id="marketTableBody"></tbody>
+          </table>
         </div>
 
-        <div id="price-grid" class="price-grid">
-            <div style="grid-column: 1/-1; text-align:center; padding: 40px; color: #6b7280;">WSS bağlantısı bekleniyor...</div>
+        <div class="ad-container-shared">
+          <ins data-publisher="adm-pub-7998141991" data-ad-network="68fb6b17eda7398bcea85b3c" data-ad-size="[[300, 250]]" class="adm-ads-area"></ins>
+          <script type="text/javascript" src="https://static.cdn.admatic.com.tr/showad/showad.min.js"></script>
         </div>
-    </main>
+      </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Sarrafiye.net - Tüm Hakları Saklıdır.</p>
+      <!-- KUTU 3 -->
+      <div class="column kutu3" id="kutu3_container">
+        <div class="table-container-box" id="specialProductsContainerBox">
+          <table class="has-table">
+            <thead><tr><th>DÖVİZ / ONS</th><th>ALIŞ</th><th>SATIŞ</th></tr></thead>
+            <tbody id="specialProductsTableBody"></tbody>
+          </table>
         </div>
-    </footer>
+      </div>
 
-    <script>
-        const grid = document.getElementById('price-grid');
-        const badge = document.getElementById('status-badge');
-        const statusText = document.getElementById('status-text');
+    </div>
+  </div>
 
-        // Tarayıcıdan doğrudan wss:// protokolü ile tünele bağlanma
-        // Not: Eğer worker alan adınız sarrafiye.net ise wss://sarrafiye.net/socket.io/?EIO=4&transport=websocket şeklinde socket.io tünel yolu kullanılır.
-        const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-        const wsUrl = protocol + window.location.host + '/socket.io/?EIO=4&transport=websocket';
+  <!-- Duyuru Alanı -->
+  <div class="kayanyazi"><marquee scrollamount="8" id="duyur">Sarrafiye.net Canlı Piyasa Sistemine Hoş Geldiniz.</marquee></div>
 
-        let ws;
+  <!-- JavaScript Kod Alanı -->
+  <script>
+    const nf2 = new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmt = n => isNaN(n) ? "0,00" : nf2.format(n);
 
-        function connectWSS() {
-            ws = new WebSocket(wsUrl);
+    function toggleDarkMode() {
+      const isDark = document.body.classList.toggle('dark-mode');
+      document.getElementById('dark_toggle_btn').innerText = isDark ? '☀️' : '🌙';
+      localStorage.setItem('gece_modu', isDark ? 'acik' : 'kapali');
+    }
 
-            ws.onopen = function() {
-                badge.classList.add('connected');
-                statusText.textContent = 'WSS Canlı Bağlantı Aktif';
-                console.log('WSS Bağlantısı kuruldu.');
-            };
+    function setT(mainColor, borderColor) {
+      document.documentElement.style.setProperty('--main', mainColor);
+      document.documentElement.style.setProperty('--border', borderColor);
+      localStorage.setItem('secilen_ana_renk', mainColor);
+      localStorage.setItem('secilen_kenar_renk', borderColor);
+    }
 
-            ws.onmessage = function(event) {
-                try {
-                    let textData = event.data;
-                    
-                    // Socket.IO Engine.IO paket formatı ayıklama (Genellikle ilk karakterler sayıdır, örn: 0{...} veya 42["price_changed", {...}])
-                    if (typeof textData === 'string') {
-                        // Eğer Socket.IO paket yapısındaysa (örn: 42["price_changed", ...]) uygun JSON kısmını yakalayalım
-                        const jsonStart = textData.indexOf('[');
-                        if (jsonStart !== -1) {
-                            const jsonStr = textData.substring(jsonStart);
-                            const parsedArray = JSON.parse(jsonStr);
-                            
-                            if (Array.isArray(parsedArray) && parsedArray[0] === 'price_changed') {
-                                const payload = parsedArray[1];
-                                const dataObj = (payload && payload.data) ? payload.data : payload;
-                                if (dataObj) renderPrices(dataObj);
-                            }
-                        }
-                    }
-                } catch (e) {
-                    // Ham JSON gelme ihtimaline karşı alternatif parse
-                    try {
-                        const rawJson = JSON.parse(event.data);
-                        if (rawJson) renderPrices(rawJson);
-                    } catch (err) {}
-                }
-            };
+    const DAYS = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+    const MONTHS = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
 
-            ws.onclose = function() {
-                badge.classList.remove('connected');
-                statusText.textContent = 'Bağlantı Koptu, Yeniden Deneniyor...';
-                setTimeout(connectWSS, 3000);
-            };
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('tarih_alan').innerText = `${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}, ${DAYS[now.getDay()]}`;
+    }
 
-            ws.onerror = function(err) {
-                console.error('WSS Hatası:', err);
-                ws.close();
-            };
+    let socket = null;
+    const prevPrices = new Map();
+
+    function connectSocket() {
+      // Doğrudan wss://socket.sarrafiye.net bağlantısı
+      socket = io.connect('wss://socket.sarrafiye.net', { transports: ["websocket"] });
+
+      socket.on('connect', () => {
+        document.getElementById('connection_status_icon').style.color = '#16a34a';
+        document.getElementById('connection_status_icon').title = 'Canlı Bağlantı Aktif';
+        document.getElementById('status').style.display = 'none';
+        document.getElementById('results').style.display = 'flex';
+      });
+
+      socket.on('disconnect', () => {
+        document.getElementById('connection_status_icon').style.color = '#dc2626';
+        document.getElementById('connection_status_icon').title = 'Bağlantı Kesildi';
+      });
+
+      socket.on('connect_error', () => {
+        document.getElementById('connection_status_icon').style.color = '#dc2626';
+      });
+
+      // Socket'ten gelen ham verileri dinle
+      socket.on('price_changed', handleSocketData);
+      socket.on('price_changes', handleSocketData);
+    }
+
+    function handleSocketData(response) {
+      try {
+        let dataObj = null;
+        if (response && response.data) {
+          dataObj = response.data;
+        } else if (Array.isArray(response) && response[1] && response[1].data) {
+          dataObj = response[1].data;
+        } else if (typeof response === 'object') {
+          dataObj = response;
         }
 
-        function renderPrices(dataObj) {
-            if (grid.querySelector('div') && grid.querySelector('div').style.gridColumn) {
-                grid.innerHTML = '';
-            }
-
-            Object.keys(dataObj).forEach(code => {
-                const item = dataObj[code];
-                if (!item) return;
-
-                let cardId = `card-${code}`;
-                let card = document.getElementById(cardId);
-
-                if (!card) {
-                    card = document.createElement('div');
-                    card.className = 'price-card';
-                    card.id = cardId;
-                    card.innerHTML = `
-                        <div class="title">${code}</div>
-                        <div class="price-row"><span class="label">Alış:</span><span class="val" id="val-alis-${code}">---</span></div>
-                        <div class="price-row"><span class="label">Satış:</span><span class="val" id="val-satis-${code}">---</span></div>
-                    `;
-                    grid.appendChild(card);
-                }
-
-                const alisEl = document.getElementById(`val-alis-${code}`);
-                const satisEl = document.getElementById(`val-satis-${code}`);
-
-                if (alisEl && item.alis !== undefined) alisEl.innerText = item.alis;
-                if (satisEl && item.satis !== undefined) satisEl.innerText = item.satis;
-            });
+        if (dataObj) {
+          renderDynamicPrices(dataObj);
         }
 
-        document.addEventListener('DOMContentLoaded', connectWSS);
-    </script>
+        if (response?.meta?.time) {
+          const d = new Date(response.meta.time);
+          document.getElementById('fiyat_zaman_doviz').innerText = d.toTimeString().split(' ')[0];
+        } else {
+          const now = new Date();
+          document.getElementById('fiyat_zaman_doviz').innerText = now.toTimeString().split(' ')[0];
+        }
+      } catch (e) {
+        console.error('Veri işleme hatası:', e);
+      }
+    }
+
+    function renderDynamicPrices(dataObj) {
+      const grup1Body = document.getElementById('grup1TableBody');
+      const marketBody = document.getElementById('marketTableBody');
+      const specialBody = document.getElementById('specialProductsTableBody');
+
+      // İlk veri geldiğinde yükleniyor yazısını gizle
+      document.getElementById('status').style.display = 'none';
+      document.getElementById('results').style.display = 'flex';
+
+      Object.keys(dataObj).forEach(code => {
+        const item = dataObj[code];
+        if (!item) return;
+
+        let alis = item.alis !== undefined ? item.alis : '---';
+        let satis = item.satis !== undefined ? item.satis : '---';
+
+        // Sayısal değerleri formatla
+        const formattedAlis = !isNaN(alis) ? fmt(parseFloat(alis)) : alis;
+        const formattedSatis = !isNaN(satis) ? fmt(parseFloat(satis)) : satis;
+
+        let rowId = `row-${code}`;
+        let tr = document.getElementById(rowId);
+
+        if (!tr) {
+          tr = document.createElement('tr');
+          tr.id = rowId;
+          tr.innerHTML = `
+            <td style="font-weight: bold;">${code}</td>
+            <td style="color:#2563eb; font-weight:bold; text-align:center;"><span id="alis-${code}">${formattedAlis}</span></td>
+            <td style="color:#d97706; font-weight:bold; text-align:center;"><span id="satis-${code}">${formattedSatis}</span></td>
+          `;
+
+          // Kod türüne göre uygun tabloya yerleştir
+          if (code.includes('TRY') || code === 'USD' || code === 'EUR') {
+            marketBody.appendChild(tr);
+          } else if (code === 'ONS' || code === 'GUMUS') {
+            specialBody.appendChild(tr);
+          } else {
+            grup1Body.appendChild(tr);
+          }
+        } else {
+          document.getElementById(`alis-${code}`).innerText = formattedAlis;
+          document.getElementById(`satis-${code}`).innerText = formattedSatis;
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('gece_modu');
+      if (savedTheme === 'kapali') {
+        document.body.classList.remove('dark-mode');
+        document.getElementById('dark_toggle_btn').innerText = '🌙';
+      }
+
+      const mainColor = localStorage.getItem('secilen_ana_renk');
+      const borderColor = localStorage.getItem('secilen_kenar_renk');
+      if (mainColor && borderColor) {
+        setT(mainColor, borderColor);
+      }
+
+      connectSocket();
+      setInterval(updateClock, 1000);
+      updateClock();
+    });
+  </script>
 </body>
 </html>
