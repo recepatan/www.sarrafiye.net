@@ -43,7 +43,17 @@
         .hero p { color: #9ca3af; font-size: 1rem; }
         
         /* Piyasa Kartları */
-        .section-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; border-left: 4px solid var(--gold-primary); padding-left: 10px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .section-title { font-size: 1.4rem; font-weight: 700; border-left: 4px solid var(--gold-primary); padding-left: 10px; }
+        .live-badge { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--green); }
+        .live-dot { width: 10px; height: 10px; background-color: var(--green); border-radius: 50%; animation: pulse 1.5s infinite; }
+        
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
         .price-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-bottom: 40px; }
         .price-card { background: var(--card-bg); border-radius: 10px; padding: 20px; border: 1px solid var(--border-color); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .price-card .title { font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-bottom: 15px; border-bottom: 1px solid #f3f4f6; padding-bottom: 8px; }
@@ -51,7 +61,7 @@
         .price-row .label { color: var(--text-muted); }
         .price-row .val { font-weight: 700; }
         
-        /* Statik İçerik Alanları (Hakkımızda, İletişim, Yasal) */
+        /* Statik İçerik Alanları */
         .content-block { background: var(--card-bg); border-radius: 10px; padding: 30px; border: 1px solid var(--border-color); margin-bottom: 30px; }
         .content-block h2 { font-size: 1.3rem; color: var(--text-main); margin-bottom: 15px; }
         .content-block p { color: #4b5563; margin-bottom: 12px; font-size: 0.95rem; }
@@ -96,43 +106,50 @@
         
         <!-- Piyasa Fiyat Kartları -->
         <section id="piyasa">
-            <h2 class="section-title">Canlı Piyasa Ekranı</h2>
+            <div class="section-header">
+                <h2 class="section-title">Canlı Piyasa Ekranı</h2>
+                <div class="live-badge" id="status-badge">
+                    <div class="live-dot"></div>
+                    <span id="status-text">Canlı Bağlantı</span>
+                </div>
+            </div>
+            
             <div id="price-grid" class="price-grid">
                 
                 <div class="price-card">
                     <div class="title">Gram Altın</div>
-                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="gram-alis">--- TL</span></div>
-                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="gram-satis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="GA-alis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="GA-satis">--- TL</span></div>
                 </div>
 
                 <div class="price-card">
                     <div class="title">Çeyrek Altın</div>
-                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="ceyrek-alis">--- TL</span></div>
-                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="ceyrek-satis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="C-alis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="C-satis">--- TL</span></div>
                 </div>
 
                 <div class="price-card">
                     <div class="title">Yarım Altın</div>
-                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="yarim-alis">--- TL</span></div>
-                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="yarim-satis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="Y-alis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="Y-satis">--- TL</span></div>
                 </div>
 
                 <div class="price-card">
                     <div class="title">Ata / Cumhuriyet</div>
-                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="ata-alis">--- TL</span></div>
-                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="ata-satis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="A-alis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="A-satis">--- TL</span></div>
                 </div>
 
                 <div class="price-card">
                     <div class="title">22 Ayar Bilezik</div>
-                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="bilezik-alis">--- TL</span></div>
-                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="bilezik-satis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="B-alis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="B-satis">--- TL</span></div>
                 </div>
 
                 <div class="price-card">
                     <div class="title">ONS</div>
-                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="ons-alis">--- $</span></div>
-                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="ons-satis">--- $</span></div>
+                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="ONS-alis">--- $</span></div>
+                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="ONS-satis">--- $</span></div>
                 </div>
 
             </div>
@@ -187,9 +204,69 @@
         </div>
     </footer>
 
+    <!-- WebSocket Canlı Bağlantı Scripti -->
     <script>
-        // İlerleyen aşamada kendi WebSocket veya JSON API bağlantınızı buraya entegre edebilirsiniz.
-        console.log("Sarrafiye.net arayüzü hazır.");
+        const socketUrl = 'wss://socket.sarrafiye.net/';
+        let socket;
+
+        function connectSocket() {
+            socket = new WebSocket(socketUrl);
+
+            socket.onopen = function() {
+                console.log('WebSocket Bağlantısı Başarılı.');
+                document.getElementById('status-text').innerText = 'Canlı Bağlantı';
+                document.getElementById('status-badge').style.color = 'var(--green)';
+            };
+
+            socket.onmessage = function(event) {
+                try {
+                    let data = JSON.parse(event.data);
+
+                    // Eğer gelen veri Base64 veya string paketse parse etme adımı
+                    if (typeof data === 'string') {
+                        data = JSON.parse(data);
+                    }
+
+                    // Gelen verideki kodlara göre eşleştirme yap
+                    // Beklenen format örneği: { "GA": { "alis": "3100.50", "satis": "3110.00" }, ... } veya liste
+                    updateUI(data);
+
+                } catch (e) {
+                    console.error('Veri işleme hatası:', e);
+                }
+            };
+
+            socket.onclose = function() {
+                console.warn('Soket bağlantısı koptu, 3 saniye sonra tekrar deneniyor...');
+                document.getElementById('status-text').innerText = 'Yeniden Bağlanıyor...';
+                document.getElementById('status-badge').style.color = 'var(--red)';
+                setTimeout(connectSocket, 3000);
+            };
+
+            socket.onerror = function(err) {
+                console.error('Soket Hatası:', err);
+                socket.close();
+            };
+        }
+
+        function updateUI(data) {
+            // Soketten gelen verinin tipine göre döngü veya doğrudan objeden okuma
+            Object.keys(data).forEach(code => {
+                const item = data[code];
+                const alisEl = document.getElementById(`${code}-alis`);
+                const satisEl = document.getElementById(`${code}-satis`);
+
+                if (alisEl && item.alis) {
+                    alisEl.innerText = typeof item.alis === 'number' ? item.alis.toLocaleString('tr-TR', {minimumFractionDigits: 2}) + ' TL' : item.alis + ' TL';
+                }
+                if (satisEl && item.satis) {
+                    satisEl.innerText = typeof item.satis === 'number' ? item.satis.toLocaleString('tr-TR', {minimumFractionDigits: 2}) + ' TL' : item.satis + ' TL';
+                }
+            });
+        }
+
+        // Sayfa yüklendiğinde soketi başlat
+        document.addEventListener('DOMContentLoaded', connectSocket);
     </script>
 </body>
 </html>
