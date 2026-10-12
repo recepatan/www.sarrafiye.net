@@ -137,11 +137,12 @@
       <!-- KONTROL & ARAMA PANELİ -->
       <div class="mb-5 flex flex-col sm:flex-row items-center justify-between gap-3 bg-dark-card p-3 rounded-2xl border border-dark-border card-bg shadow-md">
         
-        <!-- Sekmeler -->
+        <!-- Sekmeler: Tümü, Altın, Döviz, Emtia -->
         <div class="flex items-center gap-1 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
           <button onclick="switchTab('all')" id="btnTab-all" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-brand-500 text-white shadow-sm shrink-0">Tümü</button>
-          <button onclick="switchTab('altin')" id="btnTab-altin" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Altın & Ons</button>
+          <button onclick="switchTab('altin')" id="btnTab-altin" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Altın</button>
           <button onclick="switchTab('doviz')" id="btnTab-doviz" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Döviz</button>
+          <button onclick="switchTab('emtia')" id="btnTab-emtia" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Emtia</button>
         </div>
 
         <!-- Arama Kutusu -->
@@ -247,10 +248,13 @@
         .replace('PALADYUM', 'Paladyum');
     }
 
-    // Ons ve kıymetli madenler altın grubuna dahil edildi
+    // Gruplandırma mantığı: Döviz, Emtia (Ons, Gümüş, Platin vb.) ve Altın
     function getCategory(code) {
       if (code.includes('TRY') || code.includes('USD') || code.includes('EUR') || code.includes('GBP') || code.includes('CHF') || code.includes('CAD') || code.includes('AUD') || code.includes('JOD') || code.includes('KWD') || code.includes('SAR') || code.includes('OMR') || code.includes('QAR') || code.includes('JPY') || code.includes('MAD') || code.includes('ILS') || (code.length === 3 && !['ONS', 'ALT'].includes(code))) {
         return 'doviz';
+      }
+      if (code.includes('ONS') || code.includes('XAU') || code.includes('XAG') || code.includes('XPT') || code.includes('XPD') || code.includes('GUMUS') || code.includes('PLATIN') || code.includes('PALADYUM')) {
+        return 'emtia';
       }
       return 'altin';
     }
@@ -258,7 +262,7 @@
     let currentTab = 'all';
     function switchTab(tab) {
       currentTab = tab;
-      ['all', 'altin', 'doviz'].forEach(t => {
+      ['all', 'altin', 'doviz', 'emtia'].forEach(t => {
         const btn = document.getElementById(`btnTab-${t}`);
         if (!btn) return;
         if (t === tab) {
