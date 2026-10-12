@@ -1,35 +1,195 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sarrafiye.net - Canlı Altın Fiyatları ve Piyasa Verileri</title>
-    <meta name="description" content="Anlık gram altın, çeyrek altın, yarış ve ziynet altın fiyatları, serbest piyasa ve kuyumcu canlı altın döviz kurları.">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="description" content="Anlık gram altın, çeyrek altın, ata altın ve ziynet fiyatları. Serbest piyasa canlı kuyumcu ve kapalıçarşı altın kurları.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #f4f6f8;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --gold-primary: #d97706;
+            --gold-accent: #f59e0b;
+            --border-color: #e5e7eb;
+            --green: #10b981;
+            --red: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header & Navbar */
+        header { background: #111827; color: #fff; padding: 15px 0; border-bottom: 3px solid var(--gold-primary); }
+        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .logo { font-size: 1.6rem; font-weight: 700; color: #fff; text-decoration: none; }
+        .logo span { color: var(--gold-accent); }
+        nav a { color: #d1d5db; text-decoration: none; margin-left: 20px; font-size: 0.95rem; font-weight: 500; transition: 0.2s; }
+        nav a:hover { color: var(--gold-accent); }
+        
+        /* Hero Banner */
+        .hero { background: #1f2937; color: #fff; text-align: center; padding: 40px 20px; margin-bottom: 30px; }
+        .hero h1 { font-size: 2rem; margin-bottom: 10px; color: var(--gold-accent); }
+        .hero p { color: #9ca3af; font-size: 1rem; }
+        
+        /* Piyasa Kartları */
+        .section-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; border-left: 4px solid var(--gold-primary); padding-left: 10px; }
+        .price-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .price-card { background: var(--card-bg); border-radius: 10px; padding: 20px; border: 1px solid var(--border-color); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .price-card .title { font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-bottom: 15px; border-bottom: 1px solid #f3f4f6; padding-bottom: 8px; }
+        .price-row { display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 8px; }
+        .price-row .label { color: var(--text-muted); }
+        .price-row .val { font-weight: 700; }
+        
+        /* Statik İçerik Alanları (Hakkımızda, İletişim, Yasal) */
+        .content-block { background: var(--card-bg); border-radius: 10px; padding: 30px; border: 1px solid var(--border-color); margin-bottom: 30px; }
+        .content-block h2 { font-size: 1.3rem; color: var(--text-main); margin-bottom: 15px; }
+        .content-block p { color: #4b5563; margin-bottom: 12px; font-size: 0.95rem; }
+
+        .contact-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 20px; }
+        .contact-box { background: #f9fafb; padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .contact-box h3 { font-size: 1rem; color: var(--gold-primary); margin-bottom: 5px; }
+
+        /* Footer */
+        footer { background: #111827; color: #9ca3af; padding: 30px 0; text-align: center; margin-top: 50px; font-size: 0.85rem; }
+        footer a { color: #d1d5db; text-decoration: none; margin: 0 10px; }
+        footer a:hover { color: var(--gold-accent); }
+        .footer-links { margin-bottom: 15px; }
+
+        @media (max-width: 640px) {
+            .header-content { flex-direction: column; text-align: center; }
+            nav a { margin: 0 10px; }
+        }
+    </style>
 </head>
 <body>
-    <header class="site-header">
-        <div class="container">
-            <h1>Sarrafiye.net</h1>
-            <p>Güncel Altın Piyasası ve Canlı Fiyatlar</p>
+
+    <header>
+        <div class="container header-content">
+            <a href="/" class="logo">Sarrafiye<span>.net</span></a>
+            <nav>
+                <a href="#piyasa">Canlı Fiyatlar</a>
+                <a href="#hakkimizda">Hakkımızda</a>
+                <a href="#iletisim">İletişim</a>
+            </nav>
         </div>
     </header>
 
+    <section class="hero">
+        <div class="container">
+            <h1>Sarrafiye.net Canlı Altın Piyasası</h1>
+            <p>Anlık, kesintisiz ve güvenilir altın ve sarrafiye fiyat takip platformu</p>
+        </div>
+    </section>
+
     <main class="container">
-        <section class="ticker-section">
-            <h2>Canlı Piyasa Ekranı</h2>
-            <div id="price-grid" class="grid">
-                <div class="card">Yükleniyor...</div>
+        
+        <!-- Piyasa Fiyat Kartları -->
+        <section id="piyasa">
+            <h2 class="section-title">Canlı Piyasa Ekranı</h2>
+            <div id="price-grid" class="price-grid">
+                
+                <div class="price-card">
+                    <div class="title">Gram Altın</div>
+                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="gram-alis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="gram-satis">--- TL</span></div>
+                </div>
+
+                <div class="price-card">
+                    <div class="title">Çeyrek Altın</div>
+                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="ceyrek-alis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="ceyrek-satis">--- TL</span></div>
+                </div>
+
+                <div class="price-card">
+                    <div class="title">Yarım Altın</div>
+                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="yarim-alis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="yarim-satis">--- TL</span></div>
+                </div>
+
+                <div class="price-card">
+                    <div class="title">Ata / Cumhuriyet</div>
+                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="ata-alis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="ata-satis">--- TL</span></div>
+                </div>
+
+                <div class="price-card">
+                    <div class="title">22 Ayar Bilezik</div>
+                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="bilezik-alis">--- TL</span></div>
+                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="bilezik-satis">--- TL</span></div>
+                </div>
+
+                <div class="price-card">
+                    <div class="title">ONS</div>
+                    <div class="price-row"><span class="label">Alış:</span><span class="val" id="ons-alis">--- $</span></div>
+                    <div class="price-row"><span class="label">Satış:</span><span class="val" id="ons-satis">--- $</span></div>
+                </div>
+
             </div>
         </section>
+
+        <!-- Hakkımızda Bölümü -->
+        <section id="hakkimizda" class="content-block">
+            <h2>Hakkımızda</h2>
+            <p><strong>Sarrafiye.net</strong>, Türkiye ve Kapalıçarşı piyasalarındaki canlı altın, kuyumcu ve sarrafiye ürünlerinin anlık takibini sağlamak amacıyla geliştirilmiş bağımsız bir finans veri platformudur.</p>
+            <p>Amacımız; kullanıcılara karmaşık veri kalabalığından uzak, hızlı, sade ve doğru altın fiyatlarını sunarak yatırımlarını veya günlük alışverişlerini en doğru veriler ışında yönlendirmelerine yardımcı olmaktır.</p>
+        </section>
+
+        <!-- İletişim ve Künye Bölümü -->
+        <section id="iletisim" class="content-block">
+            <h2>İletişim & Künye</h2>
+            <p>Sitemizle ilgili soru, öneri, reklam ve iş birliği talepleriniz için aşağıdaki iletişim kanallarından bize ulaşabilirsiniz:</p>
+            
+            <div class="contact-info">
+                <div class="contact-box">
+                    <h3>E-Posta</h3>
+                    <p>info@sarrafiye.net</p>
+                </div>
+                <div class="contact-box">
+                    <h3>Web</h3>
+                    <p>www.sarrafiye.net</p>
+                </div>
+                <div class="contact-box">
+                    <h3>Yayın Türü</h3>
+                    <p>Dijital Finansal Veri Portalı</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Yasal Uyarı -->
+        <section class="content-block" style="background: #fefce8; border-color: #fef08a;">
+            <h2 style="font-size: 1.1rem; color: #854d0e;">Yasal Uyarı</h2>
+            <p style="font-size: 0.85rem; color: #713f12; margin-bottom: 0;">
+                Sarrafiye.net üzerinde sunulan anlık altın ve döviz fiyatları bilgilendirme amaçlıdır. Verilerin doğruluğu ve anlık güncelliği konusunda gerekli özen gösterilmekte olup, sistemden kaynaklanan gecikmelerden veya hatalı verilerden doğabilecek finansal kayıplardan platformumuz sorumlu tutulamaz. Sitedeki veriler yatırım tavsiyesi niteliği taşımaz.
+            </p>
+        </section>
+
     </main>
 
-    <footer class="site-footer">
+    <footer>
         <div class="container">
+            <div class="footer-links">
+                <a href="#piyasa">Canlı Fiyatlar</a> | 
+                <a href="#hakkimizda">Hakkımızda</a> | 
+                <a href="#iletisim">İletişim</a>
+            </div>
             <p>&copy; 2026 Sarrafiye.net - Tüm Hakları Saklıdır.</p>
         </div>
     </footer>
 
-    <script src="assets/js/main.js"></script>
+    <script>
+        // İlerleyen aşamada kendi WebSocket veya JSON API bağlantınızı buraya entegre edebilirsiniz.
+        console.log("Sarrafiye.net arayüzü hazır.");
+    </script>
 </body>
 </html>
