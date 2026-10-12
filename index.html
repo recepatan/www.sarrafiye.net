@@ -181,7 +181,7 @@
         <!-- FİNANSAL ARAÇLAR GRID (HESAPLAMA VE ZEKAT) -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
-          <!-- 1. BİRDEN FAZLA ÜRÜN SEPET HESAPLAMA ARACI (ALIŞ / SATIŞ AYRI) -->
+          <!-- 1. SEPET HESAPLAMA ARACI (ALIŞ / SATIŞ AYRI) -->
           <div class="bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4 border-b border-dark-border pb-3">
@@ -217,7 +217,7 @@
             </div>
           </div>
 
-          <!-- 2. ZEKAT HESAPLAMA ARACI (OTOMATİK PORTFÖY ENTEGRELİ & 1/40 ORANI) -->
+          <!-- 2. ZEKAT HESAPLAMA ARACI (SEPET ENTEGRELİ & 1/40 ORANI) -->
           <div class="bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4 border-b border-dark-border pb-3">
@@ -231,7 +231,7 @@
                 Nisap miktarını aşan varlığınızın verilmesi gereken zekat miktarı **40'ta 1 (%2.5)** esasına göre hesaplanır.
               </p>
 
-              <!-- Mod Seçimi: Sepet Tutarına Göre mi Gram'a Göre mi? -->
+              <!-- Mod Seçimi -->
               <div class="grid grid-cols-2 gap-2 mb-4">
                 <button onclick="setZekatSource('sepet')" id="btnZekatSepet" class="py-2 px-3 rounded-xl text-xs font-bold bg-emerald-500 text-white border border-emerald-500 transition-all">
                   Sepet Toplamına Göre
@@ -241,7 +241,7 @@
                 </button>
               </div>
 
-              <!-- Manuel Gram Giriş Alanları (Sadece Gram modunda açılır) -->
+              <!-- Manuel Gram Giriş Alanları -->
               <div id="zekatGramArea" class="hidden space-y-3 mb-3">
                 <div>
                   <label class="text-xs font-semibold text-slate-300 mb-1 block">Toplam Altın Varlığınız (Gram)</label>
@@ -299,7 +299,7 @@
     }
 
     const DAYS = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
-    const MONTHS = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylul", "Ekim", "Kasım", "Aralık"];
+    const MONTHS = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
     function updateClock() {
       const now = new Date();
       document.getElementById('tarih_alan').innerText = `${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}, ${DAYS[now.getDay()]}`;
@@ -484,11 +484,11 @@
     }
 
     /* -------------------------------------------------------------
-       GELİŞMİŞ SEPET & OTOMATİK ZEKAT HESAPLAMA SİSTEMİ
+       GELİŞMİŞ SEPET & SIFIRLANMAYAN HESAPLAMA SİSTEMİ
     ------------------------------------------------------------- */
     let calcRowCount = 0;
-    let activeCalcMode = 'satis'; // 'satis' veya 'alis'
-    let activeZekatSource = 'sepet'; // 'sepet' veya 'gram'
+    let activeCalcMode = 'satis';
+    let activeZekatSource = 'sepet';
 
     function setCalcMode(mode) {
       activeCalcMode = mode;
@@ -512,7 +512,7 @@
       div.id = rowId;
       div.className = 'flex items-center gap-2';
       div.innerHTML = `
-        <input type="number" oninput="runPortfolioCalc()" placeholder="Adet / Miktar" value="1" min="1" step="any"
+        <input type="number" oninput="runPortfolioCalc()" placeholder="Miktar" value="1" min="0.01" step="any"
                class="calc-qty w-24 bg-dark-bg text-xs sm:text-sm px-3 py-2 rounded-xl border border-dark-border text-slate-100 font-mono focus:outline-none focus:border-brand-500">
         <select onchange="runPortfolioCalc()" class="calc-select flex-1 bg-dark-bg text-xs sm:text-sm px-3 py-2 rounded-xl border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-brand-500">
         </select>
@@ -533,20 +533,28 @@
       }
     }
 
+    // Seçimlerin ve Ürün Listesinin Korunduğu Dropdown Doldurucu
     function updateCalcDropdowns() {
       const selects = document.querySelectorAll('.calc-select');
       const keys = Object.keys(globalDataCache);
       if (keys.length === 0) return;
 
       selects.forEach(select => {
-        const currentVal = select.value;
-        if (select.children.length === 0) {
+        const selectedValue = select.value;
+        const optionCount = select.children.length;
+
+        // Eğer liste henüz doldurulmamışsa veya eleman sayısı eksikse doldur
+        if (optionCount !== keys.length) {
           let html = '';
           keys.forEach(k => {
             html += `<option value="${k}">${cleanDisplayName(k)}</option>`;
           });
           select.innerHTML = html;
-          if (currentVal && globalDataCache[currentVal]) select.value = currentVal;
+
+          // Önceden seçili olan değeri koru, yoksa ilk elemanı seç
+          if (selectedValue && globalDataCache[selectedValue]) {
+            select.value = selectedValue;
+          }
         }
       });
     }
@@ -564,6 +572,7 @@
       qtyInputs.forEach((input, index) => {
         const qty = parseFloat(input.value) || 0;
         const code = selects[index]?.value;
+        
         if (code && globalDataCache[code]) {
           const alisPrice = parseFloat(globalDataCache[code].alis) || 0;
           const satisPrice = parseFloat(globalDataCache[code].satis) || 0;
@@ -611,7 +620,6 @@
       select.innerHTML = html;
     }
 
-    // ZEKAT HESAPLAMA (1/40 ORANI = %2.5)
     function calculateZekat() {
       let baseTL = 0;
 
@@ -628,7 +636,7 @@
         baseTL = totalGrams * goldPrice;
       }
 
-      const zekatTL = baseTL / 40; // 40'ta 1 Hesabı
+      const zekatTL = baseTL / 40; // 1/40 Oranı (%2.5)
 
       document.getElementById('zekatBaseTL').innerText = fmt(baseTL) + ' TL';
       document.getElementById('zekatResultTL').innerText = fmt(zekatTL) + ' TL';
@@ -642,7 +650,6 @@
         document.getElementById('themeIcon').innerText = '🌙';
       }
 
-      // Varsayılan hesap satırlarını başlat
       addCalcRow();
 
       connectSocket();
