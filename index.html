@@ -341,7 +341,7 @@
     const throttleInterval = 5000;
     const previousPrices = {};
     let globalDataCache = {};
-    let isCalcDropdownsInitialized = false; // Listelerin sadece bir kez doldurulmasını sağlar
+    let isCalcDropdownsInitialized = false;
 
     function connectSocket() {
       socket = io.connect('wss://socket.sarrafiye.net', { transports: ["websocket"] });
@@ -375,13 +375,13 @@
           globalDataCache = dataObj;
           renderMasterTable(globalDataCache);
           
-          // Listeler ilk kez doluyor, sonra sabit kalıyor
           if (!isCalcDropdownsInitialized && Object.keys(globalDataCache).length > 0) {
             updateCalcDropdowns();
             updateZekatDropdown();
             isCalcDropdownsInitialized = true;
           }
 
+          // Socket'ten yeni fiyatlar geldikçe sepet ve zekat hesaplamasını güncelle
           runPortfolioCalc();
         }
 
@@ -485,7 +485,7 @@
     }
 
     /* -------------------------------------------------------------
-       STATİK VE SABİT LİSTELİ HESAPLAMA SİSTEMİ
+       HESAPLAMA SİSTEMİ (CANLI FİYAT AKTARIMLI)
     ------------------------------------------------------------- */
     let calcRowCount = 0;
     let activeCalcMode = 'satis';
@@ -523,7 +523,6 @@
       `;
       container.appendChild(div);
       
-      // Yeni satır eklendiğinde mevcut tam listeyi yeni select elemanına bas
       fillSingleDropdown(div.querySelector('.calc-select'));
       runPortfolioCalc();
     }
