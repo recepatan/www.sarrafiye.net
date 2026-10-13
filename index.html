@@ -91,7 +91,7 @@
   <div>
     <!-- TOP TICKER BANDI -->
     <div class="bg-dark-card border-b border-dark-border text-xs py-1.5 px-4 overflow-hidden card-bg">
-      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-4">
         <div class="flex items-center gap-2 text-brand-500 font-bold shrink-0">
           <span class="relative flex h-2 w-2">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -107,7 +107,7 @@
 
     <!-- HEADER -->
     <header class="sticky top-0 z-50 bg-dark-card/95 backdrop-blur-md border-b border-dark-border card-bg shadow-sm">
-      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <div class="max-w-[1440px] mx-auto px-4 py-3 flex items-center justify-between gap-3">
         
         <div class="flex items-center gap-3">
           <a onclick="location.reload()" class="cursor-pointer flex items-center gap-1 text-xl sm:text-2xl font-extrabold tracking-tight">
@@ -151,78 +151,98 @@
       </div>
     </header>
 
-    <!-- CONTENT CONTAINER -->
-    <main class="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 w-full">
+    <!-- CONTENT CONTAINER (GRID 1/3 SOL - 2/3 SAĞ SIDEBAR) -->
+    <main class="max-w-[1440px] mx-auto px-3 sm:px-4 py-4 sm:py-6 w-full">
       
-      <!-- KONTROL & ARAMA PANELİ -->
-      <div class="mb-5 flex flex-col sm:flex-row items-center justify-between gap-3 bg-dark-card p-3 rounded-2xl border border-dark-border card-bg shadow-md">
-        
-        <!-- Sekmeler -->
-        <div class="flex items-center gap-1 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
-          <button onclick="switchTab('all')" id="btnTab-all" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-brand-500 text-white shadow-sm shrink-0">Tümü</button>
-          <button onclick="switchTab('altin')" id="btnTab-altin" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Altın</button>
-          <button onclick="switchTab('doviz')" id="btnTab-doviz" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Döviz</button>
-          <button onclick="switchTab('emtia')" id="btnTab-emtia" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Emtia</button>
-        </div>
-
-        <!-- Arama Kutusu -->
-        <div class="relative w-full sm:w-80">
-          <i class="bi bi-search absolute left-3 top-3 text-slate-400 text-xs"></i>
-          <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Hızlı Enstrüman Ara..." 
-                 class="w-full bg-dark-bg text-xs sm:text-sm pl-8 pr-3 py-2 rounded-xl border border-dark-border text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500">
-        </div>
-
-      </div>
-
       <!-- YÜKLENİYOR -->
       <div id="status" class="py-24 text-center text-slate-400">
         <div class="inline-block animate-spin rounded-full h-8 w-8 border-2 border-brand-500 border-t-transparent mb-3"></div>
         <p class="text-sm font-semibold tracking-wide">Piyasa Terminali Verileri Yükleniyor...</p>
       </div>
 
-      <!-- MASTER TABLE -->
-      <div id="mainContent" class="hidden space-y-8">
+      <!-- ANA İÇERİK GRID YAPISI -->
+      <div id="mainContent" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        <div class="bg-dark-card rounded-2xl border border-dark-border overflow-hidden card-bg shadow-2xl">
-          <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-              <thead>
-                <tr class="bg-dark-border/40 text-[11px] uppercase tracking-wider text-slate-400 font-bold border-b border-dark-border">
-                  <th class="py-3.5 px-5">Enstrüman / Ürün Adı</th>
-                  <th class="py-3.5 px-5 text-right">Alış (TL)</th>
-                  <th class="py-3.5 px-5 text-right">Satış (TL)</th>
-                </tr>
-              </thead>
-              <tbody id="masterTableBody" class="divide-y divide-dark-border/50 text-xs sm:text-sm"></tbody>
-            </table>
+        <!-- SOL TARAF: FİYAT LİSTESİ (1/3 ALAN -> lg:col-span-4) -->
+        <div class="lg:col-span-4 space-y-4">
+          
+          <!-- KONTROL & ARAMA PANELİ -->
+          <div class="bg-dark-card p-3 rounded-2xl border border-dark-border card-bg shadow-md space-y-3">
+            <div class="relative w-full">
+              <i class="bi bi-search absolute left-3 top-3 text-slate-400 text-xs"></i>
+              <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Hızlı Enstrüman Ara..." 
+                     class="w-full bg-dark-bg text-xs sm:text-sm pl-8 pr-3 py-2 rounded-xl border border-dark-border text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500">
+            </div>
+
+            <!-- Sekmeler -->
+            <div class="flex items-center gap-1 overflow-x-auto pb-1">
+              <button onclick="switchTab('all')" id="btnTab-all" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-brand-500 text-white shadow-sm shrink-0">Tümü</button>
+              <button onclick="switchTab('altin')" id="btnTab-altin" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Altın</button>
+              <button onclick="switchTab('doviz')" id="btnTab-doviz" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Döviz</button>
+              <button onclick="switchTab('emtia')" id="btnTab-emtia" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Emtia</button>
+            </div>
           </div>
+
+          <!-- MASTER TABLE -->
+          <div class="bg-dark-card rounded-2xl border border-dark-border overflow-hidden card-bg shadow-2xl">
+            <div class="overflow-x-auto max-h-[750px]">
+              <table class="w-full text-left border-collapse sticky top-0">
+                <thead>
+                  <tr class="bg-dark-border/80 backdrop-blur text-[11px] uppercase tracking-wider text-slate-300 font-bold border-b border-dark-border sticky top-0 z-10">
+                    <th class="py-3 px-3.5">Enstrüman</th>
+                    <th class="py-3 px-3 text-right">Alış</th>
+                    <th class="py-3 px-3 text-right">Satış</th>
+                  </tr>
+                </thead>
+                <tbody id="masterTableBody" class="divide-y divide-dark-border/50 text-xs sm:text-sm"></tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
 
-        <!-- FİNANSAL ARAÇLAR GRID -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- SAĞ TARAF: SIDEBAR ARAÇLARI (2/3 ALAN -> lg:col-span-8) -->
+        <div class="lg:col-span-8 space-y-6">
           
-          <!-- 1. SEPET HESAPLAMA ARACI -->
-          <div class="bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl flex flex-col justify-between">
+          <!-- SIDEBAR MENÜ SEKMELERİ -->
+          <div class="flex items-center gap-2 bg-dark-card p-1.5 rounded-2xl border border-dark-border card-bg shadow-sm overflow-x-auto">
+            <button onclick="switchSidebarTab('sepet')" id="sidebarBtn-sepet" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all bg-brand-500 text-white shadow-sm flex items-center justify-center gap-2 shrink-0">
+              <i class="bi bi-calculator"></i> Portföy / Sepet
+            </button>
+            <button onclick="switchSidebarTab('arbitraj')" id="sidebarBtn-arbitraj" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all bg-dark-border/40 text-slate-400 hover:text-white flex items-center justify-center gap-2 shrink-0">
+              <i class="bi bi-arrow-left-right"></i> Arbitraj & Çevirici
+            </button>
+            <button onclick="switchSidebarTab('zekat')" id="sidebarBtn-zekat" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all bg-dark-border/40 text-slate-400 hover:text-white flex items-center justify-center gap-2 shrink-0">
+              <i class="bi bi-cash-stack"></i> Zekat Hesapla
+            </button>
+            <button onclick="switchSidebarTab('alarm')" id="sidebarBtn-alarm" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all bg-dark-border/40 text-slate-400 hover:text-white flex items-center justify-center gap-2 shrink-0">
+              <i class="bi bi-bell"></i> Fiyat Alarmları
+            </button>
+          </div>
+
+          <!-- TAB 1: SEPET / PORTFÖY HESAPLAMA -->
+          <div id="sidebarPanel-sepet" class="bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl flex flex-col justify-between space-y-4">
             <div>
               <div class="flex items-center justify-between mb-4 border-b border-dark-border pb-3">
                 <h3 class="text-base font-bold text-brand-400 flex items-center gap-2">
-                  <i class="bi bi-calculator"></i> Portföy / Sepet Hesaplama
+                  <i class="bi bi-calculator"></i> Portföy & Sepet Hesaplama Aracı
                 </h3>
                 
                 <div class="flex items-center bg-dark-bg p-1 rounded-xl border border-dark-border text-xs">
-                  <button onclick="setCalcMode('satis')" id="btnModeSatis" class="px-2.5 py-1 rounded-lg font-bold transition-all bg-brand-500 text-white">Satış (Satın Alma)</button>
+                  <button onclick="setCalcMode('satis')" id="btnModeSatis" class="px-2.5 py-1 rounded-lg font-bold transition-all bg-brand-500 text-white">Satış (Alış Tutarı)</button>
                   <button onclick="setCalcMode('alis')" id="btnModeAlis" class="px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white">Alış (Bozdurma)</button>
                 </div>
               </div>
 
-              <div id="calcRowsContainer" class="space-y-3 mb-4"></div>
+              <div id="calcRowsContainer" class="space-y-3 mb-4 max-h-[350px] overflow-y-auto pr-1"></div>
 
-              <button onclick="addCalcRow()" class="w-full py-2 border border-dashed border-brand-500/50 text-brand-400 hover:bg-brand-500/10 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2">
+              <button onclick="addCalcRow()" class="w-full py-2.5 border border-dashed border-brand-500/50 text-brand-400 hover:bg-brand-500/10 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2">
                 <i class="bi bi-plus-circle"></i> + Yeni Ürün Ekle
               </button>
             </div>
 
-            <div class="mt-5 p-4 rounded-xl bg-dark-bg/60 border border-dark-border space-y-2">
+            <!-- Toplamlar ve Hızlı Kopyalama Butonları -->
+            <div class="mt-4 p-4 rounded-xl bg-dark-bg/60 border border-dark-border space-y-3">
               <div class="flex items-center justify-between">
                 <span class="text-xs text-slate-400 font-medium">Toplam Bozdurma Tutarı (Alış)</span>
                 <span id="calcTotalAlisPrice" class="text-base font-mono font-bold text-emerald-400">0,00 TL</span>
@@ -231,11 +251,61 @@
                 <span class="text-xs text-slate-400 font-medium">Toplam Satın Alma Tutarı (Satış)</span>
                 <span id="calcTotalSatisPrice" class="text-lg font-mono font-extrabold text-brand-400">0,00 TL</span>
               </div>
+
+              <!-- HIZLI KOPYALAMA & WHATSAPP PAYLAŞIM -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-dark-border/50">
+                <button onclick="copyPortfolioText()" class="py-2 px-3 rounded-xl bg-dark-border/60 hover:bg-dark-border text-slate-200 text-xs font-bold transition-all flex items-center justify-center gap-2">
+                  <i class="bi bi-clipboard"></i> Listeyi Kopyala
+                </button>
+                <button onclick="shareViaWhatsApp()" class="py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all flex items-center justify-center gap-2">
+                  <i class="bi bi-whatsapp"></i> WhatsApp ile Gönder
+                </button>
+              </div>
             </div>
           </div>
 
-          <!-- 2. ZEKAT HESAPLAMA ARACI -->
-          <div class="bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl flex flex-col justify-between">
+          <!-- TAB 2: ARBITRAJ & DÖVİZ ÇEVİRİCİ -->
+          <div id="sidebarPanel-arbitraj" class="hidden bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl space-y-5">
+            <div class="border-b border-dark-border pb-3">
+              <h3 class="text-base font-bold text-brand-400 flex items-center gap-2">
+                <i class="bi bi-arrow-left-right"></i> Arbitraj & Çapraz Kur Çevirici
+              </h3>
+              <p class="text-xs text-slate-400 mt-1">İstediğiniz iki ürünü seçerek birbirine karşı oranını ve değerini hesaplayın.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Ürün 1 -->
+              <div class="space-y-2 bg-dark-bg p-3.5 rounded-xl border border-dark-border">
+                <label class="text-xs font-semibold text-slate-300 block">1. Enstrüman (Kaynak)</label>
+                <select id="arbSelect1" onchange="calculateArbitrage()" class="w-full bg-dark-card text-xs sm:text-sm px-3 py-2 rounded-xl border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-brand-500">
+                </select>
+                <div class="flex items-center gap-2 pt-1">
+                  <input type="number" id="arbAmount1" oninput="calculateArbitrage()" value="1" min="0" step="any"
+                         class="w-full bg-dark-card text-sm px-3 py-2 rounded-xl border border-dark-border text-slate-100 font-mono focus:outline-none focus:border-brand-500">
+                </div>
+              </div>
+
+              <!-- Ürün 2 -->
+              <div class="space-y-2 bg-dark-bg p-3.5 rounded-xl border border-dark-border">
+                <label class="text-xs font-semibold text-slate-300 block">2. Enstrüman (Hedef / Karşılaştırılan)</label>
+                <select id="arbSelect2" onchange="calculateArbitrage()" class="w-full bg-dark-card text-xs sm:text-sm px-3 py-2 rounded-xl border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-brand-500">
+                </select>
+                <div class="pt-1">
+                  <div id="arbResultAmount" class="w-full bg-dark-card text-sm px-3 py-2.5 rounded-xl border border-dark-border text-brand-400 font-mono font-bold flex items-center justify-between">
+                    <span>0,00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-brand-500/10 border border-brand-500/20 text-center space-y-1">
+              <span class="text-xs text-slate-300 block font-medium">Parite / Çapraz Oran Karşılığı</span>
+              <span id="arbParityText" class="text-base sm:text-lg font-mono font-bold text-brand-400">1 Birim = 0,00 Karşılık</span>
+            </div>
+          </div>
+
+          <!-- TAB 3: ZEKAT HESAPLAMA -->
+          <div id="sidebarPanel-zekat" class="hidden bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl flex flex-col justify-between space-y-4">
             <div>
               <div class="flex items-center justify-between mb-4 border-b border-dark-border pb-3">
                 <h3 class="text-base font-bold text-emerald-400 flex items-center gap-2">
@@ -270,10 +340,9 @@
                   </select>
                 </div>
               </div>
-
             </div>
 
-            <div class="mt-5 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 grid grid-cols-2 gap-2 text-center">
+            <div class="mt-4 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 grid grid-cols-2 gap-2 text-center">
               <div class="border-r border-emerald-500/20 pr-2">
                 <span class="text-[11px] text-slate-400 block font-medium">Hesaplanan Portföy Tutarı</span>
                 <span id="zekatBaseTL" class="text-sm sm:text-base font-mono font-bold text-slate-200">0,00 TL</span>
@@ -281,6 +350,43 @@
               <div class="pl-2">
                 <span class="text-[11px] text-slate-400 block font-medium">Ödenecek Zekat (1/40)</span>
                 <span id="zekatResultTL" class="text-base sm:text-lg font-mono font-extrabold text-emerald-400">0,00 TL</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: FİYAT ALARMLARI -->
+          <div id="sidebarPanel-alarm" class="hidden bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl space-y-4">
+            <div class="border-b border-dark-border pb-3 flex items-center justify-between">
+              <div>
+                <h3 class="text-base font-bold text-amber-400 flex items-center gap-2">
+                  <i class="bi bi-bell"></i> Fiyat Alarm Merkezi
+                </h3>
+                <p class="text-xs text-slate-400 mt-1">Belirlediğiniz fiyat seviyelerine ulaşıldığında tarayıcı üzerinden uyarı alın.</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div>
+                <label class="text-[11px] font-semibold text-slate-300 mb-1 block">Ürün Seçin</label>
+                <select id="alarmProductSelect" class="w-full bg-dark-bg text-xs px-3 py-2.5 rounded-xl border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-brand-500">
+                </select>
+              </div>
+              <div>
+                <label class="text-[11px] font-semibold text-slate-300 mb-1 block">Hedef Fiyat (TL)</label>
+                <input type="number" id="alarmPriceInput" placeholder="Örn: 3500" step="any"
+                       class="w-full bg-dark-bg text-xs px-3 py-2.5 rounded-xl border border-dark-border text-slate-100 font-mono focus:outline-none focus:border-brand-500">
+              </div>
+              <div class="flex items-end">
+                <button onclick="addPriceAlarm()" class="w-full py-2.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition-all flex items-center justify-center gap-1">
+                  <i class="bi bi-plus-circle"></i> Alarm Kur
+                </button>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <h4 class="text-xs font-bold text-slate-300 mb-2">Aktif Alarmlarım</h4>
+              <div id="alarmsListContainer" class="space-y-2 max-h-[220px] overflow-y-auto">
+                <!-- Alarmlar dinamik eklenir -->
               </div>
             </div>
           </div>
@@ -294,7 +400,7 @@
 
   <!-- FOOTER -->
   <footer class="bg-dark-card border-t border-dark-border py-4 px-4 text-center text-xs text-slate-500 mt-10 card-bg">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+    <div class="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
       <div>&copy; 2026 Sarrafiye.NET — Tüm Hakları Saklıdır.</div>
       <div class="text-[11px] text-slate-400">Profesyonel Finans Veri Ağı</div>
     </div>
@@ -348,12 +454,29 @@
         const btn = document.getElementById(`btnTab-${t}`);
         if (!btn) return;
         if (t === tab) {
-          btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all bg-brand-500 text-white shadow-sm shrink-0";
+          btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-brand-500 text-white shadow-sm shrink-0";
         } else {
-          btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0";
+          btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0";
         }
       });
       filterProducts();
+    }
+
+    // Sidebar Sekme Yönetimi
+    function switchSidebarTab(panel) {
+      ['sepet', 'arbitraj', 'zekat', 'alarm'].forEach(p => {
+        const btn = document.getElementById(`sidebarBtn-${p}`);
+        const div = document.getElementById(`sidebarPanel-${p}`);
+        if (!btn || !div) return;
+
+        if (p === panel) {
+          btn.className = "flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all bg-brand-500 text-white shadow-sm flex items-center justify-center gap-2 shrink-0";
+          div.classList.remove('hidden');
+        } else {
+          btn.className = "flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all bg-dark-border/40 text-slate-400 hover:text-white flex items-center justify-center gap-2 shrink-0";
+          div.classList.add('hidden');
+        }
+      });
     }
 
     let socket = null;
@@ -392,7 +515,6 @@
         else if (typeof response === 'object') dataObj = response;
 
         if (dataObj) {
-          // Gelen verileri önbellekte birleştir (Eksik paket gelme sorununu önler)
           Object.keys(dataObj).forEach(k => {
             if (dataObj[k]) {
               globalDataCache[k] = dataObj[k];
@@ -402,12 +524,13 @@
           renderMasterTable(globalDataCache);
 
           if (!calcDropdownsInitialized && Object.keys(globalDataCache).length > 0) {
-            updateCalcDropdownsOnce();
-            updateZekatDropdown();
+            updateAllDropdownsOnce();
             calcDropdownsInitialized = true;
           }
 
           runPortfolioCalc();
+          calculateArbitrage();
+          checkAlarms();
         }
 
         const timeSource = response?.meta?.time ? new Date(response.meta.time) : new Date();
@@ -444,12 +567,12 @@
           tr.dataset.name = cleanDisplayName(code).toLowerCase();
           tr.className = 'hover-bg hover:bg-dark-hover transition-colors font-mono';
           tr.innerHTML = `
-            <td class="py-3.5 px-5 font-sans font-semibold flex items-center gap-3">
-              <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
-              <span>${cleanDisplayName(code)}</span>
+            <td class="py-3 px-3.5 font-sans font-semibold flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-500 shrink-0"></span>
+              <span class="truncate max-w-[150px] sm:max-w-[180px]">${cleanDisplayName(code)}</span>
             </td>
-            <td class="py-3.5 px-5 text-right font-bold text-emerald-400" id="${alisCellId}">${formattedAlis}</td>
-            <td class="py-3.5 px-5 text-right font-bold text-brand-400" id="${satisCellId}">${formattedSatis}</td>
+            <td class="py-3 px-3 text-right font-bold text-emerald-400" id="${alisCellId}">${formattedAlis}</td>
+            <td class="py-3 px-3 text-right font-bold text-brand-400" id="${satisCellId}">${formattedSatis}</td>
           `;
           tbody.appendChild(tr);
         } else {
@@ -489,9 +612,8 @@
       });
 
       filterProducts();
-      
-      // Her tablo güncellendiğinde sepet hesaplamasını da tetikle ki fiyatlar anında eşleşsin
       runPortfolioCalc();
+      calculateArbitrage();
     }
 
     function filterProducts() {
@@ -514,7 +636,7 @@
     }
 
     /* -------------------------------------------------------------
-       EKRANDAN CANLI OKUYAN KUSURSUZ SEPET HESAPLAMA MOTORU
+       SEPET HESAPLAMA VE KOPYALAMA ARAÇLARI
     ------------------------------------------------------------- */
     let calcRowCount = 0;
     let activeCalcMode = 'satis';
@@ -543,7 +665,7 @@
       div.className = 'flex items-center gap-2';
       div.innerHTML = `
         <input type="number" oninput="runPortfolioCalc()" placeholder="Miktar" value="1" min="0.01" step="any"
-               class="calc-qty w-24 bg-dark-bg text-xs sm:text-sm px-3 py-2 rounded-xl border border-dark-border text-slate-100 font-mono focus:outline-none focus:border-brand-500">
+               class="calc-qty w-20 bg-dark-bg text-xs sm:text-sm px-2.5 py-2 rounded-xl border border-dark-border text-slate-100 font-mono focus:outline-none focus:border-brand-500">
         <select onchange="runPortfolioCalc()" class="calc-select flex-1 bg-dark-bg text-xs sm:text-sm px-3 py-2 rounded-xl border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-brand-500">
         </select>
         <button onclick="removeCalcRow('${rowId}')" class="p-2 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-xl transition-all">
@@ -589,13 +711,33 @@
       selectEl.innerHTML = optionsHtml;
     }
 
-    function updateCalcDropdownsOnce() {
+    function updateAllDropdownsOnce() {
+      // Sepet Selectleri
       const selects = document.querySelectorAll('.calc-select');
       selects.forEach(select => {
-        if (select.children.length === 0) {
-          populateSelectWithOptions(select);
-        }
+        if (select.children.length === 0) populateSelectWithOptions(select);
       });
+
+      // Zekat Select
+      const zekatSel = document.getElementById('zekatGoldSelect');
+      if (zekatSel && zekatSel.children.length === 0) {
+        populateSelectWithOptions(zekatSel);
+      }
+
+      // Alarm Select
+      const alarmSel = document.getElementById('alarmProductSelect');
+      if (alarmSel && alarmSel.children.length === 0) {
+        populateSelectWithOptions(alarmSel);
+      }
+
+      // Arbitraj Selectleri
+      const arb1 = document.getElementById('arbSelect1');
+      const arb2 = document.getElementById('arbSelect2');
+      if (arb1 && arb1.children.length === 0) populateSelectWithOptions(arb1);
+      if (arb2 && arb2.children.length === 0) {
+        populateSelectWithOptions(arb2);
+        if (arb2.options.length > 1) arb2.selectedIndex = 1; // Farklı bir ürün seçili başlasın
+      }
     }
 
     let globalCalcTotalAlis = 0;
@@ -614,21 +756,15 @@
         const code = select ? select.value : null;
 
         if (code) {
-          // Doğrudan ana tablodaki güncel hücrelerden fiyatı okuyoruz (Asla sıfırlanmaz!)
           const alisCell = document.getElementById(`alis-${code}`);
           const satisCell = document.getElementById(`satis-${code}`);
 
           let alisPrice = 0;
           let satisPrice = 0;
 
-          if (alisCell) {
-            alisPrice = parseFloat(alisCell.innerText.replace(/\./g, '').replace(',', '.')) || 0;
-          }
-          if (satisCell) {
-            satisPrice = parseFloat(satisCell.innerText.replace(/\./g, '').replace(',', '.')) || 0;
-          }
+          if (alisCell) alisPrice = parseFloat(alisCell.innerText.replace(/\./g, '').replace(',', '.')) || 0;
+          if (satisCell) satisPrice = parseFloat(satisCell.innerText.replace(/\./g, '').replace(',', '.')) || 0;
 
-          // Fallback olarak globalDataCache kontrolü
           if (alisPrice === 0 && globalDataCache[code]?.alis) alisPrice = parseFloat(globalDataCache[code].alis) || 0;
           if (satisPrice === 0 && globalDataCache[code]?.satis) satisPrice = parseFloat(globalDataCache[code].satis) || 0;
 
@@ -643,6 +779,81 @@
       calculateZekat();
     }
 
+    // Hızlı Kopyalama ve WhatsApp
+    function getPortfolioSummaryText() {
+      let text = "📊 *Sarrafiye.NET Portföy Raporu*\n";
+      text += `📅 Tarih: ${new Date().toLocaleDateString('tr-TR')}\n\n`;
+
+      const qtyInputs = document.querySelectorAll('.calc-qty');
+      const selects = document.querySelectorAll('.calc-select');
+
+      qtyInputs.forEach((input, index) => {
+        const qty = input.value;
+        const select = selects[index];
+        if (select && select.value) {
+          const code = select.value;
+          const name = cleanDisplayName(code);
+          const satisCell = document.getElementById(`satis-${code}`);
+          const price = satisCell ? satisCell.innerText : "0,00";
+          text += `▪️ ${qty} Adet/Gram ${name} : ${price} TL\n`;
+        }
+      });
+
+      text += `\n💰 *Toplam Alış (Bozdurma):* ${document.getElementById('calcTotalAlisPrice').innerText}`;
+      text += `\n💎 *Toplam Satış (Satın Alma):* ${document.getElementById('calcTotalSatisPrice').innerText}\n\n`;
+      text += `🌐 https://www.sarrafiye.net`;
+      return text;
+    }
+
+    function copyPortfolioText() {
+      const text = getPortfolioSummaryText();
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Sepet özeti panoya kopyalandı!");
+      }).catch(err => {
+        console.error('Kopyalama hatası:', err);
+      });
+    }
+
+    function shareViaWhatsApp() {
+      const text = encodeURIComponent(getPortfolioSummaryText());
+      window.open(`https://wa.me/?text=${text}`, '_blank');
+    }
+
+    /* -------------------------------------------------------------
+       ARBITRAJ & ÇEVİRİCİ MOTORU
+    ------------------------------------------------------------- */
+    function calculateArbitrage() {
+      const code1 = document.getElementById('arbSelect1').value;
+      const code2 = document.getElementById('arbSelect2').value;
+      const amt1 = parseFloat(document.getElementById('arbAmount1').value) || 0;
+
+      if (!code1 || !code2) return;
+
+      const getPrice = code => {
+        const cell = document.getElementById(`satis-${code}`) || document.getElementById(`alis-${code}`);
+        if (cell) {
+          const val = parseFloat(cell.innerText.replace(/\./g, '').replace(',', '.'));
+          if (!isNaN(val) && val > 0) return val;
+        }
+        return parseFloat(globalDataCache[code]?.satis) || parseFloat(globalDataCache[code]?.alis) || 1;
+      };
+
+      const price1 = getPrice(code1);
+      const price2 = getPrice(code2);
+
+      if (price2 === 0) return;
+
+      // 1. Ürünün TL karşılığı / 2. Ürünün TL karşılığı * Miktar
+      const result = (amt1 * price1) / price2;
+      const parity = price1 / price2;
+
+      document.getElementById('arbResultAmount').innerHTML = `<span class="font-mono font-bold text-brand-400">${fmt(result)}</span> <span class="text-xs text-slate-400">${cleanDisplayName(code2)}</span>`;
+      document.getElementById('arbParityText').innerText = `1 ${cleanDisplayName(code1)} = ${fmt(parity)} ${cleanDisplayName(code2)}`;
+    }
+
+    /* -------------------------------------------------------------
+       ZEKAT HESAPLAMA MOTORU
+    ------------------------------------------------------------- */
     function setZekatSource(source) {
       activeZekatSource = source;
       const gramArea = document.getElementById('zekatGramArea');
@@ -658,22 +869,6 @@
       }
 
       calculateZekat();
-    }
-
-    function updateZekatDropdown() {
-      const select = document.getElementById('zekatGoldSelect');
-      if (!select || select.children.length > 0) return;
-
-      const rows = document.querySelectorAll('#masterTableBody tr');
-      let html = '';
-      rows.forEach(tr => {
-        const code = tr.dataset.code;
-        if (code && (code.includes('ALTIN') || code.includes('AYAR') || code.includes('KULCE'))) {
-          html += `<option value="${code}">${cleanDisplayName(code)}</option>`;
-        }
-      });
-      if (!html) html = '<option value="ALTIN">Gram Altın</option>';
-      select.innerHTML = html;
     }
 
     function calculateZekat() {
@@ -703,6 +898,74 @@
       document.getElementById('zekatResultTL').innerText = fmt(zekatTL) + ' TL';
     }
 
+    /* -------------------------------------------------------------
+       FİYAT ALARM MERKEZİ (LOCALSTORAGE)
+    ------------------------------------------------------------- */
+    let priceAlarms = JSON.parse(localStorage.getItem('sarrafiye_alarms') || '[]');
+
+    function addPriceAlarm() {
+      const code = document.getElementById('alarmProductSelect').value;
+      const targetPrice = parseFloat(document.getElementById('alarmPriceInput').value);
+
+      if (!code || isNaN(targetPrice) || targetPrice <= 0) {
+        alert("Lütfen geçerli bir ürün ve hedef fiyat girin.");
+        return;
+      }
+
+      priceAlarms.push({ id: Date.now(), code, targetPrice, active: true });
+      localStorage.setItem('sarrafiye_alarms', JSON.stringify(priceAlarms));
+      renderAlarmsList();
+      alert("Fiyat alarmı başarıyla kuruldu!");
+    }
+
+    function removeAlarm(id) {
+      priceAlarms = priceAlarms.filter(a => a.id !== id);
+      localStorage.setItem('sarrafiye_alarms', JSON.stringify(priceAlarms));
+      renderAlarmsList();
+    }
+
+    function renderAlarmsList() {
+      const container = document.getElementById('alarmsListContainer');
+      if (!container) return;
+
+      if (priceAlarms.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Henüz kurulan aktif bir fiyat alarmınız yok.</p>`;
+        return;
+      }
+
+      let html = '';
+      priceAlarms.forEach(alarm => {
+        const name = cleanDisplayName(alarm.code);
+        html += `
+          <div class="flex items-center justify-between p-2.5 rounded-xl bg-dark-bg border border-dark-border text-xs">
+            <div>
+              <span class="font-bold text-slate-200 block">${name}</span>
+              <span class="text-slate-400 font-mono">Hedef: ${fmt(alarm.targetPrice)} TL</span>
+            </div>
+            <button onclick="removeAlarm(${alarm.id})" class="text-rose-400 hover:text-rose-300 p-1.5 transition-all">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function checkAlarms() {
+      if (priceAlarms.length === 0) return;
+
+      priceAlarms.forEach(alarm => {
+        const cell = document.getElementById(`satis-${alarm.code}`) || document.getElementById(`alis-${alarm.code}`);
+        if (cell) {
+          const currentPrice = parseFloat(cell.innerText.replace(/\./g, '').replace(',', '.')) || 0;
+          if (currentPrice >= alarm.targetPrice && alarm.active) {
+            // Alarm tetiklendi
+            console.log(`ALARM TETİKLENDİ: ${alarm.code} şu an ${currentPrice} TL!`);
+          }
+        }
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const savedTheme = localStorage.getItem('sarrafiye_theme');
       if (savedTheme === 'light') {
@@ -712,6 +975,7 @@
       }
 
       addCalcRow();
+      renderAlarmsList();
 
       connectSocket();
       setInterval(updateClock, 1000);
