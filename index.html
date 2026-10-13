@@ -392,10 +392,15 @@
         else if (typeof response === 'object') dataObj = response;
 
         if (dataObj) {
-          globalDataCache = dataObj;
+          // Gelen verileri önbellekte birleştir (Eksik paket gelme sorununu önler)
+          Object.keys(dataObj).forEach(k => {
+            if (dataObj[k]) {
+              globalDataCache[k] = dataObj[k];
+            }
+          });
+
           renderMasterTable(globalDataCache);
 
-          // Envanter (Tüm Liste) select seçeneklerini tablodan türeterek bir kez sabitliyoruz
           if (!calcDropdownsInitialized && Object.keys(globalDataCache).length > 0) {
             updateCalcDropdownsOnce();
             updateZekatDropdown();
@@ -434,7 +439,7 @@
         if (!tr) {
           tr = document.createElement('tr');
           tr.id = rowId;
-          tr.dataset.code = code; // Ürün kodunu sakla
+          tr.dataset.code = code;
           tr.dataset.category = category;
           tr.dataset.name = cleanDisplayName(code).toLowerCase();
           tr.className = 'hover-bg hover:bg-dark-hover transition-colors font-mono';
@@ -484,6 +489,9 @@
       });
 
       filterProducts();
+      
+      // Her tablo güncellendiğinde sepet hesaplamasını da tetikle ki fiyatlar anında eşleşsin
+      runPortfolioCalc();
     }
 
     function filterProducts() {
@@ -506,7 +514,7 @@
     }
 
     /* -------------------------------------------------------------
-       KUSURSUZ VE SABİT TAM LİSTE SEPET MANTIĞI
+       EKRANDAN CANLI OKUYAN KUSURSUZ SEPET HESAPLAMA MOTORU
     ------------------------------------------------------------- */
     let calcRowCount = 0;
     let activeCalcMode = 'satis';
@@ -557,11 +565,9 @@
       }
     }
 
-    // Ana Tablodaki Tüm Ürünleri Select Menüsüne Eksiksiz Doldurur
     function populateSelectWithOptions(selectEl) {
       const rows = document.querySelectorAll('#masterTableBody tr');
       if (rows.length === 0) {
-        // Eğer tablo henüz dolmadıysa globalDataCache'den fallback al
         const keys = Object.keys(globalDataCache);
         let html = '';
         keys.forEach(k => {
@@ -607,14 +613,24 @@
         const select = selects[index];
         const code = select ? select.value : null;
 
-        if (code && globalDataCache[code]) {
-          const item = globalDataCache[code];
-          
-          let alisPrice = parseFloat(item.alis);
-          let satisPrice = parseFloat(item.satis);
+        if (code) {
+          // Doğrudan ana tablodaki güncel hücrelerden fiyatı okuyoruz (Asla sıfırlanmaz!)
+          const alisCell = document.getElementById(`alis-${code}`);
+          const satisCell = document.getElementById(`satis-${code}`);
 
-          if (isNaN(alisPrice)) alisPrice = 0;
-          if (isNaN(satisPrice)) satisPrice = 0;
+          let alisPrice = 0;
+          let satisPrice = 0;
+
+          if (alisCell) {
+            alisPrice = parseFloat(alisCell.innerText.replace(/\./g, '').replace(',', '.')) || 0;
+          }
+          if (satisCell) {
+            satisPrice = parseFloat(satisCell.innerText.replace(/\./g, '').replace(',', '.')) || 0;
+          }
+
+          // Fallback olarak globalDataCache kontrolü
+          if (alisPrice === 0 && globalDataCache[code]?.alis) alisPrice = parseFloat(globalDataCache[code].alis) || 0;
+          if (satisPrice === 0 && globalDataCache[code]?.satis) satisPrice = parseFloat(globalDataCache[code].satis) || 0;
 
           globalCalcTotalAlis += qty * alisPrice;
           globalCalcTotalSatis += qty * satisPrice;
@@ -668,11 +684,16 @@
       } else {
         const totalGrams = parseFloat(document.getElementById('zekatGramInput').value) || 0;
         const selectedCode = document.getElementById('zekatGoldSelect').value || 'ALTIN';
+        
+        const satisCell = document.getElementById(`satis-${selectedCode}`);
         let goldPrice = 0;
-
-        if (globalDataCache[selectedCode]) {
+        if (satisCell) {
+          goldPrice = parseFloat(satisCell.innerText.replace(/\./g, '').replace(',', '.')) || 0;
+        }
+        if (goldPrice === 0 && globalDataCache[selectedCode]) {
           goldPrice = parseFloat(globalDataCache[selectedCode].satis) || parseFloat(globalDataCache[selectedCode].alis) || 0;
         }
+
         baseTL = totalGrams * goldPrice;
       }
 
