@@ -160,7 +160,7 @@
         <p class="text-sm font-semibold tracking-wide">Piyasa Terminali Verileri Yükleniyor...</p>
       </div>
 
-      <!-- TOAST BİLDİRİM ALANI (Ekranda Çıkan Uyarılar) -->
+      <!-- TOAST BİLDİRİM ALANI -->
       <div id="toastContainer" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
 
       <!-- ANA İÇERİK GRID YAPISI -->
@@ -187,6 +187,14 @@
             </div>
           </div>
 
+          <!-- ADMATIC REKLAM ALANI 1 (Üst Banner / Kare - 336x280) -->
+          <div class="bg-dark-card rounded-2xl border border-dark-border p-3 card-bg shadow-md flex items-center justify-center overflow-hidden">
+            <!-- Admatic STANDARD ads START -->
+            <ins data-publisher="adm-pub-7998141991" data-ad-network="68fb6b17eda7398bcea85b3c" data-ad-size="[[336, 280], [300, 250]]" class="adm-ads-area"></ins>
+            <script type="text/javascript" src="https://static.cdn.admatic.com.tr/showad/showad.min.js"></script>
+            <!-- Admatic STANDARD ads END -->
+          </div>
+
           <!-- MASTER TABLE -->
           <div class="bg-dark-card rounded-2xl border border-dark-border overflow-hidden card-bg shadow-2xl">
             <div class="overflow-x-auto max-h-[800px]">
@@ -201,6 +209,14 @@
                 <tbody id="masterTableBody" class="divide-y divide-dark-border/50 text-xs sm:text-sm"></tbody>
               </table>
             </div>
+          </div>
+
+          <!-- ADMATIC REKLAM ALANI 2 (Alt Kutu - 300x250) -->
+          <div class="bg-dark-card rounded-2xl border border-dark-border p-3 card-bg shadow-md flex items-center justify-center overflow-hidden">
+            <!-- Admatic STANDARD ads START -->
+            <ins data-publisher="adm-pub-7998141991" data-ad-network="68fb6b17eda7398bcea85b3c" data-ad-size="[[300, 250]]" class="adm-ads-area"></ins>
+            <script type="text/javascript" src="https://static.cdn.admatic.com.tr/showad/showad.min.js"></script>
+            <!-- Admatic STANDARD ads END -->
           </div>
 
         </div>
@@ -266,7 +282,7 @@
               </div>
             </div>
 
-            <!-- ZEKAT HESAPLAMA KUTUSU (PORTFÖYÜN HEMEN ALTINDA AÇIK) -->
+            <!-- ZEKAT HESAPLAMA KUTUSU -->
             <div class="bg-dark-card rounded-2xl border border-dark-border p-4 card-bg shadow-xl space-y-3">
               <div class="flex items-center justify-between border-b border-dark-border pb-2">
                 <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-1.5">
@@ -396,6 +412,14 @@
               <h4 class="text-[11px] font-bold text-slate-300 mb-1.5">Aktif Alarmlarım</h4>
               <div id="alarmsListContainer" class="space-y-1.5 max-h-[160px] overflow-y-auto"></div>
             </div>
+          </div>
+
+          <!-- ADMATIC REKLAM ALANI 3 (Sidebar Reklam Alanı - 300x250) -->
+          <div class="bg-dark-card rounded-2xl border border-dark-border p-3 card-bg shadow-md flex items-center justify-center overflow-hidden">
+            <!-- Admatic STANDARD ads START -->
+            <ins data-publisher="adm-pub-7998141991" data-ad-network="68fb6b17eda7398bcea85b3c" data-ad-size="[[300, 250]]" class="adm-ads-area"></ins>
+            <script type="text/javascript" src="https://static.cdn.admatic.com.tr/showad/showad.min.js"></script>
+            <!-- Admatic STANDARD ads END -->
           </div>
 
         </div>
@@ -909,14 +933,14 @@
         const gainNode = audioCtx.createGain();
 
         oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5 nota sesi
+        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
         gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
 
         oscillator.connect(gainNode);
         gainNode.connect(audioCtx.destination);
 
         oscillator.start();
-        oscillator.stop(audioCtx.currentTime + 0.3); // 300 ms bip sesi
+        oscillator.stop(audioCtx.currentTime + 0.3);
       } catch (e) {
         console.error("Ses çalınamadı:", e);
       }
@@ -946,7 +970,6 @@
         toastEl.classList.remove('translate-y-2', 'opacity-0');
       }, 10);
 
-      // 6 saniye sonra otomatik kaldır
       setTimeout(() => {
         if (document.getElementById(toastId)) {
           toastEl.classList.add('opacity-0', 'translate-y-2');
@@ -957,8 +980,8 @@
 
     function addPriceAlarm() {
       const code = document.getElementById('alarmProductSelect').value;
-      const alarmType = document.getElementById('alarmTypeSelect').value; // 'satis' veya 'alis'
-      const direction = document.getElementById('alarmDirectionSelect').value; // 'above' veya 'below'
+      const alarmType = document.getElementById('alarmTypeSelect').value;
+      const direction = document.getElementById('alarmDirectionSelect').value;
       const targetPrice = parseFloat(document.getElementById('alarmPriceInput').value);
 
       if (!code || isNaN(targetPrice) || targetPrice <= 0) {
@@ -1024,19 +1047,15 @@
           if (alarm.direction === 'below' && currentPrice <= alarm.targetPrice) triggered = true;
 
           if (triggered) {
-            alarm.active = false; // Tetiklendikten sonra tekrar etmemesi için pasife al
+            alarm.active = false;
             localStorage.setItem('sarrafiye_alarms', JSON.stringify(priceAlarms));
 
             const prodName = cleanDisplayName(alarm.code);
             const msg = `${prodName} ${alarm.alarmType === 'alis' ? 'alış' : 'satış'} fiyatı ${fmt(currentPrice)} TL seviyesine ulaştı!`;
 
-            // 1. Ses Çal
             playAlarmSound();
-
-            // 2. Ekranda Toast Bildirimi Göster
             showToastNotification("🚨 Fiyat Alarmı Tetiklendi!", msg);
 
-            // 3. Masaüstü Bildirimi Gönder (Tarayıcı izin verdiyse)
             if ("Notification" in window && Notification.permission === "granted") {
               new Notification("Sarrafiye.NET Alarm", { body: msg, icon: "favicon.ico" });
             }
@@ -1063,5 +1082,9 @@
       updateClock();
     });
   </script>
+  <!-- Admatic AUTO ads START -->
+<ins data-publisher="adm-pub-7998141991" data-ad-network="68fb6b17eda7398bcea85b3c"   class="adm-ads-area"></ins>
+<script type="text/javascript" src="https://static.cdn.admatic.com.tr/showad/showad.min.js"></script>
+<!-- Admatic AUTO ads END -->
 </body>
 </html>
