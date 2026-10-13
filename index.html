@@ -151,7 +151,7 @@
       </div>
     </header>
 
-    <!-- CONTENT CONTAINER (GRID 1/3 SOL - 2/3 SAĞ SIDEBAR) -->
+    <!-- CONTENT CONTAINER (GRID 2/3 SOL FİYAT LİSTESİ - 1/3 SAĞ SIDEBAR) -->
     <main class="max-w-[1440px] mx-auto px-3 sm:px-4 py-4 sm:py-6 w-full">
       
       <!-- YÜKLENİYOR -->
@@ -163,35 +163,36 @@
       <!-- ANA İÇERİK GRID YAPISI -->
       <div id="mainContent" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        <!-- SOL TARAF: FİYAT LİSTESİ (1/3 ALAN -> lg:col-span-4) -->
-        <div class="lg:col-span-4 space-y-4">
+        <!-- SOL TARAF: FİYAT LİSTESİ (2/3 ALAN -> lg:col-span-8) -->
+        <div class="lg:col-span-8 space-y-4">
           
           <!-- KONTROL & ARAMA PANELİ -->
-          <div class="bg-dark-card p-3 rounded-2xl border border-dark-border card-bg shadow-md space-y-3">
-            <div class="relative w-full">
+          <div class="bg-dark-card p-3 rounded-2xl border border-dark-border card-bg shadow-md flex flex-col sm:flex-row items-center justify-between gap-3">
+            <!-- Sekmeler -->
+            <div class="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0 w-full sm:w-auto">
+              <button onclick="switchTab('all')" id="btnTab-all" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all bg-brand-500 text-white shadow-sm shrink-0">Tümü</button>
+              <button onclick="switchTab('altin')" id="btnTab-altin" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Altın</button>
+              <button onclick="switchTab('doviz')" id="btnTab-doviz" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Döviz</button>
+              <button onclick="switchTab('emtia')" id="btnTab-emtia" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Emtia</button>
+            </div>
+
+            <!-- Arama Kutusu -->
+            <div class="relative w-full sm:w-72">
               <i class="bi bi-search absolute left-3 top-3 text-slate-400 text-xs"></i>
               <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Hızlı Enstrüman Ara..." 
                      class="w-full bg-dark-bg text-xs sm:text-sm pl-8 pr-3 py-2 rounded-xl border border-dark-border text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500">
-            </div>
-
-            <!-- Sekmeler -->
-            <div class="flex items-center gap-1 overflow-x-auto pb-1">
-              <button onclick="switchTab('all')" id="btnTab-all" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-brand-500 text-white shadow-sm shrink-0">Tümü</button>
-              <button onclick="switchTab('altin')" id="btnTab-altin" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Altın</button>
-              <button onclick="switchTab('doviz')" id="btnTab-doviz" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Döviz</button>
-              <button onclick="switchTab('emtia')" id="btnTab-emtia" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0">Emtia</button>
             </div>
           </div>
 
           <!-- MASTER TABLE -->
           <div class="bg-dark-card rounded-2xl border border-dark-border overflow-hidden card-bg shadow-2xl">
-            <div class="overflow-x-auto max-h-[750px]">
+            <div class="overflow-x-auto max-h-[800px]">
               <table class="w-full text-left border-collapse sticky top-0">
                 <thead>
                   <tr class="bg-dark-border/80 backdrop-blur text-[11px] uppercase tracking-wider text-slate-300 font-bold border-b border-dark-border sticky top-0 z-10">
-                    <th class="py-3 px-3.5">Enstrüman</th>
-                    <th class="py-3 px-3 text-right">Alış</th>
-                    <th class="py-3 px-3 text-right">Satış</th>
+                    <th class="py-3.5 px-4">Enstrüman / Ürün Adı</th>
+                    <th class="py-3.5 px-4 text-right">Alış (TL)</th>
+                    <th class="py-3.5 px-4 text-right">Satış (TL)</th>
                   </tr>
                 </thead>
                 <tbody id="masterTableBody" class="divide-y divide-dark-border/50 text-xs sm:text-sm"></tbody>
@@ -201,193 +202,176 @@
 
         </div>
 
-        <!-- SAĞ TARAF: SIDEBAR ARAÇLARI (2/3 ALAN -> lg:col-span-8) -->
-        <div class="lg:col-span-8 space-y-6">
+        <!-- SAĞ TARAF: SIDEBAR ARAÇLARI (1/3 ALAN -> lg:col-span-4) -->
+        <div class="lg:col-span-4 space-y-5">
           
           <!-- SIDEBAR MENÜ SEKMELERİ -->
-          <div class="flex items-center gap-2 bg-dark-card p-1.5 rounded-2xl border border-dark-border card-bg shadow-sm overflow-x-auto">
-            <button onclick="switchSidebarTab('sepet')" id="sidebarBtn-sepet" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all bg-brand-500 text-white shadow-sm flex items-center justify-center gap-2 shrink-0">
+          <div class="grid grid-cols-2 gap-1.5 bg-dark-card p-1.5 rounded-2xl border border-dark-border card-bg shadow-sm">
+            <button onclick="switchSidebarTab('sepet')" id="sidebarBtn-sepet" class="py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-brand-500 text-white shadow-sm flex items-center justify-center gap-1.5">
               <i class="bi bi-calculator"></i> Portföy / Sepet
             </button>
-            <button onclick="switchSidebarTab('arbitraj')" id="sidebarBtn-arbitraj" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all bg-dark-border/40 text-slate-400 hover:text-white flex items-center justify-center gap-2 shrink-0">
-              <i class="bi bi-arrow-left-right"></i> Arbitraj & Çevirici
+            <button onclick="switchSidebarTab('arbitraj')" id="sidebarBtn-arbitraj" class="py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-dark-border/40 text-slate-400 hover:text-white flex items-center justify-center gap-1.5">
+              <i class="bi bi-arrow-left-right"></i> Arbitraj
             </button>
-            <button onclick="switchSidebarTab('zekat')" id="sidebarBtn-zekat" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all bg-dark-border/40 text-slate-400 hover:text-white flex items-center justify-center gap-2 shrink-0">
-              <i class="bi bi-cash-stack"></i> Zekat Hesapla
+            <button onclick="switchSidebarTab('zekat')" id="sidebarBtn-zekat" class="py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-dark-border/40 text-slate-400 hover:text-white flex items-center justify-center gap-1.5">
+              <i class="bi bi-cash-stack"></i> Zekat
             </button>
-            <button onclick="switchSidebarTab('alarm')" id="sidebarBtn-alarm" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all bg-dark-border/40 text-slate-400 hover:text-white flex items-center justify-center gap-2 shrink-0">
-              <i class="bi bi-bell"></i> Fiyat Alarmları
+            <button onclick="switchSidebarTab('alarm')" id="sidebarBtn-alarm" class="py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-dark-border/40 text-slate-400 hover:text-white flex items-center justify-center gap-1.5">
+              <i class="bi bi-bell"></i> Alarmlar
             </button>
           </div>
 
           <!-- TAB 1: SEPET / PORTFÖY HESAPLAMA -->
-          <div id="sidebarPanel-sepet" class="bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl flex flex-col justify-between space-y-4">
+          <div id="sidebarPanel-sepet" class="bg-dark-card rounded-2xl border border-dark-border p-4 card-bg shadow-xl flex flex-col justify-between space-y-4">
             <div>
-              <div class="flex items-center justify-between mb-4 border-b border-dark-border pb-3">
-                <h3 class="text-base font-bold text-brand-400 flex items-center gap-2">
-                  <i class="bi bi-calculator"></i> Portföy & Sepet Hesaplama Aracı
+              <div class="flex items-center justify-between mb-3 border-b border-dark-border pb-2.5">
+                <h3 class="text-sm font-bold text-brand-400 flex items-center gap-1.5">
+                  <i class="bi bi-calculator"></i> Portföy & Sepet
                 </h3>
                 
-                <div class="flex items-center bg-dark-bg p-1 rounded-xl border border-dark-border text-xs">
-                  <button onclick="setCalcMode('satis')" id="btnModeSatis" class="px-2.5 py-1 rounded-lg font-bold transition-all bg-brand-500 text-white">Satış (Alış Tutarı)</button>
-                  <button onclick="setCalcMode('alis')" id="btnModeAlis" class="px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white">Alış (Bozdurma)</button>
+                <div class="flex items-center bg-dark-bg p-0.5 rounded-lg border border-dark-border text-[11px]">
+                  <button onclick="setCalcMode('satis')" id="btnModeSatis" class="px-2 py-1 rounded-md font-bold transition-all bg-brand-500 text-white">Satış</button>
+                  <button onclick="setCalcMode('alis')" id="btnModeAlis" class="px-2 py-1 rounded-md font-bold transition-all text-slate-400 hover:text-white">Alış</button>
                 </div>
               </div>
 
-              <div id="calcRowsContainer" class="space-y-3 mb-4 max-h-[350px] overflow-y-auto pr-1"></div>
+              <div id="calcRowsContainer" class="space-y-2.5 mb-3 max-h-[300px] overflow-y-auto pr-1"></div>
 
-              <button onclick="addCalcRow()" class="w-full py-2.5 border border-dashed border-brand-500/50 text-brand-400 hover:bg-brand-500/10 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2">
-                <i class="bi bi-plus-circle"></i> + Yeni Ürün Ekle
+              <button onclick="addCalcRow()" class="w-full py-2 border border-dashed border-brand-500/50 text-brand-400 hover:bg-brand-500/10 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5">
+                <i class="bi bi-plus-circle"></i> + Ürün Ekle
               </button>
             </div>
 
             <!-- Toplamlar ve Hızlı Kopyalama Butonları -->
-            <div class="mt-4 p-4 rounded-xl bg-dark-bg/60 border border-dark-border space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-slate-400 font-medium">Toplam Bozdurma Tutarı (Alış)</span>
-                <span id="calcTotalAlisPrice" class="text-base font-mono font-bold text-emerald-400">0,00 TL</span>
+            <div class="mt-2 p-3 rounded-xl bg-dark-bg/60 border border-dark-border space-y-2.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-slate-400 font-medium">Bozdurma (Alış)</span>
+                <span id="calcTotalAlisPrice" class="font-mono font-bold text-emerald-400">0,00 TL</span>
               </div>
-              <div class="flex items-center justify-between border-t border-dark-border/50 pt-2">
-                <span class="text-xs text-slate-400 font-medium">Toplam Satın Alma Tutarı (Satış)</span>
-                <span id="calcTotalSatisPrice" class="text-lg font-mono font-extrabold text-brand-400">0,00 TL</span>
+              <div class="flex items-center justify-between border-t border-dark-border/50 pt-2 text-xs">
+                <span class="text-slate-400 font-medium">Satın Alma (Satış)</span>
+                <span id="calcTotalSatisPrice" class="font-mono font-extrabold text-brand-400">0,00 TL</span>
               </div>
 
               <!-- HIZLI KOPYALAMA & WHATSAPP PAYLAŞIM -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-dark-border/50">
-                <button onclick="copyPortfolioText()" class="py-2 px-3 rounded-xl bg-dark-border/60 hover:bg-dark-border text-slate-200 text-xs font-bold transition-all flex items-center justify-center gap-2">
-                  <i class="bi bi-clipboard"></i> Listeyi Kopyala
+              <div class="grid grid-cols-2 gap-1.5 pt-2 border-t border-dark-border/50">
+                <button onclick="copyPortfolioText()" class="py-2 px-2 rounded-lg bg-dark-border/60 hover:bg-dark-border text-slate-200 text-[11px] font-bold transition-all flex items-center justify-center gap-1">
+                  <i class="bi bi-clipboard"></i> Kopyala
                 </button>
-                <button onclick="shareViaWhatsApp()" class="py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all flex items-center justify-center gap-2">
-                  <i class="bi bi-whatsapp"></i> WhatsApp ile Gönder
+                <button onclick="shareViaWhatsApp()" class="py-2 px-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold transition-all flex items-center justify-center gap-1">
+                  <i class="bi bi-whatsapp"></i> WhatsApp
                 </button>
               </div>
             </div>
           </div>
 
           <!-- TAB 2: ARBITRAJ & DÖVİZ ÇEVİRİCİ -->
-          <div id="sidebarPanel-arbitraj" class="hidden bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl space-y-5">
-            <div class="border-b border-dark-border pb-3">
-              <h3 class="text-base font-bold text-brand-400 flex items-center gap-2">
-                <i class="bi bi-arrow-left-right"></i> Arbitraj & Çapraz Kur Çevirici
+          <div id="sidebarPanel-arbitraj" class="hidden bg-dark-card rounded-2xl border border-dark-border p-4 card-bg shadow-xl space-y-4">
+            <div class="border-b border-dark-border pb-2.5">
+              <h3 class="text-sm font-bold text-brand-400 flex items-center gap-1.5">
+                <i class="bi bi-arrow-left-right"></i> Arbitraj Çevirici
               </h3>
-              <p class="text-xs text-slate-400 mt-1">İstediğiniz iki ürünü seçerek birbirine karşı oranını ve değerini hesaplayın.</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-3">
               <!-- Ürün 1 -->
-              <div class="space-y-2 bg-dark-bg p-3.5 rounded-xl border border-dark-border">
-                <label class="text-xs font-semibold text-slate-300 block">1. Enstrüman (Kaynak)</label>
-                <select id="arbSelect1" onchange="calculateArbitrage()" class="w-full bg-dark-card text-xs sm:text-sm px-3 py-2 rounded-xl border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-brand-500">
+              <div class="space-y-1.5 bg-dark-bg p-3 rounded-xl border border-dark-border">
+                <label class="text-[11px] font-semibold text-slate-300 block">1. Kaynak Enstrüman</label>
+                <select id="arbSelect1" onchange="calculateArbitrage()" class="w-full bg-dark-card text-xs px-2.5 py-2 rounded-lg border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-brand-500">
                 </select>
-                <div class="flex items-center gap-2 pt-1">
-                  <input type="number" id="arbAmount1" oninput="calculateArbitrage()" value="1" min="0" step="any"
-                         class="w-full bg-dark-card text-sm px-3 py-2 rounded-xl border border-dark-border text-slate-100 font-mono focus:outline-none focus:border-brand-500">
-                </div>
+                <input type="number" id="arbAmount1" oninput="calculateArbitrage()" value="1" min="0" step="any"
+                       class="w-full bg-dark-card text-xs px-2.5 py-2 rounded-lg border border-dark-border text-slate-100 font-mono focus:outline-none focus:border-brand-500 mt-1">
               </div>
 
               <!-- Ürün 2 -->
-              <div class="space-y-2 bg-dark-bg p-3.5 rounded-xl border border-dark-border">
-                <label class="text-xs font-semibold text-slate-300 block">2. Enstrüman (Hedef / Karşılaştırılan)</label>
-                <select id="arbSelect2" onchange="calculateArbitrage()" class="w-full bg-dark-card text-xs sm:text-sm px-3 py-2 rounded-xl border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-brand-500">
+              <div class="space-y-1.5 bg-dark-bg p-3 rounded-xl border border-dark-border">
+                <label class="text-[11px] font-semibold text-slate-300 block">2. Hedef Enstrüman</label>
+                <select id="arbSelect2" onchange="calculateArbitrage()" class="w-full bg-dark-card text-xs px-2.5 py-2 rounded-lg border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-brand-500">
                 </select>
-                <div class="pt-1">
-                  <div id="arbResultAmount" class="w-full bg-dark-card text-sm px-3 py-2.5 rounded-xl border border-dark-border text-brand-400 font-mono font-bold flex items-center justify-between">
-                    <span>0,00</span>
-                  </div>
+                <div id="arbResultAmount" class="w-full bg-dark-card text-xs px-2.5 py-2 rounded-lg border border-dark-border text-brand-400 font-mono font-bold flex items-center justify-between mt-1">
+                  <span>0,00</span>
                 </div>
               </div>
             </div>
 
-            <div class="p-4 rounded-xl bg-brand-500/10 border border-brand-500/20 text-center space-y-1">
-              <span class="text-xs text-slate-300 block font-medium">Parite / Çapraz Oran Karşılığı</span>
-              <span id="arbParityText" class="text-base sm:text-lg font-mono font-bold text-brand-400">1 Birim = 0,00 Karşılık</span>
+            <div class="p-3 rounded-xl bg-brand-500/10 border border-brand-500/20 text-center space-y-0.5">
+              <span class="text-[10px] text-slate-300 block font-medium">Parite Oranı</span>
+              <span id="arbParityText" class="text-xs font-mono font-bold text-brand-400">1 Birim = 0,00 Karşılık</span>
             </div>
           </div>
 
           <!-- TAB 3: ZEKAT HESAPLAMA -->
-          <div id="sidebarPanel-zekat" class="hidden bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl flex flex-col justify-between space-y-4">
+          <div id="sidebarPanel-zekat" class="hidden bg-dark-card rounded-2xl border border-dark-border p-4 card-bg shadow-xl flex flex-col justify-between space-y-4">
             <div>
-              <div class="flex items-center justify-between mb-4 border-b border-dark-border pb-3">
-                <h3 class="text-base font-bold text-emerald-400 flex items-center gap-2">
-                  <i class="bi bi-cash-stack"></i> Zekat Hesaplama Aracı
+              <div class="flex items-center justify-between mb-3 border-b border-dark-border pb-2.5">
+                <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-1.5">
+                  <i class="bi bi-cash-stack"></i> Zekat Hesapla
                 </h3>
-                <span class="text-[11px] text-slate-400 bg-dark-border/50 px-2.5 py-1 rounded-lg">1/40 Oranı (%2.5)</span>
+                <span class="text-[10px] text-slate-400 bg-dark-border/50 px-2 py-0.5 rounded-md">1/40 (%2.5)</span>
               </div>
 
-              <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                Nisap miktarını aşan varlığınızın verilmesi gereken zekat miktarı **40'ta 1 (%2.5)** esasına göre hesaplanır.
-              </p>
-
-              <div class="grid grid-cols-2 gap-2 mb-4">
-                <button onclick="setZekatSource('sepet')" id="btnZekatSepet" class="py-2 px-3 rounded-xl text-xs font-bold bg-emerald-500 text-white border border-emerald-500 transition-all">
-                  Sepet Toplamına Göre
+              <div class="grid grid-cols-2 gap-1.5 mb-3">
+                <button onclick="setZekatSource('sepet')" id="btnZekatSepet" class="py-1.5 px-2 rounded-lg text-xs font-bold bg-emerald-500 text-white border border-emerald-500 transition-all">
+                  Sepet Bazlı
                 </button>
-                <button onclick="setZekatSource('gram')" id="btnZekatGram" class="py-2 px-3 rounded-xl text-xs font-bold bg-dark-bg text-slate-400 border border-dark-border hover:text-white transition-all">
-                  Manuel Gram Girişi
+                <button onclick="setZekatSource('gram')" id="btnZekatGram" class="py-1.5 px-2 rounded-lg text-xs font-bold bg-dark-bg text-slate-400 border border-dark-border hover:text-white transition-all">
+                  Gram Bazlı
                 </button>
               </div>
 
-              <div id="zekatGramArea" class="hidden space-y-3 mb-3">
+              <div id="zekatGramArea" class="hidden space-y-2.5 mb-2">
                 <div>
-                  <label class="text-xs font-semibold text-slate-300 mb-1 block">Toplam Altın Varlığınız (Gram)</label>
+                  <label class="text-[11px] font-semibold text-slate-300 mb-1 block">Toplam Gram Varlık</label>
                   <input type="number" id="zekatGramInput" oninput="calculateZekat()" placeholder="Örn: 100" min="0" step="any"
-                         class="w-full bg-dark-bg text-sm px-3.5 py-2.5 rounded-xl border border-dark-border text-slate-100 font-mono focus:outline-none focus:border-emerald-500">
+                         class="w-full bg-dark-bg text-xs px-2.5 py-2 rounded-lg border border-dark-border text-slate-100 font-mono focus:outline-none focus:border-emerald-500">
                 </div>
-
                 <div>
-                  <label class="text-xs font-semibold text-slate-300 mb-1 block">Hesaplamaya Esas Altın Türü</label>
-                  <select id="zekatGoldSelect" onchange="calculateZekat()" class="w-full bg-dark-bg text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-emerald-500">
+                  <label class="text-[11px] font-semibold text-slate-300 mb-1 block">Esas Alınacak Tür</label>
+                  <select id="zekatGoldSelect" onchange="calculateZekat()" class="w-full bg-dark-bg text-xs px-2.5 py-2 rounded-lg border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-emerald-500">
                   </select>
                 </div>
               </div>
             </div>
 
-            <div class="mt-4 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 grid grid-cols-2 gap-2 text-center">
-              <div class="border-r border-emerald-500/20 pr-2">
-                <span class="text-[11px] text-slate-400 block font-medium">Hesaplanan Portföy Tutarı</span>
-                <span id="zekatBaseTL" class="text-sm sm:text-base font-mono font-bold text-slate-200">0,00 TL</span>
+            <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 grid grid-cols-2 gap-2 text-center">
+              <div class="border-r border-emerald-500/20 pr-1">
+                <span class="text-[10px] text-slate-400 block">Varlık Tutarı</span>
+                <span id="zekatBaseTL" class="text-xs font-mono font-bold text-slate-200">0,00 TL</span>
               </div>
-              <div class="pl-2">
-                <span class="text-[11px] text-slate-400 block font-medium">Ödenecek Zekat (1/40)</span>
-                <span id="zekatResultTL" class="text-base sm:text-lg font-mono font-extrabold text-emerald-400">0,00 TL</span>
+              <div class="pl-1">
+                <span class="text-[10px] text-slate-400 block">Zekat Miktarı</span>
+                <span id="zekatResultTL" class="text-xs font-mono font-extrabold text-emerald-400">0,00 TL</span>
               </div>
             </div>
           </div>
 
           <!-- TAB 4: FİYAT ALARMLARI -->
-          <div id="sidebarPanel-alarm" class="hidden bg-dark-card rounded-2xl border border-dark-border p-5 card-bg shadow-xl space-y-4">
-            <div class="border-b border-dark-border pb-3 flex items-center justify-between">
-              <div>
-                <h3 class="text-base font-bold text-amber-400 flex items-center gap-2">
-                  <i class="bi bi-bell"></i> Fiyat Alarm Merkezi
-                </h3>
-                <p class="text-xs text-slate-400 mt-1">Belirlediğiniz fiyat seviyelerine ulaşıldığında tarayıcı üzerinden uyarı alın.</p>
-              </div>
+          <div id="sidebarPanel-alarm" class="hidden bg-dark-card rounded-2xl border border-dark-border p-4 card-bg shadow-xl space-y-3">
+            <div class="border-b border-dark-border pb-2.5">
+              <h3 class="text-sm font-bold text-amber-400 flex items-center gap-1.5">
+                <i class="bi bi-bell"></i> Fiyat Alarmları
+              </h3>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div class="space-y-2">
               <div>
-                <label class="text-[11px] font-semibold text-slate-300 mb-1 block">Ürün Seçin</label>
-                <select id="alarmProductSelect" class="w-full bg-dark-bg text-xs px-3 py-2.5 rounded-xl border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-brand-500">
+                <label class="text-[10px] font-semibold text-slate-300 mb-0.5 block">Ürün</label>
+                <select id="alarmProductSelect" class="w-full bg-dark-bg text-xs px-2.5 py-2 rounded-lg border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-brand-500">
                 </select>
               </div>
               <div>
-                <label class="text-[11px] font-semibold text-slate-300 mb-1 block">Hedef Fiyat (TL)</label>
+                <label class="text-[10px] font-semibold text-slate-300 mb-0.5 block">Hedef Fiyat (TL)</label>
                 <input type="number" id="alarmPriceInput" placeholder="Örn: 3500" step="any"
-                       class="w-full bg-dark-bg text-xs px-3 py-2.5 rounded-xl border border-dark-border text-slate-100 font-mono focus:outline-none focus:border-brand-500">
+                       class="w-full bg-dark-bg text-xs px-2.5 py-2 rounded-lg border border-dark-border text-slate-100 font-mono focus:outline-none focus:border-brand-500">
               </div>
-              <div class="flex items-end">
-                <button onclick="addPriceAlarm()" class="w-full py-2.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition-all flex items-center justify-center gap-1">
-                  <i class="bi bi-plus-circle"></i> Alarm Kur
-                </button>
-              </div>
+              <button onclick="addPriceAlarm()" class="w-full py-2 px-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition-all flex items-center justify-center gap-1 mt-1">
+                <i class="bi bi-plus-circle"></i> Alarm Ekle
+              </button>
             </div>
 
-            <div class="mt-4">
-              <h4 class="text-xs font-bold text-slate-300 mb-2">Aktif Alarmlarım</h4>
-              <div id="alarmsListContainer" class="space-y-2 max-h-[220px] overflow-y-auto">
-                <!-- Alarmlar dinamik eklenir -->
-              </div>
+            <div class="pt-1">
+              <h4 class="text-[11px] font-bold text-slate-300 mb-1.5">Aktif Kurulumlar</h4>
+              <div id="alarmsListContainer" class="space-y-1.5 max-h-[160px] overflow-y-auto"></div>
             </div>
           </div>
 
@@ -454,15 +438,14 @@
         const btn = document.getElementById(`btnTab-${t}`);
         if (!btn) return;
         if (t === tab) {
-          btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-brand-500 text-white shadow-sm shrink-0";
+          btn.className = "px-3.5 py-2 rounded-xl text-xs font-bold transition-all bg-brand-500 text-white shadow-sm shrink-0";
         } else {
-          btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0";
+          btn.className = "px-3.5 py-2 rounded-xl text-xs font-bold transition-all bg-dark-border/50 text-slate-400 hover:text-white shrink-0";
         }
       });
       filterProducts();
     }
 
-    // Sidebar Sekme Yönetimi
     function switchSidebarTab(panel) {
       ['sepet', 'arbitraj', 'zekat', 'alarm'].forEach(p => {
         const btn = document.getElementById(`sidebarBtn-${p}`);
@@ -470,10 +453,10 @@
         if (!btn || !div) return;
 
         if (p === panel) {
-          btn.className = "flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all bg-brand-500 text-white shadow-sm flex items-center justify-center gap-2 shrink-0";
+          btn.className = "py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-brand-500 text-white shadow-sm flex items-center justify-center gap-1.5";
           div.classList.remove('hidden');
         } else {
-          btn.className = "flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all bg-dark-border/40 text-slate-400 hover:text-white flex items-center justify-center gap-2 shrink-0";
+          btn.className = "py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-dark-border/40 text-slate-400 hover:text-white flex items-center justify-center gap-1.5";
           div.classList.add('hidden');
         }
       });
@@ -567,12 +550,12 @@
           tr.dataset.name = cleanDisplayName(code).toLowerCase();
           tr.className = 'hover-bg hover:bg-dark-hover transition-colors font-mono';
           tr.innerHTML = `
-            <td class="py-3 px-3.5 font-sans font-semibold flex items-center gap-2">
+            <td class="py-3.5 px-4 font-sans font-semibold flex items-center gap-2.5">
               <span class="w-1.5 h-1.5 rounded-full bg-brand-500 shrink-0"></span>
-              <span class="truncate max-w-[150px] sm:max-w-[180px]">${cleanDisplayName(code)}</span>
+              <span>${cleanDisplayName(code)}</span>
             </td>
-            <td class="py-3 px-3 text-right font-bold text-emerald-400" id="${alisCellId}">${formattedAlis}</td>
-            <td class="py-3 px-3 text-right font-bold text-brand-400" id="${satisCellId}">${formattedSatis}</td>
+            <td class="py-3.5 px-4 text-right font-bold text-emerald-400" id="${alisCellId}">${formattedAlis}</td>
+            <td class="py-3.5 px-4 text-right font-bold text-brand-400" id="${satisCellId}">${formattedSatis}</td>
           `;
           tbody.appendChild(tr);
         } else {
@@ -635,9 +618,6 @@
       });
     }
 
-    /* -------------------------------------------------------------
-       SEPET HESAPLAMA VE KOPYALAMA ARAÇLARI
-    ------------------------------------------------------------- */
     let calcRowCount = 0;
     let activeCalcMode = 'satis';
     let activeZekatSource = 'sepet';
@@ -645,12 +625,12 @@
     function setCalcMode(mode) {
       activeCalcMode = mode;
       document.getElementById('btnModeSatis').className = mode === 'satis' 
-        ? "px-2.5 py-1 rounded-lg font-bold transition-all bg-brand-500 text-white" 
-        : "px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white";
+        ? "px-2 py-1 rounded-md font-bold transition-all bg-brand-500 text-white" 
+        : "px-2 py-1 rounded-md font-bold transition-all text-slate-400 hover:text-white";
       
       document.getElementById('btnModeAlis').className = mode === 'alis' 
-        ? "px-2.5 py-1 rounded-lg font-bold transition-all bg-emerald-500 text-white" 
-        : "px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white";
+        ? "px-2 py-1 rounded-md font-bold transition-all bg-emerald-500 text-white" 
+        : "px-2 py-1 rounded-md font-bold transition-all text-slate-400 hover:text-white";
 
       runPortfolioCalc();
     }
@@ -662,13 +642,13 @@
 
       const div = document.createElement('div');
       div.id = rowId;
-      div.className = 'flex items-center gap-2';
+      div.className = 'flex items-center gap-1.5';
       div.innerHTML = `
-        <input type="number" oninput="runPortfolioCalc()" placeholder="Miktar" value="1" min="0.01" step="any"
-               class="calc-qty w-20 bg-dark-bg text-xs sm:text-sm px-2.5 py-2 rounded-xl border border-dark-border text-slate-100 font-mono focus:outline-none focus:border-brand-500">
-        <select onchange="runPortfolioCalc()" class="calc-select flex-1 bg-dark-bg text-xs sm:text-sm px-3 py-2 rounded-xl border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-brand-500">
+        <input type="number" oninput="runPortfolioCalc()" placeholder="Adet" value="1" min="0.01" step="any"
+               class="calc-qty w-16 bg-dark-bg text-xs px-2 py-2 rounded-lg border border-dark-border text-slate-100 font-mono focus:outline-none focus:border-brand-500">
+        <select onchange="runPortfolioCalc()" class="calc-select flex-1 bg-dark-bg text-xs px-2.5 py-2 rounded-lg border border-dark-border text-slate-100 font-semibold focus:outline-none focus:border-brand-500">
         </select>
-        <button onclick="removeCalcRow('${rowId}')" class="p-2 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-xl transition-all">
+        <button onclick="removeCalcRow('${rowId}')" class="p-2 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-lg transition-all">
           <i class="bi bi-trash"></i>
         </button>
       `;
@@ -712,31 +692,23 @@
     }
 
     function updateAllDropdownsOnce() {
-      // Sepet Selectleri
       const selects = document.querySelectorAll('.calc-select');
       selects.forEach(select => {
         if (select.children.length === 0) populateSelectWithOptions(select);
       });
 
-      // Zekat Select
       const zekatSel = document.getElementById('zekatGoldSelect');
-      if (zekatSel && zekatSel.children.length === 0) {
-        populateSelectWithOptions(zekatSel);
-      }
+      if (zekatSel && zekatSel.children.length === 0) populateSelectWithOptions(zekatSel);
 
-      // Alarm Select
       const alarmSel = document.getElementById('alarmProductSelect');
-      if (alarmSel && alarmSel.children.length === 0) {
-        populateSelectWithOptions(alarmSel);
-      }
+      if (alarmSel && alarmSel.children.length === 0) populateSelectWithOptions(alarmSel);
 
-      // Arbitraj Selectleri
       const arb1 = document.getElementById('arbSelect1');
       const arb2 = document.getElementById('arbSelect2');
       if (arb1 && arb1.children.length === 0) populateSelectWithOptions(arb1);
       if (arb2 && arb2.children.length === 0) {
         populateSelectWithOptions(arb2);
-        if (arb2.options.length > 1) arb2.selectedIndex = 1; // Farklı bir ürün seçili başlasın
+        if (arb2.options.length > 1) arb2.selectedIndex = 1;
       }
     }
 
@@ -779,7 +751,6 @@
       calculateZekat();
     }
 
-    // Hızlı Kopyalama ve WhatsApp
     function getPortfolioSummaryText() {
       let text = "📊 *Sarrafiye.NET Portföy Raporu*\n";
       text += `📅 Tarih: ${new Date().toLocaleDateString('tr-TR')}\n\n`;
@@ -809,8 +780,6 @@
       const text = getPortfolioSummaryText();
       navigator.clipboard.writeText(text).then(() => {
         alert("Sepet özeti panoya kopyalandı!");
-      }).catch(err => {
-        console.error('Kopyalama hatası:', err);
       });
     }
 
@@ -819,9 +788,6 @@
       window.open(`https://wa.me/?text=${text}`, '_blank');
     }
 
-    /* -------------------------------------------------------------
-       ARBITRAJ & ÇEVİRİCİ MOTORU
-    ------------------------------------------------------------- */
     function calculateArbitrage() {
       const code1 = document.getElementById('arbSelect1').value;
       const code2 = document.getElementById('arbSelect2').value;
@@ -843,28 +809,24 @@
 
       if (price2 === 0) return;
 
-      // 1. Ürünün TL karşılığı / 2. Ürünün TL karşılığı * Miktar
       const result = (amt1 * price1) / price2;
       const parity = price1 / price2;
 
-      document.getElementById('arbResultAmount').innerHTML = `<span class="font-mono font-bold text-brand-400">${fmt(result)}</span> <span class="text-xs text-slate-400">${cleanDisplayName(code2)}</span>`;
+      document.getElementById('arbResultAmount').innerHTML = `<span class="font-mono font-bold text-brand-400">${fmt(result)}</span> <span class="text-[10px] text-slate-400">${cleanDisplayName(code2)}</span>`;
       document.getElementById('arbParityText').innerText = `1 ${cleanDisplayName(code1)} = ${fmt(parity)} ${cleanDisplayName(code2)}`;
     }
 
-    /* -------------------------------------------------------------
-       ZEKAT HESAPLAMA MOTORU
-    ------------------------------------------------------------- */
     function setZekatSource(source) {
       activeZekatSource = source;
       const gramArea = document.getElementById('zekatGramArea');
 
       if (source === 'sepet') {
-        document.getElementById('btnZekatSepet').className = "py-2 px-3 rounded-xl text-xs font-bold bg-emerald-500 text-white border border-emerald-500 transition-all";
-        document.getElementById('btnZekatGram').className = "py-2 px-3 rounded-xl text-xs font-bold bg-dark-bg text-slate-400 border border-dark-border hover:text-white transition-all";
+        document.getElementById('btnZekatSepet').className = "py-1.5 px-2 rounded-lg text-xs font-bold bg-emerald-500 text-white border border-emerald-500 transition-all";
+        document.getElementById('btnZekatGram').className = "py-1.5 px-2 rounded-lg text-xs font-bold bg-dark-bg text-slate-400 border border-dark-border hover:text-white transition-all";
         gramArea.classList.add('hidden');
       } else {
-        document.getElementById('btnZekatGram').className = "py-2 px-3 rounded-xl text-xs font-bold bg-emerald-500 text-white border border-emerald-500 transition-all";
-        document.getElementById('btnZekatSepet').className = "py-2 px-3 rounded-xl text-xs font-bold bg-dark-bg text-slate-400 border border-dark-border hover:text-white transition-all";
+        document.getElementById('btnZekatGram').className = "py-1.5 px-2 rounded-lg text-xs font-bold bg-emerald-500 text-white border border-emerald-500 transition-all";
+        document.getElementById('btnZekatSepet').className = "py-1.5 px-2 rounded-lg text-xs font-bold bg-dark-bg text-slate-400 border border-dark-border hover:text-white transition-all";
         gramArea.classList.remove('hidden');
       }
 
@@ -892,15 +854,12 @@
         baseTL = totalGrams * goldPrice;
       }
 
-      const zekatTL = baseTL / 40; // 1/40 Oranı (%2.5)
+      const zekatTL = baseTL / 40;
 
       document.getElementById('zekatBaseTL').innerText = fmt(baseTL) + ' TL';
       document.getElementById('zekatResultTL').innerText = fmt(zekatTL) + ' TL';
     }
 
-    /* -------------------------------------------------------------
-       FİYAT ALARM MERKEZİ (LOCALSTORAGE)
-    ------------------------------------------------------------- */
     let priceAlarms = JSON.parse(localStorage.getItem('sarrafiye_alarms') || '[]');
 
     function addPriceAlarm() {
@@ -929,7 +888,7 @@
       if (!container) return;
 
       if (priceAlarms.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Henüz kurulan aktif bir fiyat alarmınız yok.</p>`;
+        container.innerHTML = `<p class="text-[11px] text-slate-500 text-center py-2">Aktif alarm yok.</p>`;
         return;
       }
 
@@ -937,12 +896,12 @@
       priceAlarms.forEach(alarm => {
         const name = cleanDisplayName(alarm.code);
         html += `
-          <div class="flex items-center justify-between p-2.5 rounded-xl bg-dark-bg border border-dark-border text-xs">
+          <div class="flex items-center justify-between p-2 rounded-lg bg-dark-bg border border-dark-border text-xs">
             <div>
-              <span class="font-bold text-slate-200 block">${name}</span>
-              <span class="text-slate-400 font-mono">Hedef: ${fmt(alarm.targetPrice)} TL</span>
+              <span class="font-bold text-slate-200 block truncate max-w-[120px]">${name}</span>
+              <span class="text-slate-400 font-mono text-[10px]">Hedef: ${fmt(alarm.targetPrice)} TL</span>
             </div>
-            <button onclick="removeAlarm(${alarm.id})" class="text-rose-400 hover:text-rose-300 p-1.5 transition-all">
+            <button onclick="removeAlarm(${alarm.id})" class="text-rose-400 hover:text-rose-300 p-1 transition-all">
               <i class="bi bi-trash"></i>
             </button>
           </div>
@@ -953,14 +912,12 @@
 
     function checkAlarms() {
       if (priceAlarms.length === 0) return;
-
       priceAlarms.forEach(alarm => {
         const cell = document.getElementById(`satis-${alarm.code}`) || document.getElementById(`alis-${alarm.code}`);
         if (cell) {
           const currentPrice = parseFloat(cell.innerText.replace(/\./g, '').replace(',', '.')) || 0;
           if (currentPrice >= alarm.targetPrice && alarm.active) {
-            // Alarm tetiklendi
-            console.log(`ALARM TETİKLENDİ: ${alarm.code} şu an ${currentPrice} TL!`);
+            console.log(`ALARM: ${alarm.code} -> ${currentPrice} TL`);
           }
         }
       });
