@@ -160,6 +160,9 @@
         <p class="text-sm font-semibold tracking-wide">Piyasa Terminali Verileri Yükleniyor...</p>
       </div>
 
+      <!-- TOAST BİLDİRİM ALANI (Ekranda Çıkan Uyarılar) -->
+      <div id="toastContainer" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
       <!-- ANA İÇERİK GRID YAPISI -->
       <div id="mainContent" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
@@ -345,10 +348,13 @@
 
           <!-- TAB 3: GELİŞMİŞ FİYAT ALARMLARI -->
           <div id="sidebarPanel-alarm" class="hidden bg-dark-card rounded-2xl border border-dark-border p-4 card-bg shadow-xl space-y-3">
-            <div class="border-b border-dark-border pb-2.5">
+            <div class="border-b border-dark-border pb-2.5 flex items-center justify-between">
               <h3 class="text-sm font-bold text-amber-400 flex items-center gap-1.5">
                 <i class="bi bi-bell"></i> Fiyat Alarmları
               </h3>
+              <button onclick="requestNotificationPermission()" class="text-[10px] bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 px-2 py-1 rounded-md transition-all font-semibold">
+                🔔 İzin İste
+              </button>
             </div>
 
             <div class="space-y-2">
@@ -765,7 +771,6 @@
       document.getElementById('calcTotalAlisPrice').innerText = fmt(globalCalcTotalAlis) + ' TL';
       document.getElementById('calcTotalSatisPrice').innerText = fmt(globalCalcTotalSatis) + ' TL';
 
-      // Sepet değiştikçe Zekat'ı da anında güncelle
       calculateZekat();
     }
 
@@ -879,9 +884,76 @@
     }
 
     /* -------------------------------------------------------------
-       GELİŞMİŞ FİYAT ALARM MERKEZİ
+       GELİŞMİŞ BİLDİRİMLİ FİYAT ALARM MERKEZİ
     ------------------------------------------------------------- */
     let priceAlarms = JSON.parse(localStorage.getItem('sarrafiye_alarms') || '[]');
+
+    function requestNotificationPermission() {
+      if ("Notification" in window) {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            alert("Masaüstü bildirimleri başarıyla etkinleştirildi!");
+          } else {
+            alert("Bildirim izni reddedildi.");
+          }
+        });
+      } else {
+        alert("Tarayıcınız bildirim özelliğini desteklemiyor.");
+      }
+    }
+
+    function playAlarmSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5 nota sesi
+        gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.3); // 300 ms bip sesi
+      } catch (e) {
+        console.error("Ses çalınamadı:", e);
+      }
+    }
+
+    function showToastNotification(title, message) {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+
+      const toastId = 'toast_' + Date.now();
+      const toastEl = document.createElement('div');
+      toastEl.id = toastId;
+      toastEl.className = "pointer-events-auto bg-amber-500 text-slate-950 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-amber-300 font-sans transform transition-all duration-300 translate-y-2 opacity-0";
+      toastEl.innerHTML = `
+        <i class="bi bi-bell-fill text-xl shrink-0"></i>
+        <div class="flex-1 text-xs">
+          <strong class="block font-extrabold">${title}</strong>
+          <span>${message}</span>
+        </div>
+        <button onclick="document.getElementById('${toastId}').remove()" class="text-slate-950 hover:text-white font-bold p-1">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      `;
+
+      container.appendChild(toastEl);
+      setTimeout(() => {
+        toastEl.classList.remove('translate-y-2', 'opacity-0');
+      }, 10);
+
+      // 6 saniye sonra otomatik kaldır
+      setTimeout(() => {
+        if (document.getElementById(toastId)) {
+          toastEl.classList.add('opacity-0', 'translate-y-2');
+          setTimeout(() => toastEl.remove(), 300);
+        }
+      }, 6000);
+    }
 
     function addPriceAlarm() {
       const code = document.getElementById('alarmProductSelect').value;
@@ -938,7 +1010,10 @@
 
     function checkAlarms() {
       if (priceAlarms.length === 0) return;
+
       priceAlarms.forEach(alarm => {
+        if (!alarm.active) return;
+
         const cellId = alarm.alarmType === 'alis' ? `alis-${alarm.code}` : `satis-${alarm.code}`;
         const cell = document.getElementById(cellId);
         if (cell) {
@@ -948,8 +1023,25 @@
           if (alarm.direction === 'above' && currentPrice >= alarm.targetPrice) triggered = true;
           if (alarm.direction === 'below' && currentPrice <= alarm.targetPrice) triggered = true;
 
-          if (triggered && alarm.active) {
-            console.log(`ALARM TETİKLENDİ: ${alarm.code} (${alarm.alarmType}) fiyatı ${currentPrice} TL oldu!`);
+          if (triggered) {
+            alarm.active = false; // Tetiklendikten sonra tekrar etmemesi için pasife al
+            localStorage.setItem('sarrafiye_alarms', JSON.stringify(priceAlarms));
+
+            const prodName = cleanDisplayName(alarm.code);
+            const msg = `${prodName} ${alarm.alarmType === 'alis' ? 'alış' : 'satış'} fiyatı ${fmt(currentPrice)} TL seviyesine ulaştı!`;
+
+            // 1. Ses Çal
+            playAlarmSound();
+
+            // 2. Ekranda Toast Bildirimi Göster
+            showToastNotification("🚨 Fiyat Alarmı Tetiklendi!", msg);
+
+            // 3. Masaüstü Bildirimi Gönder (Tarayıcı izin verdiyse)
+            if ("Notification" in window && Notification.permission === "granted") {
+              new Notification("Sarrafiye.NET Alarm", { body: msg, icon: "favicon.ico" });
+            }
+
+            renderAlarmsList();
           }
         }
       });
